@@ -1,0 +1,2399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=0436e9cd-7c65-4a35-ae73-34195e1c0127
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="hosting-provider" content="Netlify">
+<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=0436e9cd-7c65-4a35-ae73-34195e1c0127">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Yoann Tournal | Portfolio</title>
+    <meta name="description" content="Portfolio de Yoann Tournal – Étudiant en BTS SIO option SISR : systèmes, réseaux et cybersécurité.">
+    <meta name="theme-color" content="#050507">
+    <script>document.documentElement.classList.add('js');</script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..600&display=swap" rel="stylesheet">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+    }
+    </script>
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js">
+        
+    <style>
+        /* --- 1. CONFIGURATION DES VARIABLES (THEMES) --- */
+        :root {
+            --bg-core: #020408;
+            --primary: #38bdf8;   
+            --secondary: #818cf8; 
+            --accent: #c084fc;    
+            --card-bg: rgba(13, 17, 30, 0.95);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+            --navbar-bg: rgba(5, 8, 16, 0.9);
+            --btn-main-bg: #fff;
+            --btn-main-text: #000;
+            --shadow-card: 0 10px 30px -10px rgba(0,0,0,0.5);
+            --glow-color: rgba(56, 189, 248, 0.5); 
+        }
+        body.light {
+            --bg-core: #dce3e8;   
+            --primary: #3b82f6;   
+            --secondary: #64748b; 
+            --accent: #6366f1;    
+            --card-bg: #f1f5f9;   
+            --border: #cbd5e1;    
+            --text-white: #1e293b; 
+            --text-gray: #475569; 
+            --navbar-bg: rgba(241, 245, 249, 0.95);
+            --btn-main-bg: #3b82f6;
+            --btn-main-text: #fff;
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --glow-color: rgba(59, 130, 246, 0.2); 
+        }
+        /* --- AJOUTS SYMPAS : LOADING & EFFETS --- */
+        #loader {
+            position: fixed; inset: 0; background: #020408; z-index: 100000;
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+        }
+        .loader-box { text-align: center; }
+        .loader-name { font-family: 'Outfit'; font-size: 2rem; color: #fff; font-weight: 800; letter-spacing: 5px; margin-bottom: 10px; }
+        .loader-bar-container { width: 200px; height: 2px; background: rgba(255,255,255,0.1); margin: 0 auto; position: relative; overflow: hidden; }
+        .loader-bar { position: absolute; width: 0%; height: 100%; background: var(--primary); box-shadow: 0 0 15px var(--primary); }
+
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; width: 0%; height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 10001; transition: width 0.1s;
+        }
+
+        .hover-card { 
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.1s ease, border-color 0.3s ease;
+        }
+
+        /* -------------------------------------- */
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-core);
+            color: var(--text-gray);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-white);
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        a { text-decoration: none; transition: 0.3s ease; }
+        .theme-switcher { position: fixed; top: 85px;  right: 20px; z-index: 2000; }
+        #settings-btn {
+            font-size: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-white);
+            cursor: pointer; padding: 8px 12px; border-radius: 50%; transition: transform 0.5s, background 0.3s;
+            box-shadow: var(--shadow-card);
+        }
+        #settings-btn:hover { transform: rotate(90deg); border-color: var(--primary); color: var(--primary); }
+
+        #theme-menu {
+            position: absolute; right: 0; top: 55px; background: var(--card-bg); border: 1px solid var(--border);
+            padding: 10px; border-radius: 12px; display: flex; flex-direction: column; gap: 8px; width: 150px;
+            backdrop-filter: blur(10px); box-shadow: var(--shadow-card);
+        }
+        #theme-menu button {
+            background: transparent; border: 1px solid transparent; color: var(--text-gray); padding: 8px 12px;
+            text-align: left; cursor: pointer; border-radius: 6px; font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem; font-weight: 600; transition: 0.2s;
+        }
+        #theme-menu button:hover { background: var(--primary); color: #fff;  }
+
+        .hidden { display: none !important; }
+        .background-aurora {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15), transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(192, 132, 252, 0.15), transparent 50%);
+            filter: blur(80px); animation: moveAurora 15s infinite alternate; transition: opacity 0.5s ease; opacity: 1; 
+        }
+        body.light .background-aurora { opacity: 0; }
+        @keyframes moveAurora { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+
+        .navbar {
+            background: var(--navbar-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; transition: background 0.3s;
+        }
+        .navbar-brand { font-weight: 800; font-size: 1.2rem; color: var(--text-white) !important; display: flex; align-items: center; }
+        .nav-link { color: var(--text-gray) !important; font-size: 0.9rem; margin: 0 5px; }
+        .nav-link:hover { color: var(--primary) !important; }
+
+        .hero {
+            min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 80px;
+        }
+        .hero h1 {
+            font-size: 7rem; line-height: 1; margin-bottom: 30px;
+            background: linear-gradient(to bottom, var(--text-white) 40%, var(--primary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
+        }
+        .hero-badge {
+            font-size: 1.2rem; color: var(--primary); font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 12px 30px; border-radius: 50px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.1); min-width: 300px;
+        }
+        .cursor { animation: blink 1s infinite; margin-left: 5px; color: var(--text-white); }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .hero-btns { margin-top: 50px; display: flex; gap: 20px; }
+        .btn-main { 
+            background: var(--btn-main-bg); color: var(--btn-main-text); padding: 12px 35px; border-radius: 50px; font-weight: 700; border: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--glow-color); }
+        .btn-sec { 
+            background: rgba(255,255,255,0.05); color: var(--text-white); padding: 12px 35px; border-radius: 50px; font-weight: 700; border: 1px solid var(--border); 
+        }
+        .btn-sec:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+        section { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 10px; }
+        .divider { width: 50px; height: 3px; background: var(--primary); margin: 0 auto; border-radius: 10px; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        #backToTop {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; padding: 0; display: none; z-index: 999;
+            background: var(--primary); color: #fff; border: none; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); transition: 0.3s;
+        }
+        #backToTop:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(56, 189, 248, 0.6); }
+
+        .hover-card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden;
+            box-shadow: var(--shadow-card); backdrop-filter: blur(10px);
+        }
+        .hover-card:hover { border-color: var(--primary); box-shadow: 0 15px 35px -10px var(--glow-color); }
+        .skill-box { padding: 25px; display: flex; align-items: center; gap: 20px; }
+        .skill-icon { font-size: 2rem; color: var(--primary); }
+
+        /* --- STYLES DES ONGLETS ANNEES --- */
+        .year-tabs {
+            display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; border-bottom: 2px solid var(--border); padding-bottom: 10px; list-style: none; padding-left: 0;
+        }
+        .year-btn {
+            background: transparent; color: var(--text-gray); border: none; font-size: 1.2rem; font-weight: 700;
+            padding: 10px 20px; cursor: pointer; transition: all 0.3s ease; position: relative; font-family: 'Outfit', sans-serif; letter-spacing: 1px;
+        }
+        .year-btn.active, .year-btn:hover { color: var(--text-white); }
+        .year-btn::after {
+            content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 3px; background: var(--primary); transition: 0.3s ease; border-radius: 5px;
+        }
+        .year-btn.active::after { width: 100%; }
+
+        /* --- STYLES DES SOUS-ONGLETS (PROFS) --- */
+        .nav-pills { justify-content: center; margin-bottom: 40px; gap: 10px; }
+        .nav-pills .nav-link { 
+            background: rgba(255,255,255,0.05); color: var(--text-gray) !important; border-radius: 50px; padding: 10px 25px; transition: 0.3s ease; border: 1px solid transparent; font-size: 0.9rem;
+        }
+        .nav-pills .nav-link.active, .nav-pills .nav-link:hover { 
+            background: var(--primary); color: #fff !important; box-shadow: 0 0 15px var(--glow-color); border-color: var(--primary); transform: translateY(-2px);
+        }
+
+        .doc-item {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; transition: all 0.3s ease; 
+        }
+        .doc-item:hover { border-color: var(--primary); background: rgba(56, 189, 248, 0.15); transform: translateX(10px); box-shadow: 0 0 20px var(--glow-color); }
+
+        .doc-left { display: flex; align-items: center; gap: 15px; }
+        .doc-icon { font-size: 1.2rem; color: var(--primary); }
+        .doc-title { font-weight: 700; color: var(--text-white); font-size: 0.95rem; }
+        .doc-sub { font-size: 0.8rem; color: var(--text-gray); }
+
+        .xp-list { display: flex; flex-direction: column; gap: 15px; }
+        .xp-item {
+            display: flex; align-items: flex-start; gap: 20px; background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; position: relative; overflow: hidden; transition: 0.3s ease; box-shadow: var(--shadow-card);
+        }
+        .xp-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); opacity: 0; transition: 0.3s; }
+        .xp-item:hover { transform: translateX(5px); border-color: var(--primary); }
+        .xp-item:hover::before { opacity: 1; }
+        .xp-icon-box { min-width: 50px; height: 50px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--text-white); }
+        .xp-item:hover .xp-icon-box { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .xp-content { flex-grow: 1; }
+        .xp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .xp-title { font-size: 1.1rem; font-weight: 700; color: var(--text-white); margin: 0; }
+        .xp-date { font-size: 0.75rem; font-weight: 700; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; color: var(--primary); border: 1px solid var(--border); }
+        .xp-company { color: var(--text-gray); font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+        .xp-company i { color: var(--accent); font-size: 0.8rem; }
+
+        .veille-box { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 0; height: 100%; transition: all 0.3s ease; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-card); }
+        .veille-box:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px var(--glow-color); }
+        .veille-header { padding: 20px 25px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+        .v-date { font-size: 0.8rem; color: var(--text-gray); font-weight: 600; }
+        .v-badge { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
+        .badge-market { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .badge-tech { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+        .badge-ia { background: rgba(236, 72, 153, 0.15); color: #ec4899; }
+        .badge-reg { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+        .veille-content { padding: 25px; flex-grow: 1; }
+        .v-title { color: var(--text-white); font-size: 1.15rem; margin-bottom: 10px; line-height: 1.4; }
+        .v-desc { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 0; }
+        .veille-footer { padding: 15px 25px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); }
+        .v-source { font-size: 0.8rem; color: var(--secondary); font-style: italic; }
+        .v-btn { color: var(--text-white); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); transition: 0.2s; }
+        .v-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        .rotate-icon { transition: transform 0.3s ease; }
+        .rotate-180 { transform: rotate(180deg); }
+
+        footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; color: var(--text-gray); font-size: 0.9rem; margin-top: 50px; background: var(--navbar-bg); }
+        @media (max-width: 768px) { .hero h1 { font-size: 3.5rem; } .navbar { width: 100%; top: 0; border-radius: 0; } }
+                
+        .v-btn-custom { padding: 4px 10px; font-size: 0.75rem; border-radius: 6px; font-weight: 600; transition: 0.2s; text-decoration: none; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-white); }
+        .v-btn-custom:hover { background: var(--primary); color: #000; }
+
+        /* ===== Liquid Glass : verre translucide, flou, reflets spéculaires ===== */
+:root {
+  --bg-core: #0b0e16;
+  --primary: #b4c3e0;
+  --secondary: #9aa6bf;
+  --accent: #c9bfe6;
+  --text-white: #f2f4f8;
+  --text-gray: rgba(226, 231, 242, .68);
+  --border: rgba(255, 255, 255, .14);
+  --glass: rgba(255, 255, 255, .045);
+  --glass-strong: rgba(255, 255, 255, .09);
+  --edge: rgba(255, 255, 255, .16);
+  --spec: rgba(255, 255, 255, .38);
+  --card-bg: var(--glass);
+  --navbar-bg: var(--glass);
+  --btn-main-bg: linear-gradient(160deg, rgba(255,255,255,.3), rgba(255,255,255,.1));
+  --btn-main-text: #fff;
+  --glow-color: rgba(255, 255, 255, .06);
+  --blur: blur(28px) saturate(150%);
+  --glass-shadow: 0 8px 24px rgba(0, 0, 0, .28);
+  --h1-a: #ffffff; --h1-b: rgba(255, 255, 255, .5);
+  --blob1: rgba(90, 112, 170, .5); --blob2: rgba(120, 95, 165, .32); --blob3: rgba(70, 135, 150, .32);
+}
+body.light {
+  --bg-core: #e6eaf2;
+  --primary: #3f5a8c;
+  --secondary: #5d6b88;
+  --accent: #6f62a8;
+  --text-white: #151c2c;
+  --text-gray: rgba(30, 40, 65, .72);
+  --border: rgba(255, 255, 255, .7);
+  --glass: rgba(255, 255, 255, .34);
+  --glass-strong: rgba(255, 255, 255, .55);
+  --edge: rgba(255, 255, 255, .8);
+  --spec: rgba(255, 255, 255, .95);
+  --btn-main-bg: linear-gradient(160deg, rgba(255,255,255,.55), rgba(255,255,255,.25));
+  --btn-main-text: #151c2c;
+  --glow-color: rgba(40, 60, 110, .08);
+  --glass-shadow: 0 8px 24px rgba(50, 70, 120, .14);
+  --h1-a: #151c2c; --h1-b: rgba(21, 28, 44, .55);
+  --blob1: rgba(140, 165, 220, .75); --blob2: rgba(190, 170, 225, .6); --blob3: rgba(150, 210, 215, .6);
+}
+
+body { background: var(--bg-core); color: var(--text-gray); }
+h1, h2, h3, h4, h5 { color: var(--text-white); }
+
+/* Fond coloré que le verre vient flouter */
+.background-aurora, body.light .background-aurora {
+  opacity: 1; filter: blur(55px);
+  background:
+    radial-gradient(circle at 12% 18%, var(--blob1), transparent 42%),
+    radial-gradient(circle at 88% 28%, var(--blob2), transparent 40%),
+    radial-gradient(circle at 55% 92%, var(--blob3), transparent 45%),
+    radial-gradient(circle at 20% 80%, var(--blob2), transparent 30%);
+}
+
+/* Surface verre commune */
+.hover-card, .doc-item, .xp-item, .veille-box, .navbar, #theme-menu, #settings-btn,
+.hero-badge, .input-group, .year-btn, .nav-pills .nav-link, .btn-sec, .v-btn, .v-btn-custom, #backToTop {
+  background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--edge);
+  box-shadow: inset 0 1px 0 var(--spec), inset 0 -1px 0 rgba(255,255,255,.06), var(--glass-shadow);
+}
+/* Reflet liquide en diagonale */
+.hover-card::after, .xp-item::after, .veille-box::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(125deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.03) 30%, transparent 50%);
+  opacity: .8;
+}
+.hover-card, .xp-item, .veille-box { border-radius: 28px; }
+.doc-item { border-radius: 22px; }
+.hover-card:hover, .doc-item:hover, .xp-item:hover, .veille-box:hover {
+  background: var(--glass-strong); border-color: var(--edge);
+  box-shadow: inset 0 1px 0 var(--spec), var(--glass-shadow); border-color: rgba(255,255,255,.3);
+}
+.doc-item:hover { transform: translateY(-3px); }
+.xp-item::before { display: none; }
+
+/* Navigation flottante */
+.navbar { top: 12px; left: 3%; width: 94%; border-radius: 999px; padding: 10px 0; }
+.navbar-toggler { filter: none !important; color: var(--text-white); border-color: var(--edge); }
+.nav-link { border-radius: 999px; padding: 8px 14px !important; font-weight: 600; }
+.navbar .nav-link:hover { color: var(--text-white) !important; background: var(--glass-strong); }
+.theme-switcher { top: 100px; }
+#settings-btn { border-radius: 50%; }
+#theme-menu { border-radius: 22px; }
+#theme-menu button:hover { background: var(--glass-strong); color: var(--text-white); }
+
+/* Titre */
+.hero h1 {
+  background: linear-gradient(180deg, var(--h1-a) 30%, var(--h1-b) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+.hero-badge { border-radius: 999px; color: var(--text-white); letter-spacing: 2px; }
+.cursor { color: var(--primary); }
+
+/* Boutons */
+.btn-main, .btn-sec { border-radius: 999px; padding: 14px 36px; font-weight: 700; transition: transform .25s, box-shadow .25s; }
+.btn-main {
+  background: var(--btn-main-bg); color: var(--btn-main-text); border: 1px solid var(--edge);
+  backdrop-filter: var(--blur); box-shadow: inset 0 1px 0 var(--spec), var(--glass-shadow);
+}
+.btn-main:hover { color: var(--btn-main-text); transform: translateY(-2px); background: var(--glass-strong); }
+.btn-sec { color: var(--text-white); }
+.btn-sec:hover { background: var(--glass-strong); color: var(--text-white); border-color: var(--edge); }
+#backToTop { color: var(--text-white); border-radius: 50%; }
+#backToTop:hover { background: var(--glass-strong); }
+
+/* Détails */
+.divider { height: 4px; width: 70px; background: var(--edge); }
+.skill-icon, .doc-icon { color: var(--primary); }
+.xp-icon-box { background: var(--glass-strong); border: 1px solid var(--edge); border-radius: 16px; color: var(--text-white); box-shadow: inset 0 1px 0 var(--spec); }
+.xp-item:hover .xp-icon-box { background: var(--glass-strong); color: var(--primary); border-color: var(--edge); }
+.xp-date { background: var(--glass-strong); border-color: var(--edge); border-radius: 999px; }
+.text-primary { color: var(--primary) !important; }
+#loader { background: var(--bg-core); }
+.loader-bar-container { border-radius: 10px; height: 4px; }
+.loader-bar { background: var(--primary); box-shadow: none; }
+
+/* Recherche */
+.input-group { border-radius: 999px !important; padding: 4px 10px; background: var(--glass) !important; border: 1px solid var(--edge) !important; }
+#pdfSearch { color: var(--text-white) !important; }
+#pdfSearch::placeholder { color: var(--text-gray); }
+
+/* Onglets */
+.year-tabs { border-bottom: none; gap: 16px; }
+.year-btn { border-radius: 999px; padding: 12px 28px; color: var(--text-gray); }
+.year-btn::after { display: none; }
+.year-btn.active, .year-btn:hover { color: var(--text-white); background: var(--glass-strong); }
+.nav-pills { gap: 10px; }
+.nav-pills .nav-link { border-radius: 999px; padding: 10px 22px; color: var(--text-gray) !important; }
+.nav-pills .nav-link:hover, .nav-pills .nav-link.active {
+  background: var(--glass-strong); color: var(--text-white) !important; border-color: var(--spec);
+  box-shadow: inset 0 1px 0 var(--spec); transform: none;
+}
+
+/* Boutons PDF / ZIP / SQL */
+.v-btn-custom, .v-btn { border-radius: 999px; color: var(--text-white) !important; padding: 5px 13px; }
+.v-btn-custom:hover, .v-btn:hover { background: var(--glass-strong) !important; color: var(--primary) !important; }
+.v-badge { border-radius: 999px; background: var(--glass-strong); border: 1px solid var(--edge); padding: 4px 10px; }
+.veille-header, .veille-footer { background: transparent; border-color: var(--edge); }
+
+footer { background: transparent; border-top: 1px solid var(--edge); }
+footer .border-top { border-color: var(--edge) !important; }
+
+@media (max-width: 768px) { .navbar { top: 8px; left: 2%; width: 96%; border-radius: 26px; } }
+        
+
+/* =====================================================================
+   SHATTERED GLASS — accueil 3D (Three.js) + harmonisation du portfolio
+   ===================================================================== */
+:root {
+  --sg-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --sg-lavender: #c4b5fd;
+  --bg-core: #050507;
+  --primary: #c9cde2;
+  --secondary: #9da3bb;
+  --accent: #b9a7ff;
+  --glass: rgba(255, 255, 255, .035);
+  --glass-strong: rgba(255, 255, 255, .075);
+  --edge: rgba(255, 255, 255, .12);
+  --spec: rgba(255, 255, 255, .26);
+  --blob1: rgba(96, 84, 180, .24);
+  --blob2: rgba(46, 140, 112, .13);
+  --blob3: rgba(78, 98, 168, .2);
+}
+
+/* Typographie Inter sur tout le portfolio */
+body, h1, h2, h3, h4, h5, h6, .year-btn, #theme-menu button, .loader-name, .btn-main, .btn-sec, .navbar-brand {
+  font-family: var(--sg-font);
+}
+h1, h2, h3, h4, h5 { font-weight: 600; letter-spacing: -.02em; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 2.75rem); letter-spacing: -.035em; }
+.navbar-brand { font-weight: 600; font-size: .95rem; letter-spacing: .2em; }
+.loader-name { font-weight: 600; letter-spacing: .32em; font-size: 1.5rem; }
+.btn-main, .btn-sec { font-weight: 600; }
+section[tabindex="-1"]:focus { outline: none; }
+
+/* ---------- Scène d'accueil ---------- */
+.sg-stage { position: relative; --u: 1; --sg-bg-a: 1; }
+html.js .sg-stage {
+  position: fixed; inset: 0; z-index: 2500; overflow: hidden; padding: 0;
+  background: rgba(5, 5, 7, var(--sg-bg-a));
+  color: #e9eaf1; font-family: var(--sg-font);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+}
+html.js .sg-stage.sg-hidden { visibility: hidden; pointer-events: none; }
+html.js .sg-stage.sg-busy { pointer-events: none; }
+
+.sg-ambient {
+  position: absolute; inset: 0; pointer-events: none; opacity: var(--sg-bg-a);
+  background:
+    radial-gradient(60% 46% at 50% -10%, rgba(206, 216, 255, .085), transparent 70%),
+    radial-gradient(42% 36% at 6% 104%, rgba(139, 92, 246, .065), transparent 70%),
+    radial-gradient(34% 30% at 98% 72%, rgba(52, 211, 153, .04), transparent 70%);
+}
+.sg-scene { position: absolute; inset: 0; }
+.sg-canvas, .sg-css { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; display: block; }
+.sg-glow {
+  position: absolute; left: 0; top: 0; width: 440px; height: 440px; margin: -220px 0 0 -220px;
+  border-radius: 50%; pointer-events: none; opacity: 0; mix-blend-mode: screen; will-change: transform;
+  background: radial-gradient(circle, rgba(200, 186, 255, .12) 0%, rgba(200, 186, 255, .045) 34%, transparent 66%);
+  transition: opacity .45s ease;
+}
+.sg-glow.on { opacity: 1; }
+
+/* Contenu « imprimé » sur les fragments (couche CSS3D) */
+.sg-shard-ui {
+  display: flex; flex-direction: column; justify-content: space-between; gap: calc(14px * var(--u));
+  overflow: hidden; color: #e9eaf1; font-family: var(--sg-font);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.sg-shard-ui.sg-ui-nav { overflow: visible; }
+.sg-shard-ui > [data-block] { flex: 0 0 auto; min-width: 0; }
+.sg-shard-ui > [data-block]:only-child { flex: 1 1 auto; }
+
+.sg-nav { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 calc(26px * var(--u)); }
+.sg-brand { font-size: max(12px, calc(13px * var(--u))); font-weight: 600; letter-spacing: .22em; color: #f3f4f8 !important; text-decoration: none; white-space: nowrap; }
+.sg-links { display: flex; gap: calc(4px * var(--u)); list-style: none; margin: 0; padding: 0; }
+.sg-links a {
+  display: flex; align-items: center; padding: calc(8px * var(--u)) calc(13px * var(--u)); border-radius: 999px;
+  font-size: max(12px, calc(13px * var(--u))); font-weight: 500; color: rgba(228, 230, 240, .58);
+  text-decoration: none; white-space: nowrap; transition: color .25s ease, background .25s ease;
+}
+.sg-links a:hover, .sg-links a:focus-visible { color: #fff; background: rgba(255, 255, 255, .06); }
+.sg-links a[aria-current="page"] { color: #fff; }
+.sg-links a[aria-current="page"]::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%; margin-right: 8px;
+  background: var(--sg-lavender); box-shadow: 0 0 10px rgba(196, 181, 253, .8);
+}
+.sg-menu-btn {
+  display: none; align-items: center; gap: 8px; padding: 7px 15px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .04);
+  color: #eef0f6; font: 500 13px var(--sg-font);
+}
+@media (max-width: 960px) { .sg-links { display: none; } .sg-menu-btn { display: inline-flex; } }
+
+.sg-b-title { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+.sg-eyebrow {
+  margin: 0; display: flex; align-items: center; gap: 14px;
+  font-size: max(10px, calc(11.5px * var(--u))); font-weight: 500; letter-spacing: .24em; color: rgba(226, 229, 240, .55);
+}
+.sg-eyebrow::before { content: ''; flex: none; width: calc(34px * var(--u)); height: 1px; background: linear-gradient(90deg, rgba(196, 181, 253, .9), rgba(255, 255, 255, .15)); }
+.sg-title {
+  margin: 0; padding-bottom: .06em; font-family: var(--sg-font); font-weight: 600;
+  font-size: var(--sg-title, clamp(3rem, 8vw, 7rem)); line-height: .92; letter-spacing: -.045em;
+  background: linear-gradient(180deg, #ffffff 0%, #e8e9ef 46%, #a4a7b6 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+}
+.sg-sub { margin: 0 0 calc(10px * var(--u)); font-size: max(15px, calc(22px * var(--u))); font-weight: 500; color: #f1f2f6; letter-spacing: -.015em; line-height: 1.3; }
+.sg-desc { margin: 0; max-width: 36em; font-size: max(13px, calc(15.5px * var(--u))); line-height: 1.62; color: rgba(220, 223, 235, .66); }
+.sg-actions { display: flex; flex-wrap: wrap; gap: calc(12px * var(--u)); }
+.sg-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 42px;
+  padding: calc(12px * var(--u)) calc(24px * var(--u)); border-radius: 999px; cursor: pointer; white-space: nowrap;
+  font-family: var(--sg-font); font-size: max(13px, calc(14px * var(--u))); font-weight: 600; text-decoration: none;
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), background .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.sg-btn-main { border: 0; color: #0c0c10; background: linear-gradient(180deg, #ffffff, #d9dbe5); box-shadow: inset 0 1px 0 #fff, 0 10px 30px -12px rgba(196, 181, 253, .55); }
+.sg-btn-main:hover { color: #0c0c10; transform: translateY(-2px); box-shadow: inset 0 1px 0 #fff, 0 16px 40px -14px rgba(196, 181, 253, .85); }
+.sg-arrow { display: inline-block; transition: transform .3s ease; }
+.sg-btn-main:hover .sg-arrow { transform: translateX(3px); }
+.sg-btn-ghost { color: #eceef5 !important; background: rgba(255, 255, 255, .035); border: 1px solid rgba(255, 255, 255, .16); }
+.sg-btn-ghost:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .3); transform: translateY(-2px); }
+.sg-btn:focus-visible, .sg-links a:focus-visible, .sg-brand:focus-visible, .sg-menu-btn:focus-visible, .sg-menu a:focus-visible {
+  outline: 2px solid var(--sg-lavender); outline-offset: 3px;
+}
+
+.sg-label { display: block; margin-bottom: calc(10px * var(--u)); font-size: max(10px, calc(10.5px * var(--u))); font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(226, 229, 240, .42); }
+.sg-b-specialty { display: flex; flex-direction: column; justify-content: space-between; }
+.sg-type { margin: 0; min-height: 1.3em; font-size: max(14px, calc(19px * var(--u))); font-weight: 500; letter-spacing: -.01em; color: #eef0f6; }
+.sg-type .cursor { color: var(--sg-lavender); margin-left: 2px; }
+.sg-b-meta { display: flex; flex-direction: column; justify-content: flex-end; }
+.sg-meta-line { margin: 0 0 4px; font-size: max(13px, calc(16px * var(--u))); font-weight: 500; color: #eef0f6; }
+.sg-status { margin: 0; display: flex; align-items: center; gap: 8px; font-size: max(12px, calc(13px * var(--u))); color: rgba(220, 223, 235, .6); }
+.sg-dot { width: 7px; height: 7px; border-radius: 50%; background: #5eead4; box-shadow: 0 0 10px rgba(94, 234, 212, .7); }
+.sg-b-legal { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; text-align: right; font-size: max(11px, calc(12px * var(--u))); line-height: 1.6; color: rgba(220, 223, 235, .45); }
+.sg-b-legal p { margin: 0; }
+
+/* Téléphone / format vertical */
+.sg-tall .sg-actions { flex-direction: column; flex-wrap: nowrap; gap: 8px; }
+.sg-tall .sg-btn { width: 100%; min-height: 38px; padding: 9px 18px; }
+.sg-tall .sg-b-legal { align-items: flex-start; text-align: left; }
+.sg-tall .sg-b-title { gap: 12px; }
+.sg-short .sg-desc { display: none; }
+.sg-tall .sg-eyebrow { font-size: calc(9.5px * var(--k, 1)); letter-spacing: .15em; gap: 10px; }
+.sg-tall .sg-eyebrow::before { width: 18px; }
+.sg-tall .sg-sub { font-size: calc(16px * var(--k, 1)); margin-bottom: 6px; }
+.sg-tall .sg-desc { font-size: calc(13.5px * var(--k, 1)); line-height: 1.5; }
+.sg-tall .sg-label { font-size: 9px; margin-bottom: 6px; }
+.sg-tall .sg-type { font-size: calc(15px * var(--k, 1)); line-height: 1.25; min-height: 2.5em; }
+.sg-tall .sg-b-legal { font-size: calc(11px * var(--k, 1)); }
+.sg-tall .sg-btn { font-size: calc(13.5px * var(--k, 1)); }
+
+/* Menu compact (tablette / téléphone) */
+.sg-menu {
+  position: absolute; z-index: 5; top: var(--sg-menu-top, 80px); right: var(--sg-menu-right, 16px);
+  min-width: 220px; padding: 8px; display: flex; flex-direction: column; border-radius: 18px;
+  background: rgba(18, 18, 23, .94); border: 1px solid rgba(255, 255, 255, .1);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.sg-menu[hidden] { display: none; }
+.sg-menu a { padding: 12px 14px; border-radius: 12px; color: rgba(235, 237, 245, .82); font-size: 15px; text-decoration: none; }
+.sg-menu a:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+
+/* ---------- Fallback HTML/CSS (sans WebGL) ---------- */
+.sg-fb { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 8.5vh 5.5vw; }
+.sg-fb[hidden] { display: none; }
+.sg-fb-block { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 10px; perspective: 1400px; }
+.sg-fb-grid {
+  flex: 1; min-height: 0; display: grid; gap: 7px; perspective: 1400px;
+  grid-template-columns: 1.6fr 1fr; grid-template-rows: repeat(4, 1fr);
+  grid-template-areas: "a b" "a d" "c d" "c e";
+}
+.sg-fb-shard {
+  position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 16px;
+  padding: clamp(18px, 2.4vw, 34px); border-radius: 14px;
+  background: linear-gradient(150deg, #1f1f26 0%, #141418 46%, #0f0f12 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .09), inset 0 0 0 1px rgba(255, 255, 255, .04), 0 30px 60px -30px rgba(0, 0, 0, .9);
+  transition: transform .62s cubic-bezier(.3, .1, .2, 1), opacity .62s ease;
+}
+.sg-fb-shard::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, rgba(167, 139, 250, .1), transparent 30%, transparent 62%, rgba(52, 211, 153, .06)); }
+.sg-fb-nav { flex: 0 0 60px; padding: 0; justify-content: center; }
+.sg-fb-a { grid-area: a; clip-path: polygon(0 0, 100% 0, 97% 100%, 0 100%); }
+.sg-fb-b { grid-area: b; clip-path: polygon(2% 0, 100% 0, 100% 100%, 0 100%); }
+.sg-fb-c { grid-area: c; clip-path: polygon(0 4%, 97% 0, 100% 100%, 0 100%); }
+.sg-fb-d { grid-area: d; clip-path: polygon(0 0, 100% 6%, 100% 100%, 3% 94%); }
+.sg-fb-e { grid-area: e; clip-path: polygon(0 3%, 100% 0, 100% 100%, 0 100%); }
+@media (max-width: 760px) {
+  .sg-fb { padding: 16px 12px; align-items: flex-start; overflow-y: auto; }
+  .sg-fb-block { height: auto; min-height: 100%; }
+  .sg-fb-grid { grid-template-columns: 1fr; grid-template-rows: auto; grid-template-areas: "a" "c" "e"; }
+  .sg-fb-b, .sg-fb-d { display: none; }
+  .sg-fb .sg-actions { flex-direction: column; }
+  .sg-fb .sg-btn { width: 100%; }
+  .sg-fb .sg-b-legal { align-items: flex-start; text-align: left; }
+}
+
+/* ---------- Deuxième vue : le portfolio ---------- */
+.sg-portfolio-ui { transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform 1s cubic-bezier(.2, .7, .2, 1); }
+html.js body:not(.sg-portfolio) { overflow: hidden; }
+html.js body:not(.sg-portfolio) .sg-portfolio-ui { opacity: 0; visibility: hidden; pointer-events: none; }
+html.js body:not(.sg-portfolio) #portfolio-view { transform: translateY(32px) scale(.985); }
+
+.sg-home-btn {
+  position: fixed; left: 24px; bottom: 24px; z-index: 1200;
+  display: inline-flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; cursor: pointer;
+  font: 600 14px var(--sg-font); color: var(--text-white);
+  background: var(--glass); border: 1px solid var(--edge);
+  backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  box-shadow: inset 0 1px 0 var(--spec), var(--glass-shadow);
+}
+.sg-home-btn:hover { background: var(--glass-strong); color: var(--text-white); }
+.sg-home-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 768px) { .sg-home-btn { left: 14px; bottom: 14px; padding: 10px 16px; } #backToTop { right: 14px; bottom: 14px; } }
+
+/* Sans JavaScript : le contenu d'accueil reste lisible en HTML simple */
+html:not(.js) .sg-scene, html:not(.js) .sg-fb, html:not(.js) .sg-menu, html:not(.js) .sg-home-btn, html:not(.js) .sg-ambient { display: none !important; }
+html:not(.js) #sg-blocks[hidden] { display: block; max-width: 960px; margin: 0 auto; padding: 140px 24px 40px; }
+html:not(.js) #sg-blocks .sg-nav { display: none; }
+html:not(.js) #sg-blocks > * { margin-bottom: 28px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sg-portfolio-ui { transition: opacity .4s ease; }
+  html.js body:not(.sg-portfolio) #portfolio-view { transform: none; }
+  .sg-fb-shard { transition-duration: .35s; }
+  .sg-btn, .sg-arrow { transition: none; }
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-box">
+            <div class="loader-name">YOANN TOURNAL</div>
+            <div class="loader-bar-container">
+                <div class="loader-bar" id="load-bar"></div>
+            </div>
+            <div class="loader-text mt-2" style="font-size: 0.7rem; opacity: 0.5;">SYNCHRONISATION...</div>
+        </div>
+    </div>
+
+    <div id="scroll-progress" class="sg-portfolio-ui"></div>
+
+    <div class="theme-switcher sg-portfolio-ui">
+        <button id="settings-btn" title="Changer l'ambiance">⚙️</button>
+        <div id="theme-menu" class="hidden">
+            <button onclick="setTheme('default')">🔵 Par défaut</button>
+            <button onclick="setTheme('light')">☁️ Light</button>
+        </div>
+    </div>
+    <div class="background-aurora"></div>
+
+    <!-- ===================== ACCUEIL : SHATTERED GLASS (Three.js) ===================== -->
+    <section id="accueil" class="sg-stage" aria-label="Accueil – Yoann Tournal">
+        <div class="sg-ambient" aria-hidden="true"></div>
+        <!-- Le canvas WebGL et la couche CSS3D (texte collé aux fragments) sont injectés ici -->
+        <div class="sg-scene"><div class="sg-glow" aria-hidden="true"></div></div>
+
+        <!-- Contenus imprimés sur les fragments : déplacés dynamiquement sur chaque morceau de verre -->
+        <div id="sg-blocks" hidden>
+            <nav class="sg-nav" data-block="nav" aria-label="Navigation de l'accueil">
+                <a class="sg-brand" href="#accueil" data-sg-link="accueil">YOANN T.</a>
+                <ul class="sg-links">
+                    <li><a href="#accueil" data-sg-link="accueil" aria-current="page">Accueil</a></li>
+                    <li><a href="#apropos" data-sg-link="apropos">À propos</a></li>
+                    <li><a href="#competences" data-sg-link="competences">Compétences</a></li>
+                    <li><a href="#projets" data-sg-link="projets">Documents</a></li>
+                    <li><a href="#experience" data-sg-link="experience">Parcours</a></li>
+                    <li><a href="#veille" data-sg-link="veille">Veille</a></li>
+                </ul>
+                <button class="sg-menu-btn" type="button" aria-expanded="false" aria-controls="sg-menu"><i class="fas fa-bars" aria-hidden="true"></i> Menu</button>
+            </nav>
+
+            <div class="sg-b-title" data-block="title">
+                <p class="sg-eyebrow">PORTFOLIO PERSONNEL · INFORMATIQUE &amp; RÉSEAUX</p>
+                <h1 class="sg-title">Yoann<br>Tournal.</h1>
+            </div>
+
+            <div class="sg-b-intro" data-block="intro">
+                <p class="sg-sub">Étudiant en BTS SIO – Option SISR.</p>
+                <p class="sg-desc">Passionné par les systèmes numériques, l'administration réseau et la cybersécurité. Je conçois et déploie des solutions informatiques fiables et performantes.</p>
+            </div>
+
+            <div class="sg-actions" data-block="actions">
+                <button type="button" class="sg-btn sg-btn-main" data-sg-action="discover">Découvrir mon portfolio <span class="sg-arrow" aria-hidden="true">→</span></button>
+                <a class="sg-btn sg-btn-ghost" href="mailto:yoann.tournal.pro@gmail.com"><i class="far fa-envelope" aria-hidden="true"></i> Me contacter</a>
+            </div>
+
+            <div class="sg-b-specialty" data-block="specialty">
+                <span class="sg-label">Domaines</span>
+                <p class="sg-type"><span id="typewriter"></span><span class="cursor" aria-hidden="true">|</span></p>
+            </div>
+
+            <div class="sg-b-meta" data-block="meta">
+                <span class="sg-label">Localisation</span>
+                <p class="sg-meta-line">Gap, France</p>
+                <p class="sg-status"><span class="sg-dot" aria-hidden="true"></span>Disponible</p>
+            </div>
+
+            <div class="sg-b-legal" data-block="legal">
+                <p>© 2026 Yoann Tournal</p>
+                <p>BTS SIO · SISR</p>
+            </div>
+        </div>
+
+        <!-- Fallback HTML/CSS si WebGL2 / Three.js indisponible -->
+        <div class="sg-fb" hidden>
+            <div class="sg-fb-block">
+                <div class="sg-fb-shard sg-fb-nav" data-fb="nav" data-dir="0,-1" data-rot="-6"></div>
+                <div class="sg-fb-grid">
+                    <div class="sg-fb-shard sg-fb-a" data-fb="title" data-dir="-1,-0.6" data-rot="-9"></div>
+                    <div class="sg-fb-shard sg-fb-b" data-fb="specialty" data-dir="1,-0.8" data-rot="8"></div>
+                    <div class="sg-fb-shard sg-fb-c" data-fb="intro actions" data-dir="-0.9,0.9" data-rot="7"></div>
+                    <div class="sg-fb-shard sg-fb-d" data-fb="meta" data-dir="1,0.15" data-rot="-7"></div>
+                    <div class="sg-fb-shard sg-fb-e" data-fb="legal" data-dir="0.8,1" data-rot="10"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu compact (tablette / téléphone) -->
+        <div class="sg-menu" id="sg-menu" hidden>
+            <a href="#apropos" data-sg-link="apropos">À propos</a>
+            <a href="#competences" data-sg-link="competences">Compétences</a>
+            <a href="#projets" data-sg-link="projets">Documents</a>
+            <a href="#experience" data-sg-link="experience">Parcours</a>
+            <a href="#veille" data-sg-link="veille">Veille</a>
+        </div>
+    </section>
+
+    <nav class="navbar navbar-expand-lg sg-portfolio-ui">
+        <div class="container">
+            <a class="navbar-brand" href="#accueil">YOANN T.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="filter: invert(1);">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#accueil">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#apropos">À propos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#competences">Compétences</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projets">Documents</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience">Parcours</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#veille">Veille</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <button type="button" id="sgHomeBtn" class="sg-home-btn sg-portfolio-ui" aria-label="Revenir à l'accueil"><span aria-hidden="true">←</span> Accueil</button>
+
+    <!-- ===================== DEUXIÈME VUE : LE PORTFOLIO ===================== -->
+    <main id="portfolio-view" class="sg-portfolio-ui">
+
+
+    <section id="apropos" class="reveal">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="section-header"><h2>À Propos</h2><div class="divider"></div></div>
+                    <p class="fs-5 mb-5" style="color: var(--text-white);">
+                        Étudiant passionné par les systèmes numériques, je me spécialise dans l'architecture réseau et la cybersécurité. 
+                        Mon objectif est de concevoir des solutions fiables et performantes.
+                    </p>
+                    <div class="d-flex justify-content-center gap-4 flex-wrap" style="color: var(--text-white);">
+                        <div><i class="fas fa-map-marker-alt text-primary me-2"></i> Gap, France</div>
+                        <div><i class="fas fa-envelope text-primary me-2"></i> yoann.tournal.pro@gmail.com</div>
+                        <div><i class="fas fa-check-circle text-primary me-2"></i> Disponible</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="competences">
+        <div class="container">
+            <div class="section-header reveal"><h2>Compétences</h2><div class="divider"></div></div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3"><div class="skill-box hover-card reveal"><i class="fas fa-microchip skill-icon"></i><div><h5>Hardware</h5><span>Montage & OS</span></div></div></div>
+                <div class="col-md-6 col-lg-3"><div class="skill-box hover-card reveal"><i class="fas fa-server skill-icon" style="color: var(--secondary);"></i><div><h5>Serveurs</h5><span>Debian / FTP</span></div></div></div>
+                <div class="col-md-6 col-lg-3"><div class="skill-box hover-card reveal"><i class="fas fa-cloud skill-icon" style="color: var(--primary);"></i><div><h5>Virtualisation</h5><span>Proxmox</span></div></div></div>
+                <div class="col-md-6 col-lg-3"><div class="skill-box hover-card reveal"><i class="fas fa-network-wired skill-icon" style="color: var(--accent);"></i><div><h5>Réseaux</h5><span>Switching L2</span></div></div></div>
+            </div>
+        </div>
+    </section>
+
+   <section id="projets" class="reveal">
+    <div class="container">
+        <div class="section-header"><h2>Bibliothèque</h2><div class="divider"></div></div>
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6">
+                <div class="input-group shadow-sm" style="border-radius: 50px; overflow: hidden; border: 1px solid var(--border); background: var(--card-bg);">
+                    <span class="input-group-text border-0 bg-transparent text-primary"><i class="fas fa-search"></i></span>
+                    <input type="text" id="pdfSearch" class="form-control border-0 bg-transparent text-white" placeholder="Rechercher un document (ex: SQL, Java, Réseau...)" style="box-shadow: none;">
+                </div>
+            </div>
+        </div>
+
+        <ul class="year-tabs" id="year-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="year-btn active" id="year1-tab" data-bs-toggle="tab" data-bs-target="#year1-pane" type="button" role="tab" aria-controls="year1-pane" aria-selected="true">Première Année</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="year-btn" id="year2-tab" data-bs-toggle="tab" data-bs-target="#year2-pane" type="button" role="tab" aria-controls="year2-pane" aria-selected="false">Deuxième Année</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="year-tabContent">
+            
+            <!-- ===================== PREMIÈRE ANNÉE ===================== -->
+            <div class="tab-pane fade show active year-pane" id="year1-pane" role="tabpanel" aria-labelledby="year1-tab">
+                
+                <ul class="nav nav-pills flex-wrap" id="pills-tab" role="tablist">
+                    <li class="nav-item"><button class="nav-link" id="pills-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-sotoca">Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b2-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-b2-sotoca">Bloc 2 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b3-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-b3-sotoca">Bloc 3 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-atelier-tab" data-bs-toggle="pill" data-bs-target="#pills-atelier">Ateliers</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-beauvallet">Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b1-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-b1-beauvallet">Bloc 1 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b3-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-b3-beauvallet">Bloc 3 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-stage-tab" data-bs-toggle="pill" data-bs-target="#pills-stage">Stage</button></li>
+                </ul>                           
+                
+                <div class="tab-content" id="pills-tabContent">
+                    <div id="placeholder-msg" class="text-center py-5">
+                        <p class="fs-5" style="color: var(--text-gray);"><i class="fas fa-arrow-up me-2"></i> Sélectionnez une catégorie pour afficher les documents</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-sotoca">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp3.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div><div class="doc-title">Initiation Réseau</div><span class="doc-sub">TP3</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp4.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-tools doc-icon"></i><div><div class="doc-title">Diagnostic</div><span class="doc-sub">TP4</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp7.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-camera doc-icon"></i><div><div class="doc-title">Captures</div><span class="doc-sub">TP7</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/commandes_cmd.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-terminal doc-icon"></i><div><div class="doc-title">CMD</div><span class="doc-sub">Terminal</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp_TechCorp.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-building doc-icon"></i><div><div class="doc-title">TP TechCorp</div><span class="doc-sub">Projet</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp21.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-terminal doc-icon"></i><div class="doc-content"><div class="doc-title">TP21 Linux</div><span class="doc-sub">Admin Système / Permissions</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/TP1%20Installation%20d%27un%20serveur%20_%20TP2%20L%27Active%20Directory.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-users-cog doc-icon"></i><div class="doc-content"><div class="doc-title">TP1&2 Windows Server</div><span class="doc-sub">Active Directory / DNS / Groupes</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/TP3_Connexion_Domaine.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-plug doc-icon"></i><div class="doc-content"><div class="doc-title">TP3 - Connexion Domaine</div><span class="doc-sub">Active Directory / Poste Client / DNS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="compte_rendu_tp4.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-cog doc-icon"></i><div class="doc-content"><div class="doc-title">TP4 - Gestion des GPO</div><span class="doc-sub">Unités d'Org / GPO / Event Viewer</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/TP5_TOURNAL_Yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-users-cog doc-icon"></i><div class="doc-content"><div class="doc-title">TP5 - Stratégies GPO</div><span class="doc-sub">GPMC / Restrictions / Windows Server</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b2-sotoca">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP01_Prise_de_controle_a_distance.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div class="doc-content"><div class="doc-title">TP01 - Contrôle Distance</div><span class="doc-sub">Audit RustDesk / AnyDesk / RDP</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>    
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/Technicien_documentation%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-gear doc-icon"></i><div class="doc-content"><div class="doc-title">Doc Technicien AnyDesk</div><span class="doc-sub">Installation et Mode Service</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/Utilisateur_documentation.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-tie doc-icon"></i><div class="doc-content"><div class="doc-title">Doc Utilisateur AnyDesk</div><span class="doc-sub">Guide d'assistance à distance</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP02_Partitionnement_de_disques_durs.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-hard-drive doc-icon"></i><div class="doc-content"><div class="doc-title">TP02 - Partitionnement</div><span class="doc-sub">EaseUS / Image Disque / Live CD</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>  
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP03-1-Clonage.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-copy doc-icon"></i><div class="doc-content"><div class="doc-title">TP03 - Clonage</div><span class="doc-sub">Clonezilla / Sauvegarde ISO</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP04-WakeOnLan.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-wifi doc-icon"></i><div class="doc-content"><div class="doc-title">TP04 - Wake On Lan</div><span class="doc-sub">BIOS / Magic Packet / EtherCheck</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP05%20-%20Serveur%20de%20fichiers.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-folder-tree doc-icon"></i><div class="doc-content"><div class="doc-title">TP05 - Serveur Fichiers</div><span class="doc-sub">HFS / Partage HTTP / Droits</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP06_Keylogger_CompteRendu.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-secret doc-icon"></i><div class="doc-content"><div class="doc-title">TP06 - Mise en place Keylogger</div><span class="doc-sub">Powered Keylogger / Furtivité / RGPD</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/tp07_kit_technicien.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-toolbox doc-icon"></i><div class="doc-content"><div class="doc-title">TP07 - Kit Technicien</div><span class="doc-sub">Outils Portables / Diagnostic / Réseau</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP09_Switch_Manageable_Fahad_yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div class="doc-content"><div class="doc-title">TP09 Switch Netgear</div><span class="doc-sub">VLAN Port-Based / Switch / DHCP</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b3-sotoca">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-sotoca/b3_tp1_sotoca.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-hdd doc-icon"></i><div><div class="doc-title">Serveur NAS</div><span class="doc-sub">Stockage</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-sotoca/donnees_hachees.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-lock doc-icon"></i><div><div class="doc-title">Hachage</div><span class="doc-sub">Sécurité</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-sotoca/DeepFreeze_Complet.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-snowflake doc-icon"></i><div class="doc-content"><div class="doc-title">TP Deep Freeze</div><span class="doc-sub">Gel Système / Console / ThawSpace</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-atelier">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/tp2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-globe doc-icon"></i><div><div class="doc-title">Portfolio</div><span class="doc-sub">Web Dev</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/tp6%20html.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-html5 doc-icon"></i><div><div class="doc-title">HTML Bases</div><span class="doc-sub">TP6</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/tp%20css.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-css3-alt doc-icon"></i><div><div class="doc-title">CSS</div><span class="doc-sub">Style</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/TD1-Ressources.zip" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-file-archive doc-icon text-warning"></i><div><div class="doc-title">Site Chuck</div><span class="doc-sub">ZIP</span></div></div><i class="fas fa-download text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/ccs_html_avance.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-code doc-icon"></i><div><div class="doc-title">HTML/CSS Avancé</div><span class="doc-sub">Expert</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/html_css_avance_p2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-code doc-icon"></i><div><div class="doc-title">HTML/CSS P2</div><span class="doc-sub">Avancé 2</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Les_formulaires.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-wpforms doc-icon"></i><div><div class="doc-title">Formulaires</div><span class="doc-sub">Web</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/atelier_09_TP1.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-laptop-code doc-icon"></i><div><div class="doc-title">Atelier 09 TP1</div><span class="doc-sub">Pratique</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/atelier_10_tp2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-laptop-code doc-icon"></i><div><div class="doc-title">Atelier 10 TP2</div><span class="doc-sub">Pratique</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Javascript1_2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-js doc-icon"></i><div><div class="doc-title">JS 1/2</div><span class="doc-sub">Script</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Javascript%20tp12%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-js doc-icon"></i><div class="doc-content"><div class="doc-title">Javascript TP12</div><span class="doc-sub">Atelier 12</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Javascript_tp13%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-keyboard doc-icon"></i><div><div class="doc-title">Javascript TP13</div><span class="doc-sub">Événements Touches</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-desktop doc-icon"></i><div class="doc-content"><div class="doc-title">Site Vitrine GSB</div><span class="doc-sub">WYSIWYG / Template</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/ateliers/Le_site_vitrine.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/ateliers/site%20vitrine.zip" download class="v-btn-custom" title="Télécharger ZIP" style="background: var(--primary); color: #000;">ZIP</a></div></div></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/2-Lhebergement-du-site.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div class="doc-content"><div class="doc-title">Hébergement GSB</div><span class="doc-sub">TinyWeb / XAMPP / Apache</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/3%20-%20Le%20transfert%20du%20site.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-exchange-alt doc-icon"></i><div class="doc-content"><div class="doc-title">Transfert & Sécurité GSB</div><span class="doc-sub">FTP / FTPS / Wireshark</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/4%20-%20Gestionnaire%20de%20sauvegardes.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-chart-line doc-icon"></i><div class="doc-content"><div class="doc-title">App Gestion Sauvegardes</div><span class="doc-sub">JS / Persistance / Dashboard VM</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/5%20-%20Protection%20du%20serveur%20web.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-lock doc-icon"></i><div class="doc-content"><div class="doc-title">Protection Serveur Web</div><span class="doc-sub">Permissions / Hachage / MySQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-beauvallet">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/tp1.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-gamepad doc-icon"></i><div><div class="doc-title">Jeux Labyrinthe</div><span class="doc-sub">Code.org</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/tp5%20java.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-java doc-icon"></i><div><div class="doc-title">Java Intro</div><span class="doc-sub">TP5</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/Java.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-java doc-icon"></i><div><div class="doc-title">Java 2</div><span class="doc-sub">Avancé</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/tp_shifumi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-gamepad doc-icon"></i><div><div class="doc-title">TP Shifumi</div><span class="doc-sub">Jeu Java</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/TP_5_JAVA.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-java doc-icon"></i><div><div class="doc-title">TP 5 JAVA</div><span class="doc-sub">Suite</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/TP_fonctions_et_procedure.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-code-branch doc-icon"></i><div><div class="doc-title">Fonctions</div><span class="doc-sub">Algo</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/Bataille_navale.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-ship doc-icon"></i><div><div class="doc-title">Bataille Navale</div><span class="doc-sub">Jeu</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/TP_POO..pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-cubes doc-icon"></i><div><div class="doc-title">TP POO</div><span class="doc-sub">Objets</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div><div class="doc-title">TP PHP</div><span class="doc-sub">Back</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/Scene-Builder.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-paint-brush doc-icon"></i><div><div class="doc-title">Scene Builder</div><span class="doc-sub">JavaFX</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/AnalyseSI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-magnifying-glass-chart doc-icon"></i><div class="doc-content"><div class="doc-title">AnalyseSI</div><span class="doc-sub">Modélisation</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">Projet BDD Lycée</div><span class="doc-sub">SQL / MCD / Script</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/beauvallet/tp_bdd.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/beauvallet/bdd_lyc__e_paul_lapie.sql" download class="v-btn-custom" title="Télécharger SQL" style="background: var(--primary); color: #000;">SQL</a></div></div></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-hippo doc-icon"></i><div class="doc-content"><div class="doc-title">BDD ZOO</div><span class="doc-sub">SQL / MCD / MLD</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/beauvallet/bdd_zoo.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/beauvallet/bdd_zoo.pdf" download class="v-btn-custom" title="Télécharger" style="background: var(--primary); color: #000;">DL</a></div></div></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b1-beauvallet">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/TD4-BDD_leclerc.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">TD4 BDD Leclerc</div><span class="doc-sub">MCD / MRD / Requêtes SQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/BDD-TD3.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">TD3 BDD</div><span class="doc-sub">Requêtes SQL / Alter Table</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Droits%20d%27acces%20a%20une%20base%20de%20donnees.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-key doc-icon"></i><div class="doc-content"><div class="doc-title">Gestion des Droits BDD</div><span class="doc-sub">GRANT / REVOKE / Rôles SQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Gestion%20des%20USERS%20%20Test%20sur%20PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div class="doc-content"><div class="doc-title">PHP & USERS MySQL</div><span class="doc-sub">Connexion BDD / Affichage PHP</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Bases_du_langage_PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div class="doc-content"><div class="doc-title">TP 1 base PHP</div><span class="doc-sub"> /</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Programmer_avec_PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div class="doc-content"><div class="doc-title">Programmer avec PHP</div><span class="doc-sub">Boucles / Variables / Tableaux</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/3.Transmission%20de%20donnees%20entre%20pages.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-exchange-alt doc-icon"></i><div class="doc-content"><div class="doc-title">Transmission de données</div><span class="doc-sub">PHP / GET & POST / Formulaires</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/connexion_bdd.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">Connexion BDD</div><span class="doc-sub">PHP / PDO / Requêtes SQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b3-beauvallet">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TP1_bloc_3.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-cube doc-icon"></i><div><div class="doc-title">TP1 Bloc 3</div><span class="doc-sub">Activité</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TP_PIA.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-project-diagram doc-icon"></i><div><div class="doc-title">TP PIA</div><span class="doc-sub">Projet</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/PIA_2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-project-diagram doc-icon"></i><div><div class="doc-title">TP PIA 2</div><span class="doc-sub">Projet 2</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/pia%20yoann.zip" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-file-archive doc-icon text-warning"></i><div><div class="doc-title">ZIP PIA 2</div><span class="doc-sub">Ressources</span></div></div><i class="fas fa-download text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/ch3_tp1.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-book doc-icon"></i><div><div class="doc-title">Chapitre 3 TP1</div><span class="doc-sub">CR</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TD02_BEAUVALLET.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-shield doc-icon"></i><div class="doc-content"><div class="doc-title">Sécurisation PGP</div><span class="doc-sub">PGP / VirtualBox / Preuve Numérique</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>                        
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TD1_CH4.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-secret doc-icon"></i><div class="doc-content"><div class="doc-title">TD1 CH4 - Audit Sécurité</div><span class="doc-sub">John the Ripper / Ophcrack</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TD2_CH4.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-search-plus doc-icon"></i><div class="doc-content"><div class="doc-title">TD 07 - Veille Info</div><span class="doc-sub">Curation / Feedly / Cybersécurité</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div class="doc-content"><div class="doc-title">TD08 - Routage VLAN</div><span class="doc-sub">Packet Tracer / 802.1Q</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/bloc3-beauvallet/TD%2008%20packet%20tracer.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/bloc3-beauvallet/TP%208.pkt" download class="v-btn-custom" title="Télécharger PKT" style="background: var(--primary); color: var(--btn-main-text);">PKT</a></div></div></div>                  
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-shield-alt doc-icon"></i><div class="doc-content"><div class="doc-title">Protection Numérique</div><span class="doc-sub">Privilèges / RGPD / VLAN</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/bloc3-beauvallet/chap%205%20th3.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="chap 5 th3v1.pkt" download class="v-btn-custom" title="Télécharger PKT" style="background: var(--primary); color: var(--btn-main-text);">PKT</a></div></div></div>                    
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-stage">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Documentation_Installation_Nextcloud_Whiteboard.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-docker doc-icon"></i><div><div class="doc-title">Install. Whiteboard</div><span class="doc-sub">Docker / Raspberry Pi / Apache</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div> 
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/OVH_NPM.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-route doc-icon" style="color: var(--accent);"></i><div><div class="doc-title">Config. OVH & NPM</div><span class="doc-sub">DNS / Reverse Proxy / RustDesk</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Installation_Talk_Recording.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-video doc-icon"></i><div><div class="doc-title">Install. Talk Recording</div><span class="doc-sub">Nextcloud / Docker / HPB</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Installation_Nextcloud_AppAPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-puzzle-piece doc-icon"></i><div><div class="doc-title">Install. AppAPI Nextcloud</div><span class="doc-sub">Docker / HaRP / Raspberry Pi</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div> 
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Installation_RustDesk_PRO.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-headset doc-icon"></i><div><div class="doc-title">Install. RustDesk PRO</div><span class="doc-sub">Docker / Relay Server / Support</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/collabora-nextcloud-installation.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-file-alt doc-icon"></i><div><div class="doc-title">Install. Collabora Online</div><span class="doc-sub">Nextcloud / Docker / Office Suite</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/nextcloud_snap.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-cloud doc-icon"></i><div><div class="doc-title">Install. Nextcloud Snap</div><span class="doc-sub">Snap / Nginx Proxy Manager / OCC</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /PREMIÈRE ANNÉE -->
+
+            <!-- ===================== DEUXIÈME ANNÉE ===================== -->
+            <div class="tab-pane fade year-pane" id="year2-pane" role="tabpanel" aria-labelledby="year2-tab">
+                
+                <ul class="nav nav-pills flex-wrap" id="pills-y2-tab" role="tablist">
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-sotoca" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b2-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b2-sotoca" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 2 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b3-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b3-sotoca" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 3 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-atelier-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-atelier" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Ateliers</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-beauvallet" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b1-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b1-beauvallet" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 1 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b3-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b3-beauvallet" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 3 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-stage-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-stage" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Stage</button></li>
+               
+                </ul>                           
+                
+                <div class="tab-content" id="pills-y2-tabContent">
+                    <div id="placeholder-msg-y2" class="text-center py-5">
+                        <p class="fs-5" style="color: var(--text-gray);"><i class="fas fa-arrow-up me-2"></i> Sélectionnez une catégorie pour afficher les documents</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-sotoca">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP_GLPI_compte_rendu.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-ticket-alt doc-icon"></i><div><div class="doc-title">TP Découverte GLPI</div><span class="doc-sub">ITSM / Helpdesk / Inventaire</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Le%20patrimoine%20informatique%20_%20Comprehension%20et%20gestion.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-sitemap doc-icon"></i><div><div class="doc-title">Patrimoine Informatique</div><span class="doc-sub">Gestion de Parc / IT / CH Briançon</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/ESCAPE%20GAME%20GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-puzzle-piece doc-icon"></i><div><div class="doc-title">Escape Game GLPI</div><span class="doc-sub">ITSM / Helpdesk / Serious Game</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP04%20-%20Travaux%20post%20installation%20de%20GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-sliders-h doc-icon"></i><div><div class="doc-title">TP04 - Post-installation GLPI</div><span class="doc-sub">Inventaire / Liaisons réseau / Profils RBAC</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Tp%201%20mooc.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-graduation-cap doc-icon"></i><div><div class="doc-title">TP1 - Découverte MOOC</div><span class="doc-sub">Autoformation / SecNumacadémie / ANSSI</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                              <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP2%20-%20Planning%20de%20formation%20MOOC%20-%20BTS%20SIO.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-calendar-alt doc-icon"></i><div><div class="doc-title">TP2 - Planning MOOC</div><span class="doc-sub">SecNumacadémie / Planning / ANSSI</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Compte_rendu_TP3_MOOC.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-calendar-check doc-icon"></i><div><div class="doc-title">TP3 - Suivi planification MOOC</div><span class="doc-sub">FUN MOOC / Cybersécurité / Suivi</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Compte_rendu_TP05_GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-ticket-alt doc-icon"></i><div><div class="doc-title">TP05 - Gestion des incidents GLPI</div><span class="doc-sub">Helpdesk / Tickets / Support utilisateur</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP04%20-%20My%20Skills%20Profile.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-check doc-icon"></i><div><div class="doc-title">TP04 - Portrait de compétences</div><span class="doc-sub">Auto-évaluation / Bilan SISR / Référentiel</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Compte_rendu_TP_7_Firefox_Yoann_Tournal.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-box-open doc-icon"></i><div><div class="doc-title">TP07 - Télédéploiement Firefox</div><span class="doc-sub">GLPI Inventory / GLPI Agent / Windows 10</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                   <div class="tab-pane fade" id="pills-y2-b2-sotoca">
+    <div class="row g-3">
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP01%20-%20Le%20serveur%20de%20virtualisation%20PowerEdge%20R730.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP01 - PowerEdge R730</div><span class="doc-sub">VMware ESXi / Virtualisation / OVF</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP02%20-%20Creation%20de%20switches%20virtuels%20personnalises.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div><div class="doc-title">TP02 - Switches Virtuels</div><span class="doc-sub">VMware ESXi / vSwitch / Port Group</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP03%20-%20Installation%20de%20SAMBA%20%281%29.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-folder-open doc-icon"></i><div><div class="doc-title">TP03 - Service SAMBA</div><span class="doc-sub">Partage SMB / Ubuntu / Droits</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP04%20-%20Mise%20en%20place%20d%27un%20point%20d%27acces%20Wifi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-wifi doc-icon"></i><div><div class="doc-title">TP04 - Borne Wifi Cisco</div><span class="doc-sub">Cisco WAP121 / SSID / Sécurité WPA</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP05%20-%20Les%20sauvegardes_restaurations%20sur%20Serveurs%20Esxi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP05 - Sauvegardes & Restaurations ESXi</div><span class="doc-sub">VMware ESXi / Sauvegarde / Restauration</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP06%20-%20Mise%20en%20place%20de%20GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP06 - Déploiement GLPI</div><span class="doc-sub">Système / LAMP / Virtualisation</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/Compte_rendu_TP07_GLPI_Inventaire_Parc_Yoann_Tournal.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-clipboard-list doc-icon"></i><div><div class="doc-title">TP07 - Inventaire du parc GLPI</div><span class="doc-sub">GLPI Agent / Découverte SNMP / Parc</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/Compte%20Rendu%20Technique%20-%20TP08%20Mise%20en%20place%20d%27un%20serveur%20DNS%20dedie.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-globe doc-icon"></i><div><div class="doc-title">TP08 - Serveur DNS dédié</div><span class="doc-sub">BIND9 / Ubuntu Light / Résolution DNS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/Compte-rendu%20TP09%20-%20Serveur%20Web%20et%20FTP%20dedie%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP09 - Serveur Web & FTP dédié</div><span class="doc-sub">LAMP / Pure-FTPd / HTTPS & FTPS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP10%20-%20Scripting%20et%20Active%20Directory.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-sitemap doc-icon"></i><div><div class="doc-title">TP10 - Scripting Active Directory</div><span class="doc-sub">Active Directory / Scripts Batch / Droits NTFS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+    </div>
+</div>
+
+                    <div class="tab-pane fade" id="pills-y2-b3-sotoca">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc3-sotoca/TP01_Installation_de_kali_TOURNAL_Yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-linux doc-icon"></i><div><div class="doc-title">TP01 - Installation Kali</div><span class="doc-sub">VirtualBox / Additions Invité / Root</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc3-sotoca/B3_TP2_Kali.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-secret doc-icon"></i><div><div class="doc-title">B3 TP2 - Pentest & Reconnaissance</div><span class="doc-sub">Kali Linux / SpiderFoot / Cybersécurité</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-atelier">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/ateliers/TP01_Point_Reseau_GSB_Tournal_Yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div><div class="doc-title">TP01 - Réseau GSB</div><span class="doc-sub">Audit Infra / Adressage / VPN</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/ateliers/Compte%20rendu%20-%20Migration%20VirtualBox%20vers%20VMware%20ESXi%206.7.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-exchange-alt doc-icon"></i><div><div class="doc-title">Migration VirtualBox vers ESXi</div><span class="doc-sub">VirtualBox / Rétro-ingénierie OVF / ESXi 6.7</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/ateliers/tp3_acces_wifi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-wifi doc-icon"></i><div><div class="doc-title">TP03 - Accès Wi-Fi</div><span class="doc-sub">Wi-Fi sécurisé / WPA3 / Sauvegarde BDC</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+  
+                    
+                    <div class="tab-pane fade" id="pills-y2-beauvallet">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-b1-beauvallet">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-table doc-icon"></i><div><div class="doc-title">TD PGI - Concessionnaire</div><span class="doc-sub">ERP / Tableur / Gestion</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-2/bloc1-beauvallet/td_PGI_exercice_tournal_yoann.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-2/bloc1-beauvallet/PGI_exercice_tournal_yoann.ods" download class="v-btn-custom" title="Télécharger ODS" style="background: var(--primary); color: #000;">ODS</a></div></div></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-chart-line doc-icon"></i><div><div class="doc-title">TD SI7 - Alex & Christophe</div><span class="doc-sub">Gestion / Modélisation / Bilan</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-2/bloc1-beauvallet/Rapport%20TD%20SI7%20-%20Restaurant%20Chez%20Alex%20et%20Christophe.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-2/bloc1-beauvallet/TD%20SI7%20-%20Restaurant%20Chez%20Alex%20et%20Christophe.xlsx" download class="v-btn-custom" title="Télécharger XLSX" style="background: var(--primary); color: #000;">XLSX</a></div></div></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-b3-beauvallet">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-stage">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /DEUXIÈME ANNÉE -->
+
+        </div>
+    </div>
+</section>
+    <section id="experience" class="reveal">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <div class="section-header text-start mb-4"><h2>Expérience</h2></div>
+                    <div class="xp-list">
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-laptop-code"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">Alpes Conseil Informatique</h4>
+                                    <span class="xp-date">2025</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-map-marker-alt"></i> Gap • Stage Technique (3 Semaines)</div>
+                            </div>
+                        </div>
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-wrench"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">Collège/Lycée Saint-Joseph</h4>
+                                    <span class="xp-date">2024</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-map-marker-alt"></i> Gap • Maintenance (3 Semaines)</div>
+                            </div>
+                        </div>
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-microchip"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">LDI Rousset</h4>
+                                    <span class="xp-date">2023</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-map-marker-alt"></i> Rousset • Stage Tech (4 Semaines)</div>
+                            </div>
+                        </div>
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-desktop"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">NLJPC</h4>
+                                    <span class="xp-date">2022</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-map-marker-alt"></i> Gap • Stage Info (3 Semaines)</div>
+                            </div>
+                        </div>
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-bolt"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">Allemand Électricité</h4>
+                                    <span class="xp-date">2022</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-map-marker-alt"></i> Stage Élec (3 Semaines)</div>
+                            </div>
+                        </div>
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-search"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">Instore Solution Gap</h4>
+                                    <span class="xp-date">2021</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-map-marker-alt"></i> Découverte (1 Semaine)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="section-header text-start mb-4"><h2>Formation</h2></div>
+                    <div class="xp-list">
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">Bac Pro Système Numérique</h4>
+                                    <span class="xp-date">2022 - 2025</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-school"></i> Lycée Pierre Mendès France • Veynes</div>
+                            </div>
+                        </div>
+                        <div class="xp-item reveal">
+                            <div class="xp-icon-box"><i class="fas fa-certificate"></i></div>
+                            <div class="xp-content">
+                                <div class="xp-header">
+                                    <h4 class="xp-title">Brevet des Collèges</h4>
+                                    <span class="xp-date">2018 - 2022</span>
+                                </div>
+                                <div class="xp-company"><i class="fas fa-school"></i> Collège Marcel André • Seyne</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+       <section id="veille" class="reveal">
+    <div class="container">
+        <div class="section-header">
+            <h2>Veille Techno</h2>
+            <div class="divider"></div>
+        </div>
+
+        <!-- OUTILS DE VEILLE (VERSION ÉPURÉE) -->
+        <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">MES OUTILS DE VEILLE</h3>
+        <div class="row g-4 mb-5">
+            <!-- 1. Feedly -->
+            <div class="col-lg-4 col-md-6">
+                <div class="hover-card p-4 h-100" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <i class="fas fa-rss text-warning fa-lg"></i>
+                        <h5 class="m-0" style="color: var(--text-white);">Feedly</h5>
+                    </div>
+                    <p class="small mb-2" style="color: var(--text-gray);">Centralisation quotidienne des médias spécialisés et blogs constructeurs (Boston Dynamics, Figure AI, IEEE).</p>
+                    <div class="small" style="color: var(--primary);">
+                        <i class="fas fa-cog me-1"></i> <strong>Réglage :</strong> Dossiers par thématique (Hardware, IA, Marché) et revue chaque matin.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Google Alerts -->
+            <div class="col-lg-4 col-md-6">
+                <div class="hover-card p-4 h-100" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <i class="fas fa-bell text-primary fa-lg"></i>
+                        <h5 class="m-0" style="color: var(--text-white);">Google Alerts</h5>
+                    </div>
+                    <p class="small mb-2" style="color: var(--text-gray);">Surveillance automatique des actualités générales, levées de fonds et annonces industrielles.</p>
+                    <div class="small" style="color: var(--primary);">
+                        <i class="fas fa-cog me-1"></i> <strong>Réglage :</strong> Mots-clés ciblés (<em>"robot humanoïde"</em>, <em>"Unitree"</em>, <em>"Atlas"</em>) avec récapitulatif par e-mail.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. GitHub & arXiv -->
+            <div class="col-lg-4 col-md-6">
+                <div class="hover-card p-4 h-100" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <i class="fab fa-github text-light fa-lg"></i>
+                        <h5 class="m-0" style="color: var(--text-white);">GitHub & arXiv</h5>
+                    </div>
+                    <p class="small mb-2" style="color: var(--text-gray);">Veille technique sur les modèles open-source d'IA physique et les papiers de recherche récents.</p>
+                    <div class="small" style="color: var(--primary);">
+                        <i class="fas fa-cog me-1"></i> <strong>Réglage :</strong> Suivi des topics <code>humanoid-robotics</code> et des publications de la catégorie <code>cs.RO</code>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-5">
+            <button class="btn-sec w-100 py-3 fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVeille" aria-expanded="false" aria-controls="collapseVeille" id="btnVeille" style="border-style: dashed; text-transform: none; letter-spacing: 1px;">
+                <i class="fas fa-robot me-3 text-primary"></i> Veille Technologique Robot Humanoïde <i class="fas fa-chevron-down ms-3 rotate-icon"></i>
+            </button>
+        </div>
+
+        <div class="collapse" id="collapseVeille">
+            
+            <!-- NOUVELLES SECTIONS 2026 -->
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">SEPTEMBRE 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Septembre</span><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Explosion des Ventes</h4>
+                            <p class="v-desc">Les expéditions mondiales d'humanoïdes dépassent les 22 000 unités au 1er semestre 2026 (hausse de 300%).</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Counterpoint</span><a href="https://www.google.com/search?q=counterpoint+research+humanoid+robot+shipments+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Août-Sept</span><span class="v-badge badge-tech">Événement</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">World Robot Conference</h4>
+                            <p class="v-desc">Le thème "Symbiose Humain-Robot" rassemble 373 entreprises à Pékin pour présenter l'intégration industrielle.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">WRC News</span><a href="https://www.google.com/search?q=World+Robot+Conference+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">ÉTÉ 2026 (JUIN - AOÛT)</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Août</span><span class="v-badge badge-tech">Industrie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Figure 03 : Cap des 1000</h4>
+                            <p class="v-desc">Figure AI franchit le cap des 1 000 robots produits, atteignant une cadence d'un robot fabriqué par heure.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">BotQ Facility</span><a href="https://www.google.com/search?q=Figure+AI+1000+robots+Figure+03" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Juin</span><span class="v-badge badge-ia">Open Source</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">NVIDIA Reference Design</h4>
+                            <p class="v-desc">Lancement par NVIDIA du premier design de référence ouvert pour accélérer la standardisation (GTC Taipei).</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">GTC Taipei</span><a href="https://www.google.com/search?q=NVIDIA+open+humanoid+reference+design+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Juin-Juil</span><span class="v-badge badge-market">Finance</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">IPO & Records de prod</h4>
+                            <p class="v-desc">AgiBot atteint 15 000 robots produits, tandis que Unitree obtient l'approbation pour son IPO à Shanghai.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Yicai Global</span><a href="https://www.google.com/search?q=Unitree+IPO+Shanghai+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">PRINTEMPS 2026 (MARS - MAI)</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Avril</span><span class="v-badge badge-tech">Déploiement</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Boston Dynamics en Usine</h4>
+                            <p class="v-desc">La nouvelle génération du robot électrique Atlas entre en phase de test dans les usines de Hyundai.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Robotics News</span><a href="https://www.google.com/search?q=Boston+Dynamics+electric+Atlas+Hyundai+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Mai</span><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Valorisation à 2 Milliards</h4>
+                            <p class="v-desc">Le marché de la robotique humanoïde atteint 2 milliards de dollars, poussé par la domination asiatique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">MarketWatch</span><a href="https://www.google.com/search?q=humanoid+robotics+market+size+2026+2+billion" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FUSION DE TES ANCIENNES CARTES JANVIER 2026 AVEC LES NOUVELLES -->
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">JANVIER - FÉVRIER 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Février</span><span class="v-badge badge-ia">Physical AI</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">XPENG lance IRON</h4>
+                            <p class="v-desc">Lancement commercial du robot IRON par XPENG, intégrant une démarche IA physique pour la manufacture.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">EV Tech</span><a href="https://www.google.com/search?q=XPENG+IRON+robot+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Janvier</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">CES 2026 : Hyundai s'impose</h4>
+                            <p class="v-desc">Hyundai présente les versions de production d'Atlas, avec un plan de remplacement des AGV classiques.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">CES Tech</span><a href="https://www.google.com/search?q=CES+2026+Hyundai+Boston+Dynamics" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">12-18 Jan</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Unitree G1 Mass Production</h4>
+                            <p class="v-desc">Lancement de la production à grande échelle du modèle G1, cassant les prix du marché mondial.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Robotics News</span><a href="https://www.google.com/search?q=unitree+g1+mass+production+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">05-11 Jan</span><span class="v-badge badge-ia">IA</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">LLM-V pour Humanoïdes</h4>
+                            <p class="v-desc">Nouveau framework permettant aux robots de comprendre des instructions visuelles complexes en temps réel.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">AI Blog</span><a href="https://www.google.com/search?q=VLM+humanoid+robot+vision+language+model" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">01-04 Jan</span><span class="v-badge badge-reg">Légal</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Directive Robotique EU</h4>
+                            <p class="v-desc">Mise en application des nouvelles normes de sécurité pour les humanoïdes en zone publique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Euractiv</span><a href="https://www.google.com/search?q=EU+robotics+regulation+2026+humanoid" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTIONS D'ORIGINE (2025) -->
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">FIN DÉCEMBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">22-31 Déc</span><span class="v-badge badge-tech">Energie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Batteries Solid-State</h4>
+                            <p class="v-desc">Test réussi d'une batterie à état solide doublant l'autonomie de marche des robots bipèdes.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">EnergyTech</span><a href="https://www.google.com/search?q=solid+state+battery+humanoid+robot+autonomy" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">15-21 Déc</span><span class="v-badge badge-ia">Open Source</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Hugging Face Robotics</h4>
+                            <p class="v-desc">Libération de jeux de données massifs pour l'entraînement de la marche par renforcement.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">GitHub</span><a href="https://www.google.com/search?q=hugging+face+robotics+dataset+open+source" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">DÉCEMBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">08-14 Déc</span><span class="v-badge badge-ia">IA</span></div>
+                        <div class="veille-content"><h4 class="v-title">Figure AI & OpenAI</h4><p class="v-desc">Intégration de nouveaux modèles de langage pour une interaction verbale ultra-réaliste.</p></div>
+                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://www.google.com/search?q=figure+ai+openai+interaction+voice" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">01-07 Déc</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content"><h4 class="v-title">Tesla Optimus Gen 3</h4><p class="v-desc">Nouveaux capteurs tactiles permettant la manipulation d'objects avec une précision humaine.</p></div>
+                        <div class="veille-footer"><span class="v-source">Tesla Blog</span><a href="https://www.google.com/search?q=tesla+optimus+gen+3+tactile+sensors" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">NOVEMBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">24-30 Nov</span><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content"><h4 class="v-title">Lancement Grand Public</h4><p class="v-desc">Une grande entreprise asiatique lance la vente de robots humanoïdes domestiques.</p></div>
+                        <div class="veille-footer"><span class="v-source">Google Actu</span><a href="https://news.google.com/search?q=robot+humanoide+marché+grand+public+lancement" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">11-17 Nov</span><span class="v-badge badge-ia">IA</span></div>
+                        <div class="veille-content"><h4 class="v-title">Apprentissage Sim-to-Real</h4><p class="v-desc">Acquisition rapide de compétences motrices via des modèles de simulation.</p></div>
+                        <div class="veille-footer"><span class="v-source">Science</span><a href="https://www.google.com/search?q=apprentissage+par+renforcement+sim-to-real+robotique" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">04-10 Nov</span><span class="v-badge badge-market">Logistique</span></div>
+                        <div class="veille-content"><h4 class="v-title">Révolution Entrepôts</h4><p class="v-desc">Les flottes d'humanoïdes commencent à remplacer les AGV classiques.</p></div>
+                        <div class="veille-footer"><span class="v-source">Alertes</span><a href="https://www.google.com/search?q=robot+humanoide+logistique+entrepôt" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">17-23 Nov</span><span class="v-badge badge-tech">Tech</span></div>
+                        <div class="veille-content"><h4 class="v-title">Actionneurs Miniatures</h4><p class="v-desc">Découverte de polymères pour créer des muscles artificiels plus légers.</p></div>
+                        <div class="veille-footer"><span class="v-source">R&D</span><a href="https://www.google.com/search?q=actionneurs+muscles+artificiels+robot+humanoide" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6" style="color: var(--text-gray); letter-spacing: 3px;">OCTOBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-tech">Vision 3D</span></div>
+                        <div class="veille-content"><h4 class="v-title">Perception Améliorée</h4><p class="v-desc">Nouvelle algos pour naviguer dans des environnements non structurés.</p></div>
+                        <div class="veille-footer"><span class="v-source">Feedly</span><a href="https://www.google.com/search?q=optimisation+vision+3D+robot+humanoide+navigation" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content"><h4 class="v-title">Batteries Flexibles</h4><p class="v-desc">Lithium-ion flexible pour une meilleure intégration et fluidité.</p></div>
+                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://www.google.com/search?q=batteries+lithium-ion+flexibles+robotique" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-reg">Éthique</span></div>
+                        <div class="veille-content"><h4 class="v-title">Sécurité & Normes</h4><p class="v-desc">Consensus mondial sur les boutons d'arrêt d'urgence obligatoires.</p></div>
+                        <div class="veille-footer"><span class="v-source">Alertes</span><a href="https://www.google.com/search?q=normes+sécurité+robot+humanoide+arrêt+urgence" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-market">Industrie</span></div>
+                        <div class="veille-content"><h4 class="v-title">Tests Automobile</h4><p class="v-desc">Intégration sur les chaînes de montage pour des tâches de précision.</p></div>
+                        <div class="veille-footer"><span class="v-source">Actu</span><a href="https://www.google.com/search?q=robot+humanoide+industrie+automobile+assemblage" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6" style="color: var(--text-gray); letter-spacing: 3px;">SEPTEMBRE 2025</h3>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Sept 2025</span><span class="v-badge badge-ia">IA Incarnée</span></div>
+                        <div class="veille-content"><h4 class="v-title">Dextérité Fine</h4><p class="v-desc">Mains robotiques utilisant l'IA pour prédire la force de préhension.</p></div>
+                        <div class="veille-footer"><span class="v-source">YouTube</span><a href="https://www.google.com/search?q=main+robotique+dextérité+ia+prédictive" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <button id="backToTop" class="btn-main"><i class="fas fa-arrow-up"></i></button>
+
+    <footer>
+        <div class="container text-center py-5 border-top border-secondary">
+            <div class="d-flex justify-content-center gap-4 mb-3">
+                <a href="#" style="color: var(--text-gray);"><i class="fab fa-linkedin fa-lg"></i></a>
+                <a href="#" style="color: var(--text-gray);"><i class="fab fa-github fa-lg"></i></a>
+            </div>
+            <p>&copy; 2026 Yoann Tournal. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- 0. GESTION DU LOADING SCREEN ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const bar = document.getElementById('load-bar');
+            let width = 0;
+
+            let interval = setInterval(() => {
+                width += 10;
+                if(width >= 100) {
+                    width = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loader.style.opacity = "0";
+                        loader.style.transform = "scale(1.1)";
+                        // Signale à la scène 3D qu'elle peut jouer son assemblage d'entrée
+                        window.__sgLoaderDone = true;
+                        document.dispatchEvent(new Event('sg:loaderdone'));
+                        setTimeout(() => {
+                            loader.style.display = "none";
+                        }, 500);
+                    }, 100);
+                }
+                bar.style.width = width + "%";
+            }, 30);
+        });
+
+        // --- GESTION DES THEMES ---
+        function setTheme(themeName) {
+            const body = document.body;
+            body.classList.remove('light');
+            if (themeName !== 'default') {
+                body.classList.add(themeName);
+            }
+            document.getElementById('theme-menu').classList.add('hidden');
+        }
+
+        document.getElementById('settings-btn').onclick = (e) => {
+            e.stopPropagation();
+            document.getElementById('theme-menu').classList.toggle('hidden');
+        };
+
+        // --- TYPEWRITER (désormais imprimé sur un fragment de verre) ---
+        const textElement = document.getElementById("typewriter");
+        const texts = ["Systèmes Numériques", "Administration Réseau", "Cybersécurité", "Proxmox & Linux"];
+        let textIndex = 0; let charIndex = 0; let isDeleting = false;
+        function type() {
+            const currentText = texts[textIndex];
+            textElement.textContent = isDeleting ? currentText.substring(0, charIndex--) : currentText.substring(0, charIndex++);
+            if (!isDeleting && charIndex > currentText.length) { isDeleting = true; setTimeout(type, 2000); }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; textIndex = (textIndex + 1) % texts.length; setTimeout(type, 500); }
+            else setTimeout(type, isDeleting ? 40 : 80);
+        }
+        document.addEventListener('DOMContentLoaded', type);
+
+        // --- SCROLL REVEAL & PROGRESS BAR ---
+        window.onscroll = () => {
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
+            });
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+            document.getElementById("backToTop").style.display = window.scrollY > 300 ? "block" : "none";
+        };
+
+        // --- SEARCH GLOBAL MULTI-ANNEES ---
+        document.getElementById('pdfSearch').onkeyup = function() {
+            const val = this.value.toLowerCase();
+            let foundInYear1 = false;
+            let foundInYear2 = false;
+
+            document.querySelectorAll('.doc-item').forEach(item => {
+                const match = item.textContent.toLowerCase().includes(val);
+                const card = item.closest('.col-lg-4, .col-md-6');
+                if(card) card.style.display = match ? "block" : "none";
+
+                if(match && val !== "") {
+                    // Afficher le tab prof de ce doc
+                    let innerTab = item.closest('.tab-pane:not(.year-pane)');
+                    if(innerTab) innerTab.classList.add('active', 'show');
+
+                    // Retenir dans quelle année on a trouvé un doc
+                    if (item.closest('#year1-pane')) foundInYear1 = true;
+                    if (item.closest('#year2-pane')) foundInYear2 = true;
+                }
+            });
+
+            // Gérer automatiquement l'onglet de l'année si on trouve un résultat (et qu'on a tapé qqch)
+            if(val !== "") {
+                if(foundInYear1 && !foundInYear2) {
+                    document.getElementById('year1-tab').click();
+                } else if (!foundInYear1 && foundInYear2) {
+                    document.getElementById('year2-tab').click();
+                }
+            }
+
+            // Gérer le placeholder de la 1ere et de la 2e année
+            let msg = document.getElementById('placeholder-msg');
+            if(msg) msg.style.display = val === "" ? 'block' : 'none';
+            let msg2 = document.getElementById('placeholder-msg-y2');
+            if(msg2 && val !== "") msg2.style.display = 'none';
+        };
+
+        // --- TILT ---
+        document.querySelectorAll('.hover-card').forEach(card => {
+            card.onmousemove = (e) => {
+                let r = card.getBoundingClientRect();
+                let x = (e.clientX - r.left) / r.width - 0.5;
+                let y = (e.clientY - r.top) / r.height - 0.5;
+                card.style.transform = `perspective(1000px) rotateX(${y * -10}deg) rotateY(${x * 10}deg) translateY(-5px)`;
+            };
+            card.onmouseleave = () => card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+        });
+
+        document.getElementById('backToTop').onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+        document.querySelectorAll('#pills-tab button').forEach(b => b.onclick = () => document.getElementById('placeholder-msg').style.display = 'none');
+
+        // --- CHEVRON DU BOUTON VEILLE ---
+        (function () {
+            const veille = document.getElementById('collapseVeille');
+            const icon = document.querySelector('#btnVeille .rotate-icon');
+            if (!veille || !icon) return;
+            veille.addEventListener('show.bs.collapse', () => icon.classList.add('rotate-180'));
+            veille.addEventListener('hide.bs.collapse', () => icon.classList.remove('rotate-180'));
+        })();
+    </script>
+
+    <!-- ===================== CONTRÔLEUR SHATTERED GLASS (navigation accueil ⇄ portfolio) ===================== -->
+    <script>
+    (function () {
+        'use strict';
+        const body = document.body;
+        const docEl = document.documentElement;
+        const stage = document.getElementById('accueil');
+        const holder = document.getElementById('sg-blocks');
+        const menu = document.getElementById('sg-menu');
+        const fbRoot = stage.querySelector('.sg-fb');
+        const SECTIONS = ['apropos', 'competences', 'projets', 'experience', 'veille'];
+        const blocks = {};
+        holder.querySelectorAll('[data-block]').forEach(el => { blocks[el.dataset.block] = el; });
+
+        let bootTimer = 0;
+        const SG = window.SG = {
+            state: 'intro',          // intro | leaving | portfolio | returning
+            engine: null,
+            fallback: false,
+            blocks, holder,
+            reducedMotion: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        };
+
+        function setStageVisible(visible) {
+            stage.classList.toggle('sg-hidden', !visible);
+            if (visible) { stage.removeAttribute('aria-hidden'); stage.removeAttribute('inert'); }
+            else { stage.setAttribute('aria-hidden', 'true'); stage.setAttribute('inert', ''); }
+        }
+        function setPortfolioMode(on) { body.classList.toggle('sg-portfolio', on); }
+        function refreshScrollUI() { if (typeof window.onscroll === 'function') window.onscroll(); }
+
+        // Positionne instantanément la page sur une section (les transforms n'affectent pas offsetTop)
+        function jumpTo(hash) {
+            const prev = docEl.style.scrollBehavior;
+            docEl.style.scrollBehavior = 'auto';
+            let y = 0;
+            const el = hash ? document.querySelector(hash) : null;
+            if (el) { let n = el; while (n) { y += n.offsetTop; n = n.offsetParent; } y = Math.max(0, y - 90); }
+            window.scrollTo(0, y);
+            docEl.style.scrollBehavior = prev;
+        }
+
+        function closeMenu() {
+            menu.hidden = true;
+            stage.querySelectorAll('.sg-menu-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+        }
+        function toggleMenu(btn) {
+            const open = menu.hidden;
+            menu.hidden = !open;
+            btn.setAttribute('aria-expanded', String(open));
+            if (open) { const first = menu.querySelector('a'); if (first) first.focus({ preventScroll: true }); }
+        }
+
+        // Accueil → portfolio (fragmentation)
+        SG.enterPortfolio = function (hash) {
+            if (SG.state !== 'intro') return;
+            SG.state = 'leaving';
+            closeMenu();
+            stage.classList.add('sg-busy');
+            const reveal = () => { setPortfolioMode(true); jumpTo(hash); requestAnimationFrame(refreshScrollUI); };
+            const done = () => {
+                SG.state = 'portfolio';
+                stage.classList.remove('sg-busy');
+                setStageVisible(false);
+                history.replaceState(null, '', hash || (location.pathname + location.search));
+                const target = document.querySelector(hash || '#apropos');
+                if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+                refreshScrollUI();
+            };
+            if (SG.engine) SG.engine.explode(reveal, done);
+            else if (SG.fallback) Fallback.explode(reveal, done);
+            else { reveal(); done(); }
+        };
+
+        // Portfolio → accueil (reconstitution en ordre inverse)
+        SG.returnHome = function () {
+            if (SG.state !== 'portfolio') return;
+            SG.state = 'returning';
+            const nav = document.getElementById('navbarNav');
+            if (nav && nav.classList.contains('show') && window.bootstrap) bootstrap.Collapse.getOrCreateInstance(nav).hide();
+            setStageVisible(true);
+            stage.classList.add('sg-busy');
+            const covered = () => { setPortfolioMode(false); jumpTo(null); };
+            const done = () => {
+                SG.state = 'intro';
+                stage.classList.remove('sg-busy');
+                history.replaceState(null, '', location.pathname + location.search);
+                const btn = stage.querySelector('[data-sg-action="discover"]');
+                if (btn) btn.focus({ preventScroll: true });
+            };
+            if (SG.engine) SG.engine.assemble(covered, done);
+            else if (SG.fallback) Fallback.assemble(covered, done);
+            else { covered(); done(); }
+        };
+
+        // ---------- Fallback HTML/CSS ----------
+        function animateBg(from, to, ms) {
+            const t0 = performance.now();
+            (function step(now) {
+                const k = Math.min(1, Math.max(0, (now - t0) / ms));
+                stage.style.setProperty('--sg-bg-a', (from + (to - from) * k).toFixed(3));
+                if (k < 1) requestAnimationFrame(step);
+            })(t0);
+        }
+        const Fallback = {
+            active: false, shards: [],
+            activate() {
+                if (this.active) return;
+                this.active = true;
+                fbRoot.querySelectorAll('[data-fb]').forEach(slot => {
+                    slot.dataset.fb.split(' ').forEach(name => { if (blocks[name]) slot.appendChild(blocks[name]); });
+                });
+                fbRoot.hidden = false;
+                this.shards = Array.from(fbRoot.querySelectorAll('.sg-fb-shard'));
+                if (SG.state !== 'intro') this.scatter(0);
+            },
+            scatter(delayStep) {
+                const reduce = SG.reducedMotion();
+                const d = reduce ? 30 : Math.max(innerWidth, innerHeight) * 0.42;
+                this.shards.forEach((s, i) => {
+                    const [dx, dy] = s.dataset.dir.split(',').map(Number);
+                    const r = reduce ? 0 : Number(s.dataset.rot);
+                    s.style.transitionDelay = (i === 0 ? 0 : 0.04 + i * delayStep) + 's';
+                    s.style.transform = `translate3d(${dx * d}px, ${dy * d}px, ${reduce ? 0 : 160}px) rotateX(${r * 0.8}deg) rotateY(${-r}deg) rotateZ(${r * 0.6}deg)`;
+                    s.style.opacity = '0';
+                });
+            },
+            explode(reveal, done) {
+                this.scatter(0.025);
+                animateBg(1, 0, 620);
+                setTimeout(reveal, 90);
+                setTimeout(done, 780);
+            },
+            assemble(covered, done) {
+                const n = this.shards.length;
+                animateBg(0, 1, 450);
+                this.shards.forEach((s, i) => { s.style.transitionDelay = ((n - 1 - i) * 0.035) + 's'; s.style.transform = ''; s.style.opacity = ''; });
+                setTimeout(covered, 460);
+                setTimeout(done, 950);
+            }
+        };
+
+        SG.useFallback = function (reason) {
+            if (SG.fallback) return;
+            console.info('[Shattered Glass] Fallback HTML/CSS :', reason);
+            clearTimeout(bootTimer);
+            if (SG.engine) { try { SG.engine.destroy(); } catch (e) { /* ignore */ } SG.engine = null; }
+            SG.fallback = true;
+            // Si une transition était en cours, on termine proprement l'état
+            if (SG.state === 'leaving') { setPortfolioMode(true); setStageVisible(false); stage.classList.remove('sg-busy'); SG.state = 'portfolio'; }
+            if (SG.state === 'returning') { setPortfolioMode(false); stage.classList.remove('sg-busy'); SG.state = 'intro'; }
+            stage.style.setProperty('--sg-bg-a', SG.state === 'intro' ? 1 : 0);
+            Fallback.activate();
+        };
+        SG.registerEngine = function (engine) {
+            if (SG.fallback) { engine.destroy(); return false; }
+            clearTimeout(bootTimer);
+            SG.engine = engine;
+            return true;
+        };
+
+        // ---------- Évènements ----------
+        stage.addEventListener('click', (e) => {
+            const action = e.target.closest('[data-sg-action]');
+            if (action) { e.preventDefault(); if (action.dataset.sgAction === 'discover') SG.enterPortfolio(null); return; }
+            const link = e.target.closest('a[data-sg-link]');
+            if (link) {
+                e.preventDefault();
+                const id = link.dataset.sgLink;
+                if (id === 'accueil') { closeMenu(); return; }
+                SG.enterPortfolio('#' + id);
+                return;
+            }
+            const menuBtn = e.target.closest('.sg-menu-btn');
+            if (menuBtn) { toggleMenu(menuBtn); return; }
+            if (!menu.hidden && !e.target.closest('.sg-menu')) closeMenu();
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) closeMenu(); });
+
+        // Liens « Accueil » de la navbar du portfolio + bouton flottant
+        document.querySelectorAll('.navbar a[href="#accueil"]').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); SG.returnHome(); }));
+        document.getElementById('sgHomeBtn').addEventListener('click', () => SG.returnHome());
+
+        // ---------- Démarrage ----------
+        const initialHash = location.hash.slice(1);
+        if (SECTIONS.includes(initialHash)) {
+            // Lien direct vers une section : on ouvre directement le portfolio
+            SG.state = 'portfolio';
+            setPortfolioMode(true);
+            setStageVisible(false);
+            stage.style.setProperty('--sg-bg-a', 0);
+            requestAnimationFrame(refreshScrollUI);
+        }
+
+        function hasWebGL2() {
+            try {
+                const c = document.createElement('canvas');
+                const gl = c.getContext('webgl2');
+                if (!gl) return false;
+                const lose = gl.getExtension('WEBGL_lose_context');
+                if (lose) lose.loseContext();
+                return true;
+            } catch (e) { return false; }
+        }
+        if (!hasWebGL2()) SG.useFallback('WebGL2 indisponible');
+        else bootTimer = setTimeout(() => { if (!SG.engine) SG.useFallback('chargement de Three.js trop long'); }, 9000);
+    })();
+    </script>
+
+    <!-- ===================== MOTEUR 3D : fragments de verre (Three.js 0.169.0) ===================== -->
+    <script type="module">
+    const SG = window.SG;
+    if (SG && !SG.fallback) boot();
+
+    async function boot() {
+        let THREE, RoomEnvironment, CSS3DRenderer, CSS3DObject;
+        try {
+            THREE = await import('three');
+            ({ RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js'));
+            ({ CSS3DRenderer, CSS3DObject } = await import('three/addons/renderers/CSS3DRenderer.js'));
+        } catch (err) {
+            console.warn(err);
+            SG.useFallback('chargement de Three.js impossible');
+            return;
+        }
+        if (SG.fallback) return;
+        let engine;
+        try { engine = createEngine({ THREE, RoomEnvironment, CSS3DRenderer, CSS3DObject }); }
+        catch (err) { console.error(err); SG.useFallback('initialisation WebGL impossible'); return; }
+        SG.registerEngine(engine);
+    }
+
+    function createEngine({ THREE, RoomEnvironment, CSS3DRenderer, CSS3DObject }) {
+        const V2 = THREE.Vector2;
+        const DEG = Math.PI / 180;
+        const OUT_TOTAL = 0.72;   // durée totale de la fragmentation (s)
+        const OUT_DUR = 0.56;     // durée par fragment ; délai max 0.16 s → 0.72 s
+
+        const stage = document.getElementById('accueil');
+        const sceneHost = stage.querySelector('.sg-scene');
+        const glow = stage.querySelector('.sg-glow');
+        const blocks = SG.blocks, holder = SG.holder;
+        const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const mqCoarse = window.matchMedia('(hover: none), (pointer: coarse)');
+
+        /* ---------- Découpes (coordonnées normalisées : u → droite, v → bas) ---------- */
+        const LAYOUTS = {
+            wide: [
+                { poly: [[0, 0], [.62, 0], [.60, .47], [0, .53]], rect: [.045, .075, .565, .452], blocks: ['title'] },
+                { poly: [[0, .53], [.60, .47], [.575, 1], [0, 1]], rect: [.045, .585, .545, .945], blocks: ['intro', 'actions'] },
+                { poly: [[.62, 0], [1, 0], [1, .36], [.603, .40]], rect: [.66, .075, .96, .305], blocks: ['specialty'] },
+                { poly: [[.603, .40], [.70, .39], [.93, .707], [.587, .74], [.60, .47]], rect: [.628, .55, .80, .69], blocks: ['meta'] },
+                { poly: [[.70, .39], [1, .36], [1, .70], [.93, .707]], rect: null, blocks: [] },
+                { poly: [[.587, .74], [.93, .707], [1, .70], [1, 1], [.575, 1]], rect: [.65, .82, .965, .952], blocks: ['legal'] }
+            ],
+            tall: [
+                { poly: [[0, 0], [1, 0], [1, .27], [0, .31]], rect: [.07, .04, .93, .252], blocks: ['title'] },
+                { poly: [[0, .31], [1, .27], [1, .58], [0, .61]], rect: [.07, .33, .93, .565], blocks: ['intro'] },
+                { poly: [[0, .61], [1, .58], [1, .84], [0, .82]], rect: [.07, .63, .93, .808], blocks: ['actions'] },
+                { poly: [[0, .82], [.56, .831], [.50, 1], [0, 1]], rect: [.07, .858, .47, .968], blocks: ['legal'] },
+                { poly: [[.56, .831], [1, .84], [1, 1], [.50, 1]], rect: [.585, .866, .95, .968], blocks: ['specialty'] }
+            ]
+        };
+
+        /* ---------- Rendu ---------- */
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+        renderer.setClearColor(0x000000, 0);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
+        const canvas = renderer.domElement;
+        canvas.className = 'sg-canvas';
+        canvas.setAttribute('aria-hidden', 'true');
+        sceneHost.insertBefore(canvas, glow);
+
+        const cssRenderer = new CSS3DRenderer();
+        cssRenderer.domElement.className = 'sg-css';
+        sceneHost.appendChild(cssRenderer.domElement);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(30, 1, 10, 8000);
+
+        // Éclairage studio : environnement RoomEnvironment + lumières blanches, violettes et vertes
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const room = new RoomEnvironment();
+        const envRT = pmrem.fromScene(room, 0.04);
+        if (typeof room.dispose === 'function') room.dispose();
+        pmrem.dispose();
+
+        const keyLight = new THREE.DirectionalLight(0xe8eeff, 1.5);   keyLight.position.set(-0.35, 1, 0.8);
+        const violetLight = new THREE.DirectionalLight(0x9d7dff, 1.2); violetLight.position.set(-1, -0.6, 0.5);
+        const greenLight = new THREE.DirectionalLight(0x3fe0ae, 0.8);  greenLight.position.set(1, 0.45, 0.4);
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.45);   rimLight.position.set(0.6, -1, 0.25);
+        const cursorLight = new THREE.PointLight(0xc6b8ff, 0, 620, 0); // lumière lavande sous le curseur
+        cursorLight.position.set(0, 0, 110);
+        scene.add(keyLight, violetLight, greenLight, rimLight, cursorLight);
+
+        /* ---------- Matériau verre fumé ---------- */
+        const uTime = { value: 0 };
+        const uBreath = { value: 0 };
+        const BREATH_GLSL = `#include <begin_vertex>
+            {
+                float sgLen = length(position.xy);
+                if (sgLen > 0.001) {
+                    float sgAng = atan(position.y, position.x);
+                    float sgW = sin(uTime * 0.55 + sgAng * 3.0 + aSeed * 6.2831) * 0.6
+                              + sin(uTime * 0.31 - sgAng * 5.0 + aSeed * 12.566) * 0.4;
+                    transformed.xy += (position.xy / sgLen) * sgW * uBreath;
+                }
+            }`;
+        const baseMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0x17171b,
+            roughness: 0.36,
+            metalness: 0,
+            clearcoat: 0.7,
+            clearcoatRoughness: 0.12,
+            iridescence: 0.55,
+            iridescenceIOR: 1.32,
+            iridescenceThicknessRange: [180, 560],
+            envMap: envRT.texture,          // envMap explicite : envMapIntensity reste pilotable par fragment
+            envMapIntensity: 0.42
+        });
+        const materialPool = [];            // un matériau par fragment, créé une seule fois puis réutilisé
+        function getMaterial(i) {
+            if (!materialPool[i]) {
+                const m = baseMaterial.clone();
+                m.onBeforeCompile = (shader) => {
+                    shader.uniforms.uTime = uTime;
+                    shader.uniforms.uBreath = uBreath;
+                    shader.vertexShader = 'uniform float uTime;\nuniform float uBreath;\nattribute float aSeed;\n'
+                        + shader.vertexShader.replace('#include <begin_vertex>', BREATH_GLSL);
+                };
+                m.customProgramCacheKey = () => 'sg-glass-v1';
+                materialPool[i] = m;
+            }
+            return materialPool[i];
+        }
+
+        /* ---------- Géométrie ---------- */
+        const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+        const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+        const easeOut = p => 1 - Math.pow(1 - p, 2.3);   // éclat rapide puis dérive au ralenti
+        const easeArrive = p => Math.pow(p, 2.1);         // retour : arrivée douce
+        function mulberry32(a) {
+            return function () {
+                a |= 0; a = a + 0x6D2B79F5 | 0;
+                let t = Math.imul(a ^ a >>> 15, 1 | a);
+                t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+                return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            };
+        }
+        const toWorld = ([u, v], box) => new V2(box.x0 + u * box.w, box.y0 - v * box.h);
+        function signedArea(pts) { let a = 0; for (let i = 0; i < pts.length; i++) { const p = pts[i], q = pts[(i + 1) % pts.length]; a += p.x * q.y - q.x * p.y; } return a / 2; }
+        function centroid(pts) {
+            let a = 0, cx = 0, cy = 0;
+            for (let i = 0; i < pts.length; i++) {
+                const p = pts[i], q = pts[(i + 1) % pts.length];
+                const cr = p.x * q.y - q.x * p.y;
+                a += cr; cx += (p.x + q.x) * cr; cy += (p.y + q.y) * cr;
+            }
+            a *= 0.5;
+            return new V2(cx / (6 * a), cy / (6 * a));
+        }
+        // Retrait de chaque arête vers l'intérieur → fines séparations noires entre les morceaux
+        function insetPolygon(pts, d) {
+            const n = pts.length, lines = [];
+            for (let i = 0; i < n; i++) {
+                const a = pts[i], b = pts[(i + 1) % n];
+                const dir = b.clone().sub(a).normalize();
+                lines.push({ p: a.clone().addScaledVector(new V2(-dir.y, dir.x), d), d: dir });
+            }
+            const out = [];
+            for (let i = 0; i < n; i++) {
+                const L1 = lines[(i - 1 + n) % n], L2 = lines[i];
+                const den = L1.d.x * L2.d.y - L1.d.y * L2.d.x;
+                if (Math.abs(den) < 1e-4) { out.push(L2.p.clone()); continue; }
+                const t = ((L2.p.x - L1.p.x) * L2.d.y - (L2.p.y - L1.p.y) * L2.d.x) / den;
+                out.push(L1.p.clone().addScaledVector(L1.d, t));
+            }
+            return out;
+        }
+        function roundedShape(pts, r) {
+            const s = new THREE.Shape(), n = pts.length;
+            for (let i = 0; i < n; i++) {
+                const p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n];
+                const v1 = p0.clone().sub(p1), v2 = p2.clone().sub(p1);
+                const l1 = v1.length(), l2 = v2.length();
+                const rr = Math.min(r, l1 * 0.4, l2 * 0.4);
+                const a = p1.clone().addScaledVector(v1, rr / l1);
+                const b = p1.clone().addScaledVector(v2, rr / l2);
+                if (i === 0) s.moveTo(a.x, a.y); else s.lineTo(a.x, a.y);
+                s.quadraticCurveTo(p1.x, p1.y, b.x, b.y);
+            }
+            s.closePath();
+            return s;
+        }
+
+        /* ---------- État ---------- */
+        const root = new THREE.Group();
+        scene.add(root);
+        let shards = [], meshes = [];
+        let view = null;
+        let dirty = false;
+        let anim = null, amp = 1;
+        let hovered = null;
+        let running = false, rafId = 0, lastT = 0, clock = 0;
+        const pointer = { x: 0, y: 0, cx: 0, cy: 0, inside: false };
+        const tilt = { x: 0, y: 0 };
+        const raycaster = new THREE.Raycaster();
+        const ndc = new V2();
+        const tmpV = new THREE.Vector3();
+        const plane0 = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+
+        function measure() {
+            const w = stage.clientWidth || window.innerWidth;
+            const h = stage.clientHeight || window.innerHeight;
+            const tall = w < 700 || w / h < 0.82;
+            let W, H, navH, gap;
+            if (tall) {
+                const mx = Math.max(12, w * 0.035);
+                W = w - mx * 2;
+                H = h - Math.max(26, h * 0.065) * 2;
+                navH = 52; gap = 8;
+            } else {
+                W = w * 0.89; H = h * 0.83;   // ≈ 89 % × 83 % de l'écran
+                navH = Math.round(clamp(h * 0.068, 50, 64));
+                gap = Math.round(clamp(h * 0.011, 8, 12));
+            }
+            const Hm = H - navH - gap;
+            const u = tall ? clamp(Math.min(W / 350, Hm / 500), 0.82, 1.2) : clamp(Math.min(W / 1400, Hm / 640), 0.68, 1.3);
+            return { w, h, W, H, Hm, navH, gap, tall, u };
+        }
+
+        function makeShard(def, box, index, P, spread, mainBox) {
+            let pts = def.poly.map(p => toWorld(p, box));
+            if (signedArea(pts) < 0) pts.reverse();
+            const c = centroid(pts);
+            const local = insetPolygon(pts, P.inset).map(p => p.sub(c));
+            const geo = new THREE.ExtrudeGeometry(roundedShape(local, def.radius || P.radius), {
+                depth: P.depth, bevelEnabled: true, bevelThickness: P.bevelT, bevelSize: P.bevelS,
+                bevelSegments: 3, curveSegments: 4, steps: 1
+            });
+            geo.translate(0, 0, -(P.depth + P.bevelT));   // face avant au plan z = 0
+            const rnd = mulberry32(index * 7919 + (view.tall ? 101 : 7));
+            geo.setAttribute('aSeed', new THREE.Float32BufferAttribute(new Float32Array(geo.attributes.position.count).fill(rnd()), 1));
+
+            const mesh = new THREE.Mesh(geo, getMaterial(index));
+            const group = new THREE.Group();
+            group.position.set(c.x, c.y, 0);
+            group.add(mesh);
+            root.add(group);
+
+            let hx = 1, hy = 1;
+            local.forEach(p => { hx = Math.max(hx, Math.abs(p.x)); hy = Math.max(hy, Math.abs(p.y)); });
+
+            // Couche texte indépendante, enfant du fragment → elle suit exactement ses mouvements
+            let wrap = null, cssObj = null, rectW = 0, rectH = 0;
+            if (def.rect) {
+                const a = toWorld([def.rect[0], def.rect[1]], box), b = toWorld([def.rect[2], def.rect[3]], box);
+                rectW = b.x - a.x; rectH = a.y - b.y;
+                wrap = document.createElement('div');
+                wrap.className = 'sg-shard-ui' + (def.cls ? ' ' + def.cls : '');
+                wrap.style.width = rectW.toFixed(1) + 'px';
+                wrap.style.height = rectH.toFixed(1) + 'px';
+                def.blocks.forEach(name => { if (blocks[name]) wrap.appendChild(blocks[name]); });
+                cssObj = new CSS3DObject(wrap);
+                cssObj.position.set((a.x + b.x) / 2 - c.x, (a.y + b.y) / 2 - c.y, 0.6);
+                group.add(cssObj);
+            }
+
+            // Trajectoire d'éclatement
+            let dir;
+            if (def.nav) dir = new V2((rnd() - 0.5) * 0.5, 1);
+            else {
+                dir = c.clone().sub(new V2(0, mainBox.y0 - mainBox.h / 2));
+                if (dir.lengthSq() < 1) dir.set(rnd() - 0.5, rnd() - 0.5);
+            }
+            dir.normalize().rotateAround(new V2(), (rnd() - 0.5) * 0.5);
+            const ex = def.nav
+                ? { x: dir.x * spread * 0.18, y: spread * (0.42 + rnd() * 0.1), z: 160 + rnd() * 80, rx: -0.5 - rnd() * 0.5, ry: (rnd() - 0.5) * 0.6, rz: (rnd() - 0.5) * 0.35, delay: 0 }
+                : { x: dir.x * spread * (0.34 + rnd() * 0.3), y: dir.y * spread * (0.26 + rnd() * 0.26), z: 240 + rnd() * 380,
+                    rx: (rnd() - 0.5) * 2.6, ry: (rnd() - 0.5) * 2.6, rz: (rnd() - 0.5) * 1.5, delay: 0.05 + rnd() * 0.11 };
+
+            const sh = { def, group, mesh, wrap, cssObj, c, half: { x: hx, y: hy }, rectW, rectH, ex, nav: !!def.nav,
+                         phase: rnd() * Math.PI * 2, s: { z: 0, vz: 0, rx: 0, vrx: 0, ry: 0, vry: 0 }, hover: 0 };
+            mesh.userData.shard = sh;
+            return sh;
+        }
+
+        function fitTitle() {
+            const sh = shards.find(s => s.def.blocks.includes('title'));
+            if (!sh) return;
+            // Hauteur réelle de la petite ligne supérieure (elle peut passer sur 2 lignes sur mobile)
+            const eb = sh.wrap.querySelector('.sg-eyebrow');
+            const eyebrow = (eb ? eb.offsetHeight : 20) + (view.tall ? 12 : 18) + 6;
+            const size = clamp(Math.min(sh.rectW / 4.2, (sh.rectH - eyebrow) / 2.0), 28, view.tall ? 72 : 150);
+            sh.wrap.style.setProperty('--sg-title', size.toFixed(1) + 'px');
+        }
+        // Ajuste légèrement la typographie si un contenu dépasse de son fragment
+        function fitContent() {
+            for (const sh of shards) {
+                if (!sh.wrap || sh.nav || sh.def.blocks.includes('title')) continue;
+                let k = 1;
+                sh.wrap.style.removeProperty('--k');
+                while (sh.wrap.scrollHeight > sh.wrap.clientHeight + 1 && k > 0.72) {
+                    k -= 0.04;
+                    sh.wrap.style.setProperty('--k', k.toFixed(2));
+                }
+            }
+        }
+
+        function build() {
+            view = measure();
+            const { w, h, W, H, Hm, navH, gap, tall, u } = view;
+            // Caméra placée pour qu'une unité monde = 1 px CSS au plan z = 0
+            camera.aspect = w / h;
+            camera.position.set(0, 0, (h / 2) / Math.tan(camera.fov * DEG / 2));
+            camera.far = camera.position.z * 4;
+            camera.updateProjectionMatrix();
+            camera.lookAt(0, 0, 0);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, tall ? 1.75 : 2));
+            renderer.setSize(w, h, false);
+            cssRenderer.setSize(w, h);
+
+            stage.style.setProperty('--u', u.toFixed(3));
+            stage.classList.toggle('sg-tall', tall);
+            stage.classList.toggle('sg-short', (!tall && h < 520) || (tall && Hm < 470));
+            stage.style.setProperty('--sg-menu-top', ((h - H) / 2 + navH + 10).toFixed(0) + 'px');
+            stage.style.setProperty('--sg-menu-right', ((w - W) / 2).toFixed(0) + 'px');
+
+            const P = tall ? { depth: 12, bevelT: 2, bevelS: 1.6, inset: 2.9, radius: 7 }
+                           : { depth: 18, bevelT: 2.6, bevelS: 2.2, inset: 3.7, radius: 9 };
+            const top = H / 2;
+            const navBox = { x0: -W / 2, y0: top, w: W, h: navH };
+            const mainBox = { x0: -W / 2, y0: top - navH - gap, w: W, h: Hm };
+            const spread = Math.max(W, H);
+            const defs = [{ poly: [[0, 0], [1, 0], [1, 1], [0, 1]], rect: [0, 0, 1, 1], blocks: ['nav'], cls: 'sg-ui-nav', nav: true, radius: Math.min(16, navH / 2.6) }]
+                .concat(LAYOUTS[tall ? 'tall' : 'wide']);
+            shards = defs.map((def, i) => makeShard(def, def.nav ? navBox : mainBox, i, P, spread, mainBox));
+            meshes = shards.map(s => s.mesh);
+            root.updateMatrixWorld(true);
+            cssRenderer.render(scene, camera);   // insère les blocs dans le DOM pour pouvoir les mesurer
+            fitTitle();
+            fitContent();
+            dirty = false;
+        }
+
+        function teardown() {
+            Object.values(blocks).forEach(el => holder.appendChild(el));
+            shards.forEach(sh => {
+                if (sh.cssObj) sh.group.remove(sh.cssObj);   // retire aussi l'élément DOM
+                sh.mesh.geometry.dispose();
+                root.remove(sh.group);
+            });
+            shards = []; meshes = []; hovered = null;
+        }
+        function rebuild() { teardown(); build(); }
+
+        function applyPose(sh, pe, t, reduce) {
+            const e = sh.ex, s = sh.s, a = amp * pe;
+            const float = reduce ? 0 : Math.sin(t * 0.9 + sh.phase) * 1.4 * (1 - pe);
+            sh.group.position.set(sh.c.x + e.x * a, sh.c.y + e.y * a, e.z * a + s.z + float);
+            sh.group.rotation.set(e.rx * a + s.rx, e.ry * a + s.ry, e.rz * a);
+        }
+        const progress = (sh, T) => clamp((T - sh.ex.delay) / OUT_DUR, 0, 1);
+
+        function springStep(s, k, v, target, dt) {
+            const acc = 165 * (target - s[k]) - 15 * s[v];   // ressort légèrement sous-amorti
+            s[v] += acc * dt;
+            s[k] += s[v] * dt;
+        }
+
+        /* ---------- Boucle ---------- */
+        function update(dt, t) {
+            const reduce = mqReduce.matches;
+            const interactive = !anim && SG.state === 'intro' && !mqCoarse.matches && !reduce;
+            uTime.value = t;
+            const breathTarget = (anim || reduce) ? 0 : (view.tall ? 0.8 : 1.15);
+            uBreath.value += (breathTarget - uBreath.value) * Math.min(1, dt * 4);
+
+            // Inclinaison globale (≈ 7° horizontal, 5,5° vertical) avec interpolation
+            let tx = 0, ty = 0;
+            if (interactive && pointer.inside) { ty = pointer.x * 7 * DEG; tx = -pointer.y * 5.5 * DEG; }
+            const k = 1 - Math.exp(-dt * 4.2);
+            tilt.x += (tx - tilt.x) * k;
+            tilt.y += (ty - tilt.y) * k;
+            const idle = reduce ? 0 : 1;
+            root.rotation.set(tilt.x + Math.sin(t * 0.35) * 0.35 * DEG * idle, tilt.y + Math.sin(t * 0.27 + 1.3) * 0.5 * DEG * idle, 0);
+            root.updateMatrixWorld();
+
+            // Survol : raycast sur les fragments
+            let hit = null, hx = 0, hy = 0;
+            if (interactive && pointer.inside) {
+                ndc.set(pointer.x, pointer.y);
+                raycaster.setFromCamera(ndc, camera);
+                const hits = raycaster.intersectObjects(meshes, false);
+                if (hits.length) {
+                    hit = hits[0].object.userData.shard;
+                    tmpV.copy(hits[0].point);
+                    root.worldToLocal(tmpV);
+                    hx = clamp((tmpV.x - hit.c.x) / hit.half.x, -1, 1);
+                    hy = clamp((tmpV.y - hit.c.y) / hit.half.y, -1, 1);
+                }
+                if (raycaster.ray.intersectPlane(plane0, tmpV)) cursorLight.position.set(tmpV.x, tmpV.y, 110);
+            }
+            hovered = hit;
+            const lightTarget = interactive && pointer.inside ? (hit ? 2.4 : 0.9) : 0;
+            cursorLight.intensity += (lightTarget - cursorLight.intensity) * Math.min(1, dt * 6);
+            glow.classList.toggle('on', interactive && pointer.inside);
+            if (pointer.inside) glow.style.transform = `translate3d(${pointer.cx}px, ${pointer.cy}px, 0)`;
+
+            // Ressorts de survol + reflets renforcés
+            const steps = dt > 1 / 60 ? 2 : 1, sdt = dt / steps;
+            for (const sh of shards) {
+                const hot = sh === hovered;
+                const tz = hot ? (sh.nav ? 7 : 22) : 0;
+                const trx = hot ? -hy * (sh.nav ? 0.03 : 0.1) : 0;
+                const tRy = hot ? hx * (sh.nav ? 0.02 : 0.12) : 0;
+                for (let i = 0; i < steps; i++) {
+                    springStep(sh.s, 'z', 'vz', tz, sdt);
+                    springStep(sh.s, 'rx', 'vrx', trx, sdt);
+                    springStep(sh.s, 'ry', 'vry', tRy, sdt);
+                }
+                sh.hover += ((hot ? 1 : 0) - sh.hover) * Math.min(1, dt * 7);
+                const m = sh.mesh.material;
+                m.envMapIntensity = 0.42 + 0.5 * sh.hover;
+                m.clearcoat = 0.7 + 0.3 * sh.hover;
+                m.iridescence = 0.55 + 0.3 * sh.hover;
+            }
+
+            // Fragmentation / reconstitution
+            let layerOp = 1, bgA = null;
+            if (anim) {
+                if (!anim.paused) anim.t += dt;
+                const u = clamp(anim.t / anim.dur, 0, 1);
+                if (anim.type === 'out') {
+                    const T = u * OUT_TOTAL;
+                    for (const sh of shards) applyPose(sh, easeOut(progress(sh, T)), t, reduce);
+                    layerOp = 1 - smooth(0.6, 1, u);
+                    bgA = 1 - smooth(0.1, 0.85, u);
+                    if (!anim.revealed && u >= 0.1) { anim.revealed = true; if (anim.onReveal) anim.onReveal(); }
+                } else {
+                    const T = OUT_TOTAL * (1 - u);       // ordre inverse : le dernier parti revient en premier
+                    for (const sh of shards) applyPose(sh, easeArrive(progress(sh, T)), t, reduce);
+                    layerOp = smooth(0, anim.intro ? 0.45 : 0.3, u);
+                    bgA = anim.intro ? 1 : smooth(0, 0.5, u);
+                    if (!anim.covered && u >= 0.55) { anim.covered = true; if (anim.onCovered) anim.onCovered(); }
+                }
+                if (u >= 1) finishAnim(reduce);
+            } else {
+                for (const sh of shards) applyPose(sh, 0, t, reduce);
+            }
+            sceneHost.style.opacity = layerOp.toFixed(3);
+            if (bgA !== null) stage.style.setProperty('--sg-bg-a', bgA.toFixed(3));
+        }
+
+        function finishAnim(reduce) {
+            const a = anim;
+            anim = null;
+            if (a.type === 'out') {
+                for (const sh of shards) applyPose(sh, 1, clock, reduce);
+                sceneHost.style.opacity = '0';
+                stop();
+                if (a.onDone) a.onDone();
+            } else {
+                amp = 1;
+                if (!reduce) shards.forEach(sh => { sh.s.vz = -70; });   // petit rebond à l'arrivée
+                if (a.onDone) a.onDone();
+            }
+            if (dirty && !anim && SG.state === 'intro') rebuild();
+        }
+
+        function frame(now) {
+            if (!running) return;
+            const dt = Math.min(0.05, Math.max(0, (now - lastT) / 1000));
+            lastT = now;
+            clock += dt;
+            update(dt, clock);
+            renderer.render(scene, camera);
+            cssRenderer.render(scene, camera);
+            rafId = requestAnimationFrame(frame);
+        }
+        function start() { if (running) return; running = true; lastT = performance.now(); rafId = requestAnimationFrame(frame); }
+        function stop() { running = false; cancelAnimationFrame(rafId); }
+
+        /* ---------- API publique ---------- */
+        function explode(onReveal, onDone) {
+            if (dirty) rebuild();
+            const reduce = mqReduce.matches;
+            amp = reduce ? 0.2 : 1;
+            hovered = null;
+            anim = { type: 'out', t: 0, dur: reduce ? 0.5 : OUT_TOTAL, onReveal, onDone };
+            start();
+        }
+        function assemble(onCovered, onDone) {
+            if (dirty) rebuild();
+            const reduce = mqReduce.matches;
+            amp = reduce ? 0.2 : 1;
+            anim = { type: 'in', t: 0, dur: reduce ? 0.55 : 0.95, onCovered, onDone };
+            sceneHost.style.opacity = '0';
+            start();
+        }
+        function intro() {
+            const reduce = mqReduce.matches;
+            amp = reduce ? 0.12 : 0.38;
+            anim = { type: 'in', t: 0, dur: reduce ? 0.5 : 1.35, intro: true, paused: !window.__sgLoaderDone };
+            if (anim.paused) document.addEventListener('sg:loaderdone', () => { if (anim && anim.intro) anim.paused = false; }, { once: true });
+        }
+
+        /* ---------- Évènements ---------- */
+        function onMove(e) {
+            if (e.pointerType === 'touch') return;
+            const r = stage.getBoundingClientRect();
+            pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+            pointer.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+            pointer.cx = e.clientX - r.left;
+            pointer.cy = e.clientY - r.top;
+            pointer.inside = true;
+        }
+        function onLeave() { pointer.inside = false; }
+        let resizeTimer = 0;
+        function onResize() {
+            const w = stage.clientWidth, h = stage.clientHeight;
+            if (!w || !h) return;
+            camera.aspect = w / h;
+            camera.position.z = (h / 2) / Math.tan(camera.fov * DEG / 2);
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h, false);
+            cssRenderer.setSize(w, h);
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => { if (anim || SG.state !== 'intro') dirty = true; else rebuild(); }, 140);
+        }
+        function onContextLost(e) { e.preventDefault(); SG.useFallback('contexte WebGL perdu'); }
+
+        stage.addEventListener('pointermove', onMove, { passive: true });
+        stage.addEventListener('pointerleave', onLeave);
+        document.documentElement.addEventListener('mouseleave', onLeave);
+        window.addEventListener('resize', onResize);
+        canvas.addEventListener('webglcontextlost', onContextLost);
+
+        function destroy() {
+            stop();
+            clearTimeout(resizeTimer);
+            stage.removeEventListener('pointermove', onMove);
+            stage.removeEventListener('pointerleave', onLeave);
+            document.documentElement.removeEventListener('mouseleave', onLeave);
+            window.removeEventListener('resize', onResize);
+            canvas.removeEventListener('webglcontextlost', onContextLost);
+            teardown();
+            materialPool.forEach(m => m && m.dispose());
+            baseMaterial.dispose();
+            envRT.dispose();
+            renderer.dispose();
+            canvas.remove();
+            cssRenderer.domElement.remove();
+            sceneHost.style.opacity = '';
+            glow.classList.remove('on');
+            stage.classList.remove('sg-tall', 'sg-short');
+        }
+
+        /* ---------- Démarrage ---------- */
+        build();
+        if (SG.state === 'intro') { intro(); start(); }
+        else { for (const sh of shards) applyPose(sh, 1, 0, true); sceneHost.style.opacity = '0'; }
+
+        return { explode, assemble, destroy, isAnimating: () => !!anim };
+    }
+    </script>
+</body>
+</html>
