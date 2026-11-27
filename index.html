@@ -2,6 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=0436e9cd-7c65-4a35-ae73-34195e1c0127
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Yoann Tournal — Infrastructure, Systèmes &amp; Cybersécurité</title>
 <meta name="description" content="Portfolio de Yoann Tournal, étudiant en BTS SIO option SISR : infrastructure IT, systèmes & réseaux, cybersécurité.">
@@ -379,6 +382,25 @@ html:not(.js) .fd,body.ready .fd{opacity:1;transform:none}
 .v-source{font-size:12px;color:var(--dim);font-style:italic}
 .v-btn{font-size:12px;border-radius:999px;padding:5px 14px;border:1px solid var(--line-2);color:var(--white);transition:.25s}
 .v-btn:hover{background:var(--white);color:var(--bg)}
+
+/* Veille : recherche par date */
+.v-updated{display:block;margin-top:6px;font-size:.85em;color:var(--dim)}
+.v-search{margin:0 0 28px;padding:18px;border:1px solid var(--line);border-radius:24px;background:rgba(16,18,24,.55)}
+.v-search-row{display:flex;flex-wrap:wrap;gap:10px}
+.v-field{display:flex;align-items:center;gap:10px;height:50px;padding:0 18px;border-radius:999px;border:1px solid var(--line-2);background:var(--anth);color:var(--blue);margin:0;transition:border-color .3s}
+.v-field:focus-within{border-color:var(--blue)}
+.v-field-text{flex:1 1 320px}
+.v-field-select{flex:1 1 200px;max-width:280px}
+@media(max-width:640px){.v-field-select{max-width:none}}
+.v-field input,.v-field select{flex:1;min-width:0;background:transparent;border:0;outline:none;color:var(--white);font:inherit;font-size:15px}
+.v-field input::placeholder{color:var(--dim)}
+.v-field select option{background:var(--anth);color:var(--white)}
+.v-reset{height:50px;padding:0 22px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--muted);font-size:14px;transition:.3s}
+.v-reset:hover{color:var(--white);border-color:rgba(242,243,245,.4)}
+.v-count{margin:12px 4px 0;color:var(--dim);text-transform:none;letter-spacing:.04em}
+.v-empty{text-align:center;padding:40px 0;color:var(--dim)}
+.v-btn{white-space:nowrap}
+.veille-box mark{background:rgba(82,123,255,.3);color:inherit;padding:0 2px;border-radius:3px}
 
 /* =====================================================================
    CONTACT
@@ -940,7 +962,7 @@ html:not(.js) .fd,body.ready .fd{opacity:1;transform:none}
   </div>
 </section>
 
-<!-- ===================== VEILLE (existant) ===================== -->
+<!-- ===================== VEILLE ===================== -->
 <section id="veille" class="veille" data-scene="veille">
   <div class="wrap">
     <div class="sec-head">
@@ -948,7 +970,7 @@ html:not(.js) .fd,body.ready .fd{opacity:1;transform:none}
         <p class="sl mono rv"><b>06</b>Robots humanoïdes</p>
         <h2 class="h-xl rv">Veille technologique</h2>
       </div>
-      <p class="lead rv">Ma veille sur la robotique humanoïde : marché, IA physique, industrie et réglementation.</p>
+      <p class="lead rv">Ma veille sur la robotique humanoïde : marché, IA physique, industrie et réglementation. Chaque fiche renvoie vers l'article source. <span class="v-updated">Mise à jour : 27 novembre 2026.</span></p>
     </div>
         <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">MES OUTILS DE VEILLE</h3>
         <div class="row g-4 mb-5">
@@ -995,6 +1017,41 @@ html:not(.js) .fd,body.ready .fd{opacity:1;transform:none}
             </div>
         </div>
 
+
+        <!-- Recherche par date / mois / mot-clé -->
+        <div class="v-search rv" role="search" aria-label="Rechercher dans la veille">
+            <div class="v-search-row">
+                <label class="v-field v-field-text">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <span class="sr">Rechercher</span>
+                    <input type="search" id="veilleSearch" placeholder="Un mois, une date ou un sujet : « octobre 2026 », « 21/10/2026 », « Tesla »…" autocomplete="off">
+                </label>
+                <label class="v-field v-field-select">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    <span class="sr">Mois</span>
+                    <select id="veilleMonth">
+                        <option value="">Tous les mois</option>
+                <option value="2026-11">Novembre 2026 (5)</option>
+                <option value="2026-10">Octobre 2026 (4)</option>
+                <option value="2026-09">Septembre 2026 (5)</option>
+                <option value="2026-08">Août 2026 (3)</option>
+                <option value="2026-07">Juillet 2026 (3)</option>
+                <option value="2026-06">Juin 2026 (3)</option>
+                <option value="2026-05">Mai 2026 (1)</option>
+                <option value="2026-04">Avril 2026 (1)</option>
+                <option value="2026-02">Février 2026 (1)</option>
+                <option value="2026-01">Janvier 2026 (3)</option>
+                <option value="2025-12">Décembre 2025 (1)</option>
+                <option value="2025-11">Novembre 2025 (3)</option>
+                <option value="2025-10">Octobre 2025 (3)</option>
+                <option value="2025-09">Septembre 2025 (2)</option>
+                    </select>
+                </label>
+                <button type="button" class="v-reset" id="veilleReset">Effacer</button>
+            </div>
+            <p class="v-count mono" id="veilleCount" aria-live="polite">38 articles · 16 sept. 2025 → 27 nov. 2026</p>
+        </div>
+
         <div class="text-center mb-5">
             <button class="btn-sec w-100 py-3 fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVeille" aria-expanded="false" aria-controls="collapseVeille" id="btnVeille" style="border-style: dashed; text-transform: none; letter-spacing: 1px;">
                 <i class="fas fa-robot me-3 text-primary"></i> Veille Technologique Robot Humanoïde <i class="fas fa-chevron-down ms-3 rotate-icon"></i>
@@ -1002,263 +1059,458 @@ html:not(.js) .fd,body.ready .fd{opacity:1;transform:none}
         </div>
 
         <div class="collapse" id="collapseVeille">
-            
-            <!-- NOUVELLES SECTIONS 2026 -->
-
+            <div class="v-month" data-month="2026-11">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">NOVEMBRE 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-11-27">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-11-27">27 nov. 2026</time><span class="v-badge badge-market">Logistique</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Yandex teste la livraison par humanoïde</h4>
+                            <p class="v-desc">Selon Kommersant, Yandex prépare un pilote : un robot de livraison amène le colis au pied de l&#x27;immeuble, puis un humanoïde le monte à l&#x27;intérieur.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Meduza / Kommersant</span><a href="https://meduza.io/en/news/2026/11/27/russia-s-yandex-to-launch-delivery-using-humanoid-robots-kommersant-reports" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-11-25">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-11-25">25 nov. 2026</time><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">XPENG : IRON au prix d&#x27;une voiture</h4>
+                            <p class="v-desc">À son AI Day, XPENG annonce qu&#x27;IRON sera d&#x27;abord formé comme assistant de vente, puis vendu au public au 2e trimestre, à un prix proche d&#x27;un véhicule électrique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Bloomberg</span><a href="https://www.bloomberg.com/news/articles/2026-11-26/xpeng-says-its-humanoid-robot-will-cost-the-same-as-an-ev" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-11-17">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-11-17">17 nov. 2026</time><span class="v-badge badge-market">Finance</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Genesis AI lève 500 M$</h4>
+                            <p class="v-desc">La start-up franco-américaine lève 500 M$ (valorisation 3,5 Md$) pour produire Eno, son robot à roues et deux bras destiné à l&#x27;industrie et à la logistique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://techcrunch.com/2026/11/17/genesis-ai-raises-500-million-to-deploy-electric-glove-wearing-robots/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-11-12">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-11-12">12 nov. 2026</time><span class="v-badge badge-market">Finance</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Agile Robots valorisé 8,5 Md$</h4>
+                            <p class="v-desc">Le munichois Agile Robots lève 500 M$ menés par SoftBank, avec NVIDIA et Hitachi, pour accélérer la production de ses robots, dont l&#x27;humanoïde Agile ONE.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">SiliconANGLE</span><a href="https://siliconangle.com/?p=854000" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-11-05">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-11-05">5 nov. 2026</time><span class="v-badge badge-market">Bourse</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Agility entre au Nasdaq</h4>
+                            <p class="v-desc">Agility (robot Digit) devient la première entreprise américaine 100 % humanoïdes cotée en bourse (AGLT), après une fusion SPAC d&#x27;environ 465 M$.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/agility-robotics-begins-trading-on-nasdaq/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+            </div>
+            </div>
+            <div class="v-month" data-month="2026-10">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">OCTOBRE 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-10-22">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-10-22">22 oct. 2026</time><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">NEURA 4NE1 Gen 4</h4>
+                            <p class="v-desc">L&#x27;allemand NEURA dévoile une 4e génération 20 % plus légère, à peau textile, préparée pour la production en série, à l&#x27;ouverture du TUM RoboGym de Munich.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Interesting Engineering</span><a href="https://interestingengineering.com/ai-robotics/neuras-lighter-humanoid-unveiled" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-10-21">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-10-21">21 oct. 2026</time><span class="v-badge badge-tech">Industrie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Tesla lance la production d&#x27;Optimus</h4>
+                            <p class="v-desc">Tesla démarre une « production précoce » d&#x27;Optimus sur une ligne à haut volume à Fremont, sans encore donner de cadence ni de date de vente.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://techcrunch.com/2026/10/21/tesla-stars-optimus-robot-production-in-california-as-profit-falls-43/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-10-21">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-10-21">21 oct. 2026</time><span class="v-badge badge-ia">Open Source</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Agile ONE SN avec NVIDIA</h4>
+                            <p class="v-desc">À la GTC Berlin, Agile Robots et NVIDIA lancent un humanoïde compact pour la recherche, livré avec Jetson Thor et la pile logicielle Isaac GR00T.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">A3 Automate</span><a href="https://www.automate.org/robotics/news/agile-robots-launches-agile-one-sn-a-humanoid-reference-platform-built-on-nvidia-isaac-gr00t" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-10-01">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-10-01">1 oct. 2026</time><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Atlas reçoit une main à 4 doigts</h4>
+                            <p class="v-desc">Boston Dynamics présente une nouvelle main pour Atlas : 4 doigts, 13 degrés de liberté, pensée pour l&#x27;usage d&#x27;outils, l&#x27;apprentissage sim-to-real et la fabrication en masse.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/boston-dynamics-drops-pinkie-on-new-humanoid-hand/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+            </div>
+            </div>
+            <div class="v-month" data-month="2026-09">
             <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">SEPTEMBRE 2026</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Septembre</span><span class="v-badge badge-market">Marché</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-09-29">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-09-29">29 sept. 2026</time><span class="v-badge badge-market">Marché</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">Explosion des Ventes</h4>
-                            <p class="v-desc">Les expéditions mondiales d'humanoïdes dépassent les 22 000 unités au 1er semestre 2026 (hausse de 300%).</p>
+                            <h4 class="v-title">IDC : près de 25 000 humanoïdes au S1</h4>
+                            <p class="v-desc">Selon IDC, les livraisons mondiales atteignent près de 25 000 unités au 1er semestre 2026 (+432 %), dont environ 78 % en Chine ; AgiBot est n°1.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">Counterpoint</span><a href="https://www.google.com/search?q=counterpoint+research+humanoid+robot+shipments+2026" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">Robotics &amp; Automation News</span><a href="https://roboticsandautomationnews.com/2026/10/02/idc-data-shows-agibot-led-global-humanoid-robot-shipments-in-h1-2026/105463/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Août-Sept</span><span class="v-badge badge-tech">Événement</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-09-21">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-09-21">21 sept. 2026</time><span class="v-badge badge-tech">Industrie</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">World Robot Conference</h4>
-                            <p class="v-desc">Le thème "Symbiose Humain-Robot" rassemble 373 entreprises à Pékin pour présenter l'intégration industrielle.</p>
+                            <h4 class="v-title">Atlas s&#x27;entraîne chez Hyundai</h4>
+                            <p class="v-desc">Boston Dynamics ouvre son centre RMAC dans la Metaplant Hyundai de Géorgie pour former Atlas aux tâches d&#x27;usine ; Hyundai vise 25 000 robots.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">WRC News</span><a href="https://www.google.com/search?q=World+Robot+Conference+2026" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/boston-dynamics-opens-metaplant-application-center-train-atlas-humanoid-robots/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-09-15">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-09-15">15 sept. 2026</time><span class="v-badge badge-reg">Sécurité</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Digit 5 : travailler sans barrière</h4>
+                            <p class="v-desc">Agility présente Digit 5, conçu pour travailler à côté des humains sans cage de sécurité, et annonce plus de 300 M$ de commandes conditionnelles.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/agilitys-digit-5-humanoid-has-new-legs-batteries-safety-upgrades/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-09-14">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-09-14">14 sept. 2026</time><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Unitree G1+</h4>
+                            <p class="v-desc">Unitree lance le G1+ : moteurs plus puissants, cou mobile et nouveaux capteurs, pour 15 000 $ en version de base.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Humanoids Daily</span><a href="https://www.humanoidsdaily.com/news/unitree-launches-g1-plus-humanoid-with-stronger-motors-and-moving-neck" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-09-08">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-09-08">8 sept. 2026</time><span class="v-badge badge-tech">Industrie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">IRON sort de sa ligne de production</h4>
+                            <p class="v-desc">XPENG met en service sa ligne automatisée à Guangzhou : le premier IRON en sort en marchant seul, avec une production de masse visée fin 2026.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">TechNode</span><a href="https://technode.com/2026/09/09/xpeng-puts-humanoid-robot-production-line-into-operation-as-first-iron-robot-walks-off-autonomously/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-
-            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">ÉTÉ 2026 (JUIN - AOÛT)</h3>
+            </div>
+            <div class="v-month" data-month="2026-08">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">AOÛT 2026</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Août</span><span class="v-badge badge-tech">Industrie</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-08-20">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-08-20">20 août 2026</time><span class="v-badge badge-market">Marché</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">Figure 03 : Cap des 1000</h4>
-                            <p class="v-desc">Figure AI franchit le cap des 1 000 robots produits, atteignant une cadence d'un robot fabriqué par heure.</p>
+                            <h4 class="v-title">Counterpoint : +300 % au S1</h4>
+                            <p class="v-desc">Counterpoint compte plus de 22 000 humanoïdes livrés au 1er semestre 2026 (près de +300 %) et en prévoit plus de 50 000 sur l&#x27;année ; AgiBot en détient environ 43 %.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">BotQ Facility</span><a href="https://www.google.com/search?q=Figure+AI+1000+robots+Figure+03" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">Counterpoint Research</span><a href="https://counterpointresearch.com/en/insights/global-humanoid-robot-shipments-soar-nearly-300-percent-yoy-in-h1-2026" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Juin</span><span class="v-badge badge-ia">Open Source</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-08-19">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-08-19">19 août 2026</time><span class="v-badge badge-tech">Événement</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">NVIDIA Reference Design</h4>
-                            <p class="v-desc">Lancement par NVIDIA du premier design de référence ouvert pour accélérer la standardisation (GTC Taipei).</p>
+                            <h4 class="v-title">World Robot Conference 2026</h4>
+                            <p class="v-desc">À Pékin du 19 au 23 août, la WRC (thème « Symbiose humain-robot ») présente 311 nouveaux produits, de l&#x27;usine au service.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">GTC Taipei</span><a href="https://www.google.com/search?q=NVIDIA+open+humanoid+reference+design+2026" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">People&#x27;s Daily</span><a href="https://en.people.cn/n3/2026/0820/c90000-20490558.html" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Juin-Juil</span><span class="v-badge badge-market">Finance</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-08-10">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-08-10">10 août 2026</time><span class="v-badge badge-market">Bourse</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">IPO & Records de prod</h4>
-                            <p class="v-desc">AgiBot atteint 15 000 robots produits, tandis que Unitree obtient l'approbation pour son IPO à Shanghai.</p>
+                            <h4 class="v-title">Unitree ouvre son introduction en bourse</h4>
+                            <p class="v-desc">Unitree ouvre les souscriptions de son IPO au STAR Market de Shanghai, première cotation d&#x27;un fabricant d&#x27;humanoïdes sur le marché A chinois.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">Yicai Global</span><a href="https://www.google.com/search?q=Unitree+IPO+Shanghai+2026" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">China Daily (via SSE)</span><a href="https://english.sse.com.cn/news/newsrelease/voice/c/c_20260811_10828578.shtml" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-
-            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">PRINTEMPS 2026 (MARS - MAI)</h3>
+            </div>
+            <div class="v-month" data-month="2026-07">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">JUILLET 2026</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Avril</span><span class="v-badge badge-tech">Déploiement</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-07">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-07">Juillet 2026</time><span class="v-badge badge-tech">Industrie</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">Boston Dynamics en Usine</h4>
-                            <p class="v-desc">La nouvelle génération du robot électrique Atlas entre en phase de test dans les usines de Hyundai.</p>
+                            <h4 class="v-title">Figure : 1 000e Figure 03</h4>
+                            <p class="v-desc">L&#x27;usine BotQ de Figure franchit le cap des 1 000 humanoïdes Figure 03 fabriqués, avec une cadence d&#x27;un robot par heure.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">Robotics News</span><a href="https://www.google.com/search?q=Boston+Dynamics+electric+Atlas+Hyundai+2026" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">Interesting Engineering</span><a href="https://interestingengineering.com/ai-robotics/figure-03-humanoids-take-campus-walk" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Mai</span><span class="v-badge badge-market">Marché</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-07-27">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-07-27">27 juil. 2026</time><span class="v-badge badge-reg">Légal</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">Valorisation à 2 Milliards</h4>
-                            <p class="v-desc">Le marché de la robotique humanoïde atteint 2 milliards de dollars, poussé par la domination asiatique.</p>
+                            <h4 class="v-title">UE : l&#x27;Omnibus IA simplifie les règles</h4>
+                            <p class="v-desc">Le nouveau règlement européen intègre les exigences de l&#x27;AI Act au règlement Machines : les humanoïdes n&#x27;auront pas de double conformité à gérer.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">MarketWatch</span><a href="https://www.google.com/search?q=humanoid+robotics+market+size+2026+2+billion" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">Intertek</span><a href="https://www.intertek.com/blog/2026/09-10-what-eu-ai-act-omnibus-means-for-machinery-manufacturers/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-07-03">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-07-03">3 juil. 2026</time><span class="v-badge badge-market">Finance</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Feu vert pour l&#x27;IPO d&#x27;Unitree</h4>
+                            <p class="v-desc">Le régulateur chinois approuve l&#x27;introduction d&#x27;Unitree au STAR Market de Shanghai, pour lever environ 4,2 milliards de yuans (≈ 619 M$).</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Next Web</span><a href="https://thenextweb.com/news/unitree-shanghai-ipo-approval" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-
-            <!-- FUSION DE TES ANCIENNES CARTES JANVIER 2026 AVEC LES NOUVELLES -->
-            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">JANVIER - FÉVRIER 2026</h3>
+            </div>
+            <div class="v-month" data-month="2026-06">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">JUIN 2026</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Février</span><span class="v-badge badge-ia">Physical AI</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-06-28">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-06-28">28 juin 2026</time><span class="v-badge badge-tech">Industrie</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">XPENG lance IRON</h4>
-                            <p class="v-desc">Lancement commercial du robot IRON par XPENG, intégrant une démarche IA physique pour la manufacture.</p>
+                            <h4 class="v-title">AgiBot : 15 000e robot</h4>
+                            <p class="v-desc">AgiBot sort son 15 000e robot, un G2 destiné à l&#x27;industrie, à peine 90 jours après le cap des 10 000 unités.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">EV Tech</span><a href="https://www.google.com/search?q=XPENG+IRON+robot+2026" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/agibot-produces-15000th-robot-marking-milestone-embodied-ai-deployment/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Janvier</span><span class="v-badge badge-tech">Hardware</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-06-16">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-06-16">16 juin 2026</time><span class="v-badge badge-tech">Hardware</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">CES 2026 : Hyundai s'impose</h4>
-                            <p class="v-desc">Hyundai présente les versions de production d'Atlas, avec un plan de remplacement des AGV classiques.</p>
+                            <h4 class="v-title">Genesis AI dévoile Eno</h4>
+                            <p class="v-desc">Genesis AI présente Eno, un robot à roues avec deux bras et des mains dextres, qui privilégie les capacités utiles plutôt qu&#x27;une apparence humaine.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">CES Tech</span><a href="https://www.google.com/search?q=CES+2026+Hyundai+Boston+Dynamics" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">eWeek</span><a href="https://www.eweek.com/news/genesis-ai-eno-robot/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">12-18 Jan</span><span class="v-badge badge-tech">Hardware</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-06-01">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-06-01">1 juin 2026</time><span class="v-badge badge-ia">Open Source</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">Unitree G1 Mass Production</h4>
-                            <p class="v-desc">Lancement de la production à grande échelle du modèle G1, cassant les prix du marché mondial.</p>
+                            <h4 class="v-title">NVIDIA : un humanoïde de référence ouvert</h4>
+                            <p class="v-desc">À la GTC Taipei, NVIDIA présente l&#x27;Isaac GR00T Reference Humanoid (Unitree H2 Plus, mains Sharpa, Jetson Thor) pour standardiser la recherche.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">Robotics News</span><a href="https://www.google.com/search?q=unitree+g1+mass+production+2026" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">05-11 Jan</span><span class="v-badge badge-ia">IA</span></div>
-                        <div class="veille-content">
-                            <h4 class="v-title">LLM-V pour Humanoïdes</h4>
-                            <p class="v-desc">Nouveau framework permettant aux robots de comprendre des instructions visuelles complexes en temps réel.</p>
-                        </div>
-                        <div class="veille-footer"><span class="v-source">AI Blog</span><a href="https://www.google.com/search?q=VLM+humanoid+robot+vision+language+model" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">01-04 Jan</span><span class="v-badge badge-reg">Légal</span></div>
-                        <div class="veille-content">
-                            <h4 class="v-title">Directive Robotique EU</h4>
-                            <p class="v-desc">Mise en application des nouvelles normes de sécurité pour les humanoïdes en zone publique.</p>
-                        </div>
-                        <div class="veille-footer"><span class="v-source">Euractiv</span><a href="https://www.google.com/search?q=EU+robotics+regulation+2026+humanoid" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">NVIDIA Newsroom</span><a href="https://nvidianews.nvidia.com/news/nvidia-open-humanoid-robot-reference-design" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-
-            <!-- SECTIONS D'ORIGINE (2025) -->
-
-            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">FIN DÉCEMBRE 2025</h3>
+            </div>
+            <div class="v-month" data-month="2026-05">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">MAI 2026</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">22-31 Déc</span><span class="v-badge badge-tech">Energie</span></div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-05-21">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-05-21">21 mai 2026</time><span class="v-badge badge-tech">Industrie</span></div>
                         <div class="veille-content">
-                            <h4 class="v-title">Batteries Solid-State</h4>
-                            <p class="v-desc">Test réussi d'une batterie à état solide doublant l'autonomie de marche des robots bipèdes.</p>
+                            <h4 class="v-title">Hyundai prévoit 25 000 Atlas</h4>
+                            <p class="v-desc">Hyundai annonce vouloir déployer plus de 25 000 robots Atlas de Boston Dynamics dans les usines Hyundai et Kia d&#x27;ici 2028.</p>
                         </div>
-                        <div class="veille-footer"><span class="v-source">EnergyTech</span><a href="https://www.google.com/search?q=solid+state+battery+humanoid+robot+autonomy" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">15-21 Déc</span><span class="v-badge badge-ia">Open Source</span></div>
-                        <div class="veille-content">
-                            <h4 class="v-title">Hugging Face Robotics</h4>
-                            <p class="v-desc">Libération de jeux de données massifs pour l'entraînement de la marche par renforcement.</p>
-                        </div>
-                        <div class="veille-footer"><span class="v-source">GitHub</span><a href="https://www.google.com/search?q=hugging+face+robotics+dataset+open+source" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                        <div class="veille-footer"><span class="v-source">eWeek</span><a href="https://eweek.com/news/hyundai-atlas-humanoid-robots-factories" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-            
+            </div>
+            <div class="v-month" data-month="2026-04">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">AVRIL 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-04-30">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-04-30">30 avr. 2026</time><span class="v-badge badge-tech">Industrie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">BotQ : un Figure 03 par heure</h4>
+                            <p class="v-desc">Figure a livré plus de 350 Figure 03 et est passé d&#x27;un robot par jour à un robot par heure dans son usine BotQ.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">eWeek</span><a href="https://www.eweek.com/news/figure-03-humanoid-robot-production-helix-ai/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+            </div>
+            </div>
+            <div class="v-month" data-month="2026-02">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">FÉVRIER 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-02-16">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-02-16">16 févr. 2026</time><span class="v-badge badge-tech">Événement</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Gala du Nouvel An : Unitree vise 20 000 robots</h4>
+                            <p class="v-desc">Après le show de kung-fu de ses G1 et H2 au Gala du Printemps, Unitree vise jusqu&#x27;à 20 000 humanoïdes livrés en 2026, contre environ 5 500 en 2025.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">eWeek</span><a href="https://www.eweek.com/news/unitree-20000-humanoid-robots-2026-china/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+            </div>
+            </div>
+            <div class="v-month" data-month="2026-01">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">JANVIER 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-01-19">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-01-19">19 janv. 2026</time><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Unitree : 5 500 humanoïdes en 2025</h4>
+                            <p class="v-desc">Unitree aurait livré plus de 5 500 robots humanoïdes en 2025, plus que l&#x27;ensemble de ses concurrents américains réunis.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">TMTPost</span><a href="https://en.tmtpost.com/news/7847869" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-01-05">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-01-05">5 janv. 2026</time><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">CES 2026 : Atlas entre en production</h4>
+                            <p class="v-desc">Boston Dynamics lance la production de la version finale d&#x27;Atlas ; Hyundai prévoit d&#x27;en déployer des dizaines de milliers dans ses usines.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Register</span><a href="https://www.theregister.com/2026/01/06/boston_dynamics_atlas_production/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2026-01-05">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2026-01-05">5 janv. 2026</time><span class="v-badge badge-ia">IA</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">NVIDIA : GR00T N1.6 et Cosmos Reason 2</h4>
+                            <p class="v-desc">Au CES, NVIDIA publie de nouveaux modèles ouverts : GR00T N1.6, un modèle vision-langage-action pour humanoïdes, et Cosmos Reason 2 pour le raisonnement physique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://techcrunch.com/2026/01/05/nvidia-wants-to-be-the-android-of-generalist-robotics" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+            </div>
+            </div>
+            <div class="v-month" data-month="2025-12">
             <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">DÉCEMBRE 2025</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">08-14 Déc</span><span class="v-badge badge-ia">IA</span></div>
-                        <div class="veille-content"><h4 class="v-title">Figure AI & OpenAI</h4><p class="v-desc">Intégration de nouveaux modèles de langage pour une interaction verbale ultra-réaliste.</p></div>
-                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://www.google.com/search?q=figure+ai+openai+interaction+voice" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">01-07 Déc</span><span class="v-badge badge-tech">Hardware</span></div>
-                        <div class="veille-content"><h4 class="v-title">Tesla Optimus Gen 3</h4><p class="v-desc">Nouveaux capteurs tactiles permettant la manipulation d'objects avec une précision humaine.</p></div>
-                        <div class="veille-footer"><span class="v-source">Tesla Blog</span><a href="https://www.google.com/search?q=tesla+optimus+gen+3+tactile+sensors" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-12-02">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-12-02">2 déc. 2025</time><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">HMND 01 Alpha marche en 48 h</h4>
+                            <p class="v-desc">La start-up londonienne Humanoid présente son premier bipède, conçu en 5 mois et capable de marcher 48 heures après son assemblage grâce à la simulation.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/humanoid-sayss-first-bipedal-robot-can-start-walking-just-48-hours-after-assembly/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-
+            </div>
+            <div class="v-month" data-month="2025-11">
             <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">NOVEMBRE 2025</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">24-30 Nov</span><span class="v-badge badge-market">Marché</span></div>
-                        <div class="veille-content"><h4 class="v-title">Lancement Grand Public</h4><p class="v-desc">Une grande entreprise asiatique lance la vente de robots humanoïdes domestiques.</p></div>
-                        <div class="veille-footer"><span class="v-source">Google Actu</span><a href="https://news.google.com/search?q=robot+humanoide+marché+grand+public+lancement" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-11-27">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-11-27">27 nov. 2025</time><span class="v-badge badge-tech">Industrie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Atlas en test chez Hyundai</h4>
+                            <p class="v-desc">Boston Dynamics lance un pilote d&#x27;Atlas dans la Metaplant de Hyundai en Géorgie, où le robot reconnaît et range des pièces.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Asia Business Daily</span><a href="https://view.asiae.co.kr/en/article/2025112711561253265" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">11-17 Nov</span><span class="v-badge badge-ia">IA</span></div>
-                        <div class="veille-content"><h4 class="v-title">Apprentissage Sim-to-Real</h4><p class="v-desc">Acquisition rapide de compétences motrices via des modèles de simulation.</p></div>
-                        <div class="veille-footer"><span class="v-source">Science</span><a href="https://www.google.com/search?q=apprentissage+par+renforcement+sim-to-real+robotique" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-11-19">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-11-19">19 nov. 2025</time><span class="v-badge badge-tech">Industrie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Agile ONE, l&#x27;humanoïde industriel allemand</h4>
+                            <p class="v-desc">Agile Robots lance son premier humanoïde, Agile ONE, conçu pour travailler aux côtés des opérateurs et fabriqué en Allemagne.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/agile-robots-launches-agile-one-industrial-humanoid/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">04-10 Nov</span><span class="v-badge badge-market">Logistique</span></div>
-                        <div class="veille-content"><h4 class="v-title">Révolution Entrepôts</h4><p class="v-desc">Les flottes d'humanoïdes commencent à remplacer les AGV classiques.</p></div>
-                        <div class="veille-footer"><span class="v-source">Alertes</span><a href="https://www.google.com/search?q=robot+humanoide+logistique+entrepôt" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">17-23 Nov</span><span class="v-badge badge-tech">Tech</span></div>
-                        <div class="veille-content"><h4 class="v-title">Actionneurs Miniatures</h4><p class="v-desc">Découverte de polymères pour créer des muscles artificiels plus légers.</p></div>
-                        <div class="veille-footer"><span class="v-source">R&D</span><a href="https://www.google.com/search?q=actionneurs+muscles+artificiels+robot+humanoide" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-11-05">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-11-05">5 nov. 2025</time><span class="v-badge badge-ia">Physical AI</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">XPENG dévoile le nouvel IRON</h4>
+                            <p class="v-desc">Lors de son AI Day, XPENG présente le nouvel IRON (colonne vertébrale bionique, mains à 22 degrés de liberté) et vise une production de masse fin 2026.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">eWeek</span><a href="https://www.eweek.com/news/xpeng-iron-robot/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-
-            <h3 class="text-center mb-4 fs-6" style="color: var(--text-gray); letter-spacing: 3px;">OCTOBRE 2025</h3>
+            </div>
+            <div class="v-month" data-month="2025-10">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">OCTOBRE 2025</h3>
             <div class="row g-4 mb-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-tech">Vision 3D</span></div>
-                        <div class="veille-content"><h4 class="v-title">Perception Améliorée</h4><p class="v-desc">Nouvelle algos pour naviguer dans des environnements non structurés.</p></div>
-                        <div class="veille-footer"><span class="v-source">Feedly</span><a href="https://www.google.com/search?q=optimisation+vision+3D+robot+humanoide+navigation" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-10-28">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-10-28">28 oct. 2025</time><span class="v-badge badge-market">Grand public</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">1X ouvre les précommandes de NEO</h4>
+                            <p class="v-desc">Premier humanoïde domestique grand public : NEO est proposé à 20 000 $ ou 499 $/mois, avec des livraisons prévues en 2026.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/1x-announces-pre-order-launch-neo-humanoid-robot/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-tech">Hardware</span></div>
-                        <div class="veille-content"><h4 class="v-title">Batteries Flexibles</h4><p class="v-desc">Lithium-ion flexible pour une meilleure intégration et fluidité.</p></div>
-                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://www.google.com/search?q=batteries+lithium-ion+flexibles+robotique" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-10-20">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-10-20">20 oct. 2025</time><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Unitree H2</h4>
+                            <p class="v-desc">Unitree dévoile H2, un humanoïde de 180 cm et 70 kg, doté pour la première fois d&#x27;un visage bionique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">TechNode</span><a href="https://technode.com/2025/10/20/unitree-unveils-h2-humanoid-robot-with-lifelike-design/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-reg">Éthique</span></div>
-                        <div class="veille-content"><h4 class="v-title">Sécurité & Normes</h4><p class="v-desc">Consensus mondial sur les boutons d'arrêt d'urgence obligatoires.</p></div>
-                        <div class="veille-footer"><span class="v-source">Alertes</span><a href="https://www.google.com/search?q=normes+sécurité+robot+humanoide+arrêt+urgence" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-market">Industrie</span></div>
-                        <div class="veille-content"><h4 class="v-title">Tests Automobile</h4><p class="v-desc">Intégration sur les chaînes de montage pour des tâches de précision.</p></div>
-                        <div class="veille-footer"><span class="v-source">Actu</span><a href="https://www.google.com/search?q=robot+humanoide+industrie+automobile+assemblage" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-10-09">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-10-09">9 oct. 2025</time><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Figure 03</h4>
+                            <p class="v-desc">Figure présente sa 3e génération d&#x27;humanoïde, conçue pour son IA Helix, pour la maison et pour la production en volume dans l&#x27;usine BotQ.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Robotics 24/7</span><a href="https://www.robotics247.com/article/figure_ai_releases_figure_03_its_third_generation_humanoid_robot/manufacturing" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
             </div>
-
-            <h3 class="text-center mb-4 fs-6" style="color: var(--text-gray); letter-spacing: 3px;">SEPTEMBRE 2025</h3>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="veille-box hover-card">
-                        <div class="veille-header"><span class="v-date">Sept 2025</span><span class="v-badge badge-ia">IA Incarnée</span></div>
-                        <div class="veille-content"><h4 class="v-title">Dextérité Fine</h4><p class="v-desc">Mains robotiques utilisant l'IA pour prédire la force de préhension.</p></div>
-                        <div class="veille-footer"><span class="v-source">YouTube</span><a href="https://www.google.com/search?q=main+robotique+dextérité+ia+prédictive" target="_blank" class="v-btn">Lire</a></div>
-                    </div>
+            </div>
+            <div class="v-month" data-month="2025-09">
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">SEPTEMBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-09-25">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-09-25">25 sept. 2025</time><span class="v-badge badge-ia">IA incarnée</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Gemini Robotics 1.5</h4>
+                            <p class="v-desc">Google DeepMind présente Gemini Robotics 1.5 et ER 1.5 : des modèles qui raisonnent et planifient avant d&#x27;agir dans le monde physique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Google DeepMind</span><a href="https://deepmind.google/discover/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
                 </div>
+                <div class="col-lg-4 col-md-6 v-item" data-date="2025-09-16">
+                    <article class="veille-box hover-card">
+                        <div class="veille-header"><time class="v-date" datetime="2025-09-16">16 sept. 2025</time><span class="v-badge badge-market">Finance</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Figure valorisé 39 Md$</h4>
+                            <p class="v-desc">Figure lève plus d&#x27;un milliard de dollars en série C, pour une valorisation de 39 milliards.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">The Robot Report</span><a href="https://www.therobotreport.com/figure-ai-raises-1b-in-series-c-funding-toward-humanoid-robot-development/" target="_blank" rel="noopener" class="v-btn">Lire l'article ↗</a></div>
+                    </article>
+                </div>
+            </div>
+            </div>
+            <div class="v-empty" id="veilleEmpty" hidden>
+                <p><i class="fas fa-search me-2"></i>Aucun article pour cette recherche. Essayez un autre mois, une année (« 2025 ») ou un nom (« Atlas », « Unitree »).</p>
             </div>
         </div>
   </div>
@@ -1521,6 +1773,65 @@ html:not(.js) .fd,body.ready .fd{opacity:1;transform:none}
     const b = $('#placeholder-msg-y2'); if (b && val !== '') b.style.display = 'none';
   });
   $$('#pills-tab button').forEach(b => b.addEventListener('click', () => { const m = $('#placeholder-msg'); if (m) m.style.display = 'none'; }));
+
+  /* ---------- Veille : recherche par mois / date / mot-clé ---------- */
+  (function veilleSearch() {
+    const input = $('#veilleSearch'), sel = $('#veilleMonth'), reset = $('#veilleReset');
+    const count = $('#veilleCount'), empty = $('#veilleEmpty'), box = $('#collapseVeille');
+    if (!input || !sel || !box) return;
+    const MOIS = ['janvier','fevrier','mars','avril','mai','juin','juillet','aout','septembre','octobre','novembre','decembre'];
+    const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\b1er\b/g, '1').replace(/[’']/g, ' ');
+    const items = $$('#collapseVeille .v-item').map(el => {
+      const d = el.dataset.date.split('-');
+      return { el, y: +d[0], m: +d[1], j: d[2] ? +d[2] : 0, month: d[0] + '-' + d[1], hay: norm(el.querySelector('.veille-content').textContent + ' ' + el.querySelector('.v-badge').textContent + ' ' + el.querySelector('.v-source').textContent) };
+    });
+    const months = $$('#collapseVeille .v-month');
+    const initial = count.textContent;
+    const monthOf = t => { if (t.length < 3) return 0; const i = MOIS.findIndex(x => x.startsWith(t.replace(/\.$/, ''))); return i + 1; };
+    // Sépare la requête en critères de date (jour / mois / année) et en mots-clés libres
+    function parse(q) {
+      const f = { y: 0, m: 0, j: 0, words: [] };
+      let s = q;
+      // 21/10/2026, 21-10-2026, 21.10.2026, 2026-10-21, 10/2026, 2026-10, 21/10
+      s = s.replace(/\b(\d{4})-(\d{1,2})(?:-(\d{1,2}))?\b/g, (_, y, m, j) => { f.y = +y; f.m = +m; if (j) f.j = +j; return ' '; });
+      s = s.replace(/\b(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})\b/g, (_, j, m, y) => { f.j = +j; f.m = +m; f.y = +y; return ' '; });
+      s = s.replace(/\b(\d{1,2})[\/.-](\d{4})\b/g, (_, m, y) => { f.m = +m; f.y = +y; return ' '; });
+      s = s.replace(/\b(\d{1,2})[\/.](\d{1,2})\b/g, (_, j, m) => { f.j = +j; f.m = +m; return ' '; });
+      const toks = s.split(/[\s,]+/).filter(Boolean);
+      toks.forEach((t, i) => {
+        const mo = monthOf(t);
+        if (/^(19|20)\d{2}$/.test(t)) f.y = +t;
+        else if (mo) { f.m = mo; const prev = toks[i - 1]; if (prev && /^\d{1,2}$/.test(prev) && +prev <= 31) f.j = +prev; }
+        else if (/^\d{1,2}$/.test(t) && monthOf(toks[i + 1] || '')) { /* jour lu avec le mois suivant */ }
+        else f.words.push(t);
+      });
+      return f;
+    }
+    function openBox() {
+      if (box.classList.contains('show')) return;
+      if (window.bootstrap) bootstrap.Collapse.getOrCreateInstance(box, { toggle: false }).show();
+      else { box.classList.add('show'); const ic = $('#btnVeille .rotate-icon'); ic && ic.classList.add('rotate-180'); }
+    }
+    function run() {
+      const raw = norm(input.value.trim()), m = sel.value, f = parse(raw);
+      const tokens = raw ? [1] : [];
+      let n = 0;
+      items.forEach(it => {
+        const ok = (!m || it.month === m) && (!f.y || it.y === f.y) && (!f.m || it.m === f.m) && (!f.j || it.j === f.j) && f.words.every(t => it.hay.includes(t));
+        it.el.style.display = ok ? '' : 'none';
+        if (ok) n++;
+      });
+      months.forEach(g => { g.style.display = g.querySelector('.v-item:not([style*="none"])') ? '' : 'none'; });
+      const active = tokens.length || m;
+      empty.hidden = n > 0;
+      count.textContent = active ? (n + (n > 1 ? ' articles trouvés' : ' article trouvé')) : initial;
+      if (active) openBox();
+    }
+    let t; input.addEventListener('input', () => { clearTimeout(t); t = setTimeout(run, 120); });
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+    sel.addEventListener('change', run);
+    reset.addEventListener('click', () => { input.value = ''; sel.value = ''; run(); input.focus(); });
+  })();
 
   /* ---------- Veille : chevron ---------- */
   const veille = $('#collapseVeille'), icon = $('#btnVeille .rotate-icon');
