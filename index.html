@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Yoann Tournal — Infrastructure, Systèmes &amp; Cybersécurité</title>
+<meta name="description" content="Portfolio de Yoann Tournal, étudiant en BTS SIO option SISR : infrastructure IT, systèmes & réseaux, cybersécurité.">
+<meta name="theme-color" content="#050609">
+<script>document.documentElement.classList.add('js');</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   DIRECTION ARTISTIQUE — Immersive Dark 3D
+   ===================================================================== */
+:root{
+  --bg:#050609; --anth:#101218; --anth-2:#161922; --white:#F2F3F5;
+  --blue:#527BFF; --violet:#765BFF;
+  --muted:rgba(242,243,245,.56); --dim:rgba(242,243,245,.36);
+  --line:rgba(242,243,245,.08); --line-2:rgba(242,243,245,.14);
+  --f-sans:'Inter Tight',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --f-serif:'Instrument Serif',Georgia,serif;
+  --ease:cubic-bezier(.2,.7,.1,1); --ease-io:cubic-bezier(.7,0,.2,1);
+  --pad:clamp(20px,5vw,72px);
+  /* compatibilité avec le contenu existant (bibliothèque / veille) */
+  --card-bg:var(--anth); --border:var(--line); --text-white:var(--white); --text-gray:var(--muted);
+  --primary:var(--blue); --secondary:#8b93a7; --btn-main-text:var(--bg);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--white);font-family:var(--f-sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html.js body:not(.ready){overflow:hidden}
+h1,h2,h3,h4,h5,h6{font-family:var(--f-sans);color:var(--white);font-weight:500;letter-spacing:-.03em;margin:0}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blue);color:#fff}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.serif{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.wrap{width:100%;max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.text-primary{color:var(--blue)!important}
+section{position:relative;z-index:2}
+[id]{scroll-margin-top:80px}
+
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(5,6,9,.75) 100%)}
+
+/* ---------- Loader ---------- */
+#loader{display:none}
+html.js #loader{display:flex;position:fixed;inset:0;z-index:100;background:var(--bg);flex-direction:column;justify-content:space-between;padding:var(--pad);transition:opacity .7s var(--ease),visibility .7s}
+#loader.done{opacity:0;visibility:hidden}
+.ld-top{display:flex;justify-content:space-between;color:var(--dim)}
+.ld-logo{font-size:clamp(4rem,14vw,11rem);font-weight:600;letter-spacing:-.06em;line-height:.85}
+.ld-logo span{color:var(--blue)}
+.ld-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.ld-pct{font-family:var(--f-mono);font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ld-bar{position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--line)}
+.ld-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));transform-origin:left;transform:scaleX(0)}
+
+/* ---------- Header ---------- */
+.hd{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s,transform .8s var(--ease),opacity .8s var(--ease);border-bottom:1px solid transparent}
+html.js body:not(.ready) .hd{opacity:0;transform:translateY(-16px)}
+.hd.scrolled{background:rgba(5,6,9,.62);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom-color:var(--line)}
+.hd-in{display:flex;align-items:center;justify-content:space-between;gap:24px;height:72px}
+.logo{font-weight:600;font-size:22px;letter-spacing:-.05em}
+.logo span{color:var(--blue)}
+.nav{position:relative;display:none;align-items:center;gap:2px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(16,18,24,.4)}
+@media(min-width:1024px){.nav{display:flex}}
+.nav a{position:relative;z-index:1;font-size:14px;color:var(--muted);padding:8px 16px;border-radius:999px;transition:color .3s}
+.nav a:hover,.nav a.active{color:var(--white)}
+.nav-ind{position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:0;border-radius:999px;background:var(--anth-2);border:1px solid var(--line-2);transition:transform .5s var(--ease),width .5s var(--ease),opacity .3s;opacity:0}
+.hd-cta{display:none;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.hd-cta:hover{color:var(--white)}
+@media(min-width:1024px){.hd-cta{display:inline-flex}}
+.dot{width:7px;height:7px;border-radius:50%;background:#45d483;box-shadow:0 0 0 0 rgba(69,212,131,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(69,212,131,0)}100%{box-shadow:0 0 0 0 rgba(69,212,131,0)}}
+.burger{display:inline-flex;flex-direction:column;justify-content:center;gap:6px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:rgba(16,18,24,.5);padding:0 13px;cursor:pointer;position:relative;z-index:61}
+.burger span:not(.sr){display:block;height:1.5px;background:var(--white);transition:transform .45s var(--ease)}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(3.75px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){transform:translateY(-3.75px) rotate(-45deg)}
+@media(min-width:1024px){.burger{display:none}}
+
+/* Menu mobile */
+.mm{position:fixed;inset:0;z-index:60;background:rgba(5,6,9,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;flex-direction:column;justify-content:space-between;padding:96px var(--pad) 32px;
+  clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .7s var(--ease-io),visibility 0s .7s}
+.mm.open{clip-path:inset(0 0 0 0);visibility:visible;transition:clip-path .7s var(--ease-io),visibility 0s}
+.mm ol{list-style:none;margin:0;padding:0;counter-reset:mm}
+.mm li{overflow:hidden;border-bottom:1px solid var(--line)}
+.mm li a{display:flex;align-items:baseline;gap:16px;padding:12px 0;font-size:clamp(2rem,9vw,3.4rem);font-weight:500;letter-spacing:-.04em;line-height:1.1;transform:translateY(110%);transition:transform .7s var(--ease)}
+.mm li a::before{counter-increment:mm;content:'0' counter(mm);font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--blue);transform:translateY(-1.2em)}
+.mm.open li a{transform:none;transition-delay:calc(.15s + var(--i)*.05s)}
+.mm li a.active{color:var(--blue)}
+.mm-foot{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;color:var(--muted);font-size:14px;opacity:0;transition:opacity .5s}
+.mm.open .mm-foot{opacity:1;transition-delay:.5s}
+.mm-foot nav{display:flex;gap:20px}
+.mm-foot a:hover{color:var(--white)}
+
+/* ---------- Boutons ---------- */
+.btn-y{position:relative;display:inline-flex;align-items:center;gap:12px;height:52px;padding:0 26px;border-radius:999px;font-size:15px;font-weight:500;cursor:pointer;overflow:hidden;isolation:isolate;transition:color .4s var(--ease),border-color .4s,transform .4s var(--ease);white-space:nowrap}
+.btn-y svg{width:16px;height:16px;transition:transform .4s var(--ease)}
+.btn-y:hover svg{transform:translateX(3px)}
+.btn-p{background:var(--white);color:var(--bg);border:0}
+.btn-p::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--blue),var(--violet));transform:translateY(101%);transition:transform .5s var(--ease)}
+.btn-p:hover{color:#fff}
+.btn-p:hover::before{transform:none}
+.btn-g{border:1px solid var(--line-2);color:var(--white);background:rgba(5,6,9,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn-g:hover{border-color:rgba(242,243,245,.4)}
+.btn-s{height:42px;padding:0 18px;font-size:14px}
+
+/* ---------- Révélations ---------- */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease);transition-delay:calc(var(--d,0)*1s)}
+.rv.in{opacity:1;transform:none}
+html:not(.js) .rv{opacity:1;transform:none}
+.ln{display:block;overflow:hidden;padding-bottom:.04em}
+.ln>span{display:inline-block;transform:translateY(105%);transition:transform 1.3s var(--ease)}
+html:not(.js) .ln>span,body.ready .ln>span{transform:none}
+.fd{opacity:0;transform:translateY(16px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+html:not(.js) .fd,body.ready .fd{opacity:1;transform:none}
+
+/* ---------- Libellé de section ---------- */
+.sl{display:flex;align-items:center;gap:14px;color:var(--muted);margin-bottom:28px}
+.sl b{color:var(--blue);font-weight:500}
+.sl::after{content:'';flex:0 0 48px;height:1px;background:var(--line-2)}
+.h-xl{font-size:clamp(2.6rem,6.4vw,6.2rem);line-height:.95;letter-spacing:-.055em;font-weight:500}
+.h-xl .serif{font-size:1.06em;letter-spacing:-.03em;color:#cfd6ff}
+.lead{font-size:clamp(1.05rem,1.4vw,1.25rem);color:var(--muted);line-height:1.6;max-width:38em}
+
+/* =====================================================================
+   HERO
+   ===================================================================== */
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:120px 0 110px}
+.hero-k{color:var(--muted);margin-bottom:22px;display:flex;gap:14px;align-items:center}
+.hero-k i{display:inline-block;width:36px;height:1px;background:linear-gradient(90deg,var(--blue),transparent)}
+.hero-t{font-size:clamp(4.2rem,15.5vw,14.5rem);line-height:.82;letter-spacing:-.075em;font-weight:600;margin:0 0 34px;margin-left:-.05em}
+.hero-t .ln:nth-child(2)>span{transition-delay:.08s}
+.hero-t em{font-style:normal;color:var(--blue)}
+.hero-t .ln:nth-child(2){background:linear-gradient(180deg,#F2F3F5 30%,rgba(242,243,245,.55));-webkit-background-clip:text;background-clip:text}
+.hero-low{display:grid;gap:28px;max-width:640px}
+.hero-sub{font-size:clamp(1.15rem,1.9vw,1.6rem);line-height:1.35;letter-spacing:-.02em;color:var(--white);max-width:24em}
+.hero-sub .ln>span{transition-delay:.2s}
+.hero-meta{display:flex;gap:16px;align-items:flex-start;color:var(--muted);font-size:14px;line-height:1.55;transition-delay:.35s}
+.hero-meta b{display:block;color:var(--white);font-weight:500}
+.hero-meta::before{content:'';flex:none;width:8px;height:8px;margin-top:7px;border-radius:2px;background:var(--blue);box-shadow:0 0 16px var(--blue)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;transition-delay:.45s}
+.scroll-hint{position:absolute;left:var(--pad);bottom:32px;z-index:3;display:flex;align-items:center;gap:14px;color:var(--dim)}
+.scroll-hint i{position:relative;display:block;width:56px;height:1px;background:var(--line-2);overflow:hidden}
+.scroll-hint i::after{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-100%);animation:sh 2.2s var(--ease-io) infinite}
+@keyframes sh{50%{transform:none}100%{transform:translateX(100%)}}
+.hero-side{position:absolute;right:var(--pad);bottom:32px;z-index:3;color:var(--dim);text-align:right;display:none}
+@media(min-width:900px){.hero-side{display:block}}
+@media(max-width:767px){
+  .hero{padding:120px 0 100px}
+  .hero-t{font-size:clamp(3.6rem,19vw,6rem);margin-bottom:24px}
+  .hero-cta .btn-y{flex:1 1 auto;justify-content:center}
+}
+
+/* =====================================================================
+   À PROPOS
+   ===================================================================== */
+.about{padding:clamp(120px,16vw,220px) 0 clamp(90px,10vw,140px)}
+.about-grid{display:grid;gap:56px}
+
+.about-main .h-xl{margin-bottom:56px;max-width:11em}
+@media(min-width:1024px){.about-cols{grid-template-columns:7fr 5fr;gap:96px}}
+.about-cols{display:grid;gap:32px}
+@media(min-width:768px){.about-cols{grid-template-columns:1.25fr 1fr;gap:56px}}
+.about-text p{color:var(--muted);font-size:clamp(1rem,1.25vw,1.12rem);margin-bottom:18px}
+.about-text p:first-child{color:var(--white);font-size:clamp(1.2rem,1.7vw,1.45rem);line-height:1.45;letter-spacing:-.015em}
+.facts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.facts li{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+.facts li span:first-child{color:var(--dim)}
+.facts li span:last-child{text-align:right}
+.facts .dot{display:inline-block;margin-right:8px;vertical-align:middle}
+
+/* =====================================================================
+   COMPÉTENCES — Technical Universe
+   ===================================================================== */
+.skills{padding:clamp(90px,10vw,150px) 0}
+.skills-head{display:grid;gap:24px;margin-bottom:64px}
+@media(min-width:1024px){.skills-head{grid-template-columns:7fr 5fr;align-items:end}}
+.sk-list{border-top:1px solid var(--line);max-width:980px}
+.sk{position:relative;border-bottom:1px solid var(--line);padding:26px 0;display:grid;gap:18px;cursor:default}
+@media(min-width:900px){.sk{grid-template-columns:90px minmax(260px,1fr) 1.4fr;align-items:center;padding:30px 0;gap:24px}}
+.sk::before{content:'';position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,var(--sk,var(--blue)),transparent 70%);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.sk:hover::before,.sk.on::before{transform:none}
+.sk-n{color:var(--dim);transition:color .4s}
+.sk-t{font-size:clamp(1.9rem,4.2vw,3.6rem);font-weight:500;letter-spacing:-.05em;line-height:1;color:rgba(242,243,245,.42);transition:color .5s var(--ease),transform .6s var(--ease)}
+.sk:hover .sk-t,.sk.on .sk-t{color:var(--white);transform:translateX(8px)}
+.sk:hover .sk-n,.sk.on .sk-n{color:var(--sk,var(--blue))}
+.sk-tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.sk-tags li{font-size:13px;padding:7px 13px;border-radius:999px;border:1px solid var(--line-2);color:var(--muted);background:rgba(16,18,24,.55);transition:opacity .5s var(--ease),transform .5s var(--ease),border-color .3s,color .3s;transition-delay:calc(var(--i)*35ms)}
+@media(min-width:900px) and (hover:hover){
+  .sk-tags li{opacity:.35;transform:translateY(6px)}
+  .sk:hover .sk-tags li,.sk.on .sk-tags li{opacity:1;transform:none;color:var(--white)}
+}
+.sk-tags li:hover{border-color:var(--sk,var(--blue))}
+.skills-note{margin-top:28px;color:var(--dim)}
+
+/* =====================================================================
+   PROJETS — Showcase
+   ===================================================================== */
+.projects{padding:clamp(90px,10vw,150px) 0 40px}
+.pj-head{display:grid;gap:24px;margin-bottom:clamp(60px,8vw,110px)}
+@media(min-width:1024px){.pj-head{grid-template-columns:7fr 5fr;align-items:end}}
+.pj{display:grid;gap:36px;align-items:center;padding:clamp(40px,6vw,80px) 0;border-top:1px solid var(--line)}
+@media(min-width:1024px){.pj{grid-template-columns:7fr 5fr;gap:72px}.pj:nth-of-type(even) .pj-visual{order:2}}
+.pj-visual{position:relative;perspective:1400px}
+.pj-stage{position:relative;aspect-ratio:16/11;border-radius:22px;overflow:hidden;background:linear-gradient(160deg,#141720,#0a0b10 70%);border:1px solid var(--line);box-shadow:0 60px 120px -50px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.02) inset;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .6s var(--ease)}
+.pj-stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(70% 60% at var(--mx,30%) var(--my,0%),rgba(255,255,255,.07),transparent 60%)}
+.pj-glow{position:absolute;inset:-12% -8%;z-index:-1;filter:blur(60px);opacity:.55;background:radial-gradient(40% 50% at 30% 40%,var(--c1,rgba(82,123,255,.35)),transparent 70%),radial-gradient(40% 50% at 75% 65%,var(--c2,rgba(118,91,255,.28)),transparent 70%)}
+.pj-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5}
+.pj-cap{position:absolute;left:16px;bottom:12px;z-index:6;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.pj-num{display:flex;align-items:center;gap:14px;color:var(--muted);margin-bottom:22px}
+.pj-num b{color:var(--blue);font-weight:500}
+.pj-title{font-size:clamp(2.3rem,4.6vw,4.4rem);line-height:.95;letter-spacing:-.055em;margin-bottom:20px}
+.pj-title .serif{color:#cfd6ff}
+.pj-desc{color:var(--muted);font-size:16px;margin-bottom:26px;max-width:32em}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0 0 30px;padding:0}
+.chips li{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:6px 11px;border-radius:6px;border:1px solid var(--line-2);color:var(--muted)}
+.pj-actions{display:flex;flex-wrap:wrap;gap:10px}
+
+/* Maquettes */
+.mk{position:absolute;inset:7% 6%;border-radius:14px;overflow:hidden;background:#0b0d13;border:1px solid var(--line-2);box-shadow:0 40px 80px -30px rgba(0,0,0,.9);transform:translateZ(40px);display:flex;flex-direction:column;font-size:11px}
+.mk-bar{display:flex;align-items:center;gap:12px;height:30px;padding:0 12px;border-bottom:1px solid var(--line);color:var(--dim);font-family:var(--f-mono);font-size:10px}
+.mk-bar .dots{display:flex;gap:5px}.mk-bar .dots i{width:7px;height:7px;border-radius:50%;background:#262a35}
+.mk-body{flex:1;display:grid;grid-template-columns:30% 1fr;min-height:0}
+.mk aside{border-right:1px solid var(--line);padding:14px 12px;display:flex;flex-direction:column;gap:6px}
+.mk-logo{display:flex;align-items:center;gap:8px;font-weight:600;letter-spacing:.18em;font-size:11px;margin-bottom:12px;color:var(--white)}
+.mk-logo svg{width:16px;height:16px;color:var(--blue)}
+.mk aside span{padding:7px 9px;border-radius:7px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mk aside span.on{background:rgba(82,123,255,.14);color:#cfd8ff;border:1px solid rgba(82,123,255,.3)}
+.mk main{padding:14px;display:grid;grid-template-rows:auto 1fr auto;gap:10px;min-height:0}
+.mk-h{display:flex;justify-content:space-between;align-items:center;color:var(--white);font-weight:500;font-size:12px}
+.mk-h em{font-style:normal;font-family:var(--f-mono);font-size:9px;color:var(--dim);border:1px solid var(--line-2);border-radius:999px;padding:3px 8px}
+.mk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;min-height:0}
+.mk-card{border:1px solid var(--line);border-radius:9px;padding:10px;background:rgba(255,255,255,.015);display:flex;flex-direction:column;gap:7px;color:var(--muted)}
+.mk-card b{color:var(--white);font-weight:500}
+.sk-b{display:block;height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(242,243,245,.10),rgba(242,243,245,.04))}
+.sk-b.w6{width:60%}.sk-b.w8{width:80%}.sk-b.w4{width:40%}
+.sk-b.ac{background:linear-gradient(90deg,rgba(82,123,255,.55),rgba(118,91,255,.2))}
+.mk-wide{border:1px solid var(--line);border-radius:9px;padding:10px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center;color:var(--muted)}
+.diag{position:absolute;inset:6% 5%;transform:translateZ(40px)}
+.diag svg{width:100%;height:100%;overflow:visible}
+.diag .bx{fill:#0d1017;stroke:rgba(242,243,245,.16)}
+.diag .bx.ac{stroke:rgba(82,123,255,.65);fill:rgba(82,123,255,.08)}
+.diag .bx.vi{stroke:rgba(118,91,255,.55);fill:rgba(118,91,255,.06)}
+.diag text{font-family:var(--f-sans);fill:#e9ebf0;font-size:13px}
+.diag .t2{font-family:var(--f-mono);fill:rgba(242,243,245,.45);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase}
+.diag .wire{stroke:rgba(242,243,245,.22);stroke-width:1.2;fill:none;stroke-dasharray:4 5}
+.diag .flow{stroke:url(#gradFlow);stroke-width:1.6;fill:none;stroke-dasharray:6 14;animation:flow 2.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-40}}
+.svc{position:absolute;inset:8% 6%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:10px;transform:translateZ(40px)}
+.svc>a,.svc>div{position:relative;border-radius:14px;border:1px solid var(--line-2);background:rgba(13,16,23,.9);padding:14px;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .3s,transform .4s var(--ease)}
+.svc>a:hover{border-color:rgba(82,123,255,.6);transform:translateY(-3px)}
+.svc b{font-size:clamp(1rem,1.7vw,1.35rem);font-weight:500;letter-spacing:-.03em}
+.svc span{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.svc i.fa-solid,.svc i.fas,.svc i.fab{color:var(--blue);font-size:15px}
+.svc .big{grid-row:span 2;background:linear-gradient(160deg,rgba(82,123,255,.14),rgba(13,16,23,.9) 60%)}
+@media(max-width:600px){.mk-body{grid-template-columns:1fr}.mk aside{display:none}.mk-grid{grid-template-columns:repeat(2,1fr)}.mk-grid .mk-card:nth-child(3){display:none}.diag text{font-size:15px}}
+
+.lib-cta{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:28px 0;border-top:1px solid var(--line)}
+.lib-cta p{color:var(--muted)}
+
+/* ---------- Page détail projet ---------- */
+.pd{position:fixed;inset:0;z-index:80;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;clip-path:inset(100% 0 0 0);visibility:hidden;transition:clip-path .8s var(--ease-io),visibility 0s .8s}
+.pd.open{clip-path:inset(0 0 0 0);visibility:visible;transition:clip-path .8s var(--ease-io),visibility 0s}
+.pd-top{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;height:72px;padding:0 var(--pad);background:rgba(5,6,9,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.pd-hero{padding:clamp(60px,9vw,120px) 0 48px}
+.pd-hero .h-xl{max-width:12em;margin:18px 0 28px}
+.pd-visual{margin:12px 0 72px}
+.pd-visual .pj-stage{aspect-ratio:16/8}
+@media(max-width:767px){.pd-visual .pj-stage{aspect-ratio:4/3}}
+.pd-grid{display:grid;gap:56px;padding-bottom:96px}
+@media(min-width:1024px){.pd-grid{grid-template-columns:4fr 8fr}}
+.pd-side dl{margin:0;border-top:1px solid var(--line)}
+.pd-side dt{color:var(--dim);margin-top:18px}
+.pd-side dd{margin:6px 0 18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.pd-body h3{font-size:clamp(1.4rem,2.2vw,1.9rem);letter-spacing:-.035em;margin:0 0 16px}
+.pd-body p{color:var(--muted);margin-bottom:16px;max-width:42em}
+.pd-body section{margin-bottom:56px}
+.pd-points{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+@media(min-width:768px){.pd-points{grid-template-columns:1fr 1fr}}
+.pd-points li{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:rgba(16,18,24,.6)}
+.pd-points li b{display:block;font-weight:500;margin-bottom:4px}
+.pd-points li span{color:var(--muted);font-size:14px}
+.pd-docs{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.pd-docs a{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 4px;border-bottom:1px solid var(--line);transition:padding .4s var(--ease),color .3s}
+.pd-docs a:hover{padding-left:12px;color:var(--blue)}
+.pd-docs small{display:block;color:var(--dim);font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
+.pd-gallery{display:grid;gap:16px}
+@media(min-width:768px){.pd-gallery{grid-template-columns:1fr 1fr}}
+.pd-gallery figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+.pd-gallery img{display:block;width:100%;height:auto}
+.pd-next{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:40px 0 64px;border-top:1px solid var(--line)}
+.pd-next a{font-size:clamp(1.6rem,3.5vw,3rem);letter-spacing:-.045em}
+.pd-next a:hover{color:var(--blue)}
+
+/* =====================================================================
+   BIBLIOTHÈQUE (contenu existant restylé)
+   ===================================================================== */
+.library,.veille{background:var(--bg);padding:clamp(90px,10vw,150px) 0;border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:24px;margin-bottom:56px}
+@media(min-width:1024px){.sec-head{grid-template-columns:7fr 5fr;align-items:end}}
+.sec-head .h-xl{font-size:clamp(2.4rem,5vw,4.6rem)}
+#bibliotheque .input-group{border-radius:999px!important;overflow:hidden;border:1px solid var(--line-2)!important;background:var(--anth)!important;padding:5px 10px}
+#bibliotheque .input-group:focus-within{border-color:var(--blue)!important}
+#bibliotheque .input-group-text{color:var(--blue)!important}
+#pdfSearch{color:var(--white)!important;font-size:15px}
+#pdfSearch::placeholder{color:var(--dim)}
+.year-tabs{display:flex;justify-content:center;gap:8px;margin:0 0 26px;padding:0;list-style:none;flex-wrap:wrap}
+.year-btn{background:transparent;border:1px solid var(--line-2);color:var(--muted);border-radius:999px;padding:10px 22px;font-size:14px;transition:.3s}
+.year-btn:hover{color:var(--white)}
+.year-btn.active{color:var(--bg);background:var(--white);border-color:var(--white)}
+#bibliotheque .nav-pills{justify-content:center;gap:8px;margin-bottom:36px}
+#bibliotheque .nav-pills .nav-link{background:var(--anth);border:1px solid var(--line);color:var(--muted)!important;border-radius:999px;padding:8px 16px;font-size:13px;transition:.3s}
+#bibliotheque .nav-pills .nav-link:hover{color:var(--white)!important;border-color:var(--line-2)}
+#bibliotheque .nav-pills .nav-link.active{background:rgba(82,123,255,.12);color:var(--white)!important;border-color:rgba(82,123,255,.55)}
+#placeholder-msg p,#placeholder-msg-y2 p{font-size:15px!important;color:var(--dim)!important}
+.doc-item{position:relative;height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(16,18,24,.55);border:1px solid var(--line);border-radius:16px;padding:14px 16px;transition:background .3s,border-color .3s,transform .4s var(--ease)}
+.doc-item:hover{background:var(--anth);border-color:rgba(82,123,255,.35);transform:translateY(-2px)}
+.doc-left{display:flex;align-items:center;gap:14px;min-width:0}
+.doc-icon{flex:none;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(82,123,255,.08);border:1px solid rgba(82,123,255,.18);color:var(--blue)!important;font-size:14px}
+.doc-title{font-weight:500;color:var(--white);font-size:14px;line-height:1.3}
+.doc-sub{font-size:12px;color:var(--dim)}
+.doc-item>.fa-arrow-right,.doc-item>.fa-download{color:var(--dim)!important;transition:transform .3s,color .3s;flex:none}
+.doc-item:hover>.fa-arrow-right{transform:translateX(3px) rotate(-45deg);color:var(--white)!important}
+.v-btn-custom{border-radius:999px;font-size:11px;font-weight:600;padding:5px 11px;border:1px solid var(--line-2);background:transparent;color:var(--white)!important;transition:.25s}
+.v-btn-custom[style]{background:var(--white)!important;color:var(--bg)!important;border-color:var(--white)}
+.v-btn-custom:hover{border-color:var(--blue)}
+
+/* =====================================================================
+   PARCOURS — Timeline
+   ===================================================================== */
+.journey{padding:clamp(90px,10vw,150px) 0}
+.tl{position:relative;max-width:860px;margin-top:64px;padding-left:44px}
+@media(min-width:768px){.tl{padding-left:72px}}
+.tl-line{position:absolute;left:10px;top:6px;bottom:6px;width:1px;background:var(--line-2)}
+@media(min-width:768px){.tl-line{left:20px}}
+.tl-line i{position:absolute;inset:0;background:linear-gradient(180deg,var(--blue),var(--violet));transform-origin:top;transform:scaleY(var(--p,0))}
+.tl-item{position:relative;padding:0 0 52px}
+.tl-item::before{content:'';position:absolute;left:-38px;top:9px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:1px solid var(--line-2);transition:background .5s,border-color .5s,box-shadow .5s}
+@media(min-width:768px){.tl-item::before{left:-56px}}
+.tl-item.lit::before{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 5px rgba(82,123,255,.15),0 0 18px var(--blue)}
+.tl-item.major .tl-t{font-size:clamp(1.6rem,3vw,2.5rem)}
+.tl-y{display:flex;gap:12px;align-items:center;color:var(--muted);margin-bottom:10px}
+.tl-y em{font-style:normal;padding:3px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--dim);font-size:10.5px}
+.tl-y em.fm{color:#cfd8ff;border-color:rgba(82,123,255,.45)}
+.tl-t{font-size:clamp(1.3rem,2.2vw,1.75rem);letter-spacing:-.04em;line-height:1.1;margin-bottom:8px}
+.tl-p{color:var(--muted);font-size:15px}
+.tl-p a{color:var(--white);border-bottom:1px solid var(--line-2)}
+.tl-p a:hover{border-color:var(--blue)}
+
+/* =====================================================================
+   VEILLE (contenu existant restylé)
+   ===================================================================== */
+.veille h3{font-family:var(--f-mono)!important;font-size:12px!important;letter-spacing:.12em!important;color:var(--muted)!important;font-weight:500}
+.veille .hover-card{background:rgba(16,18,24,.6)!important;border:1px solid var(--line)!important;border-radius:20px!important;transition:border-color .3s}
+.veille .hover-card:hover{border-color:var(--line-2)!important}
+.veille h5{font-size:17px;font-weight:500}
+.veille code{color:#a9bcff}
+#btnVeille{width:100%;display:flex;align-items:center;justify-content:center;gap:4px;border-radius:999px;border:1px dashed var(--line-2)!important;background:transparent;color:var(--white);padding:18px!important;font-size:16px!important;transition:.3s}
+#btnVeille:hover{background:var(--anth);border-color:var(--blue)!important}
+.rotate-icon{transition:transform .3s}.rotate-180{transform:rotate(180deg)}
+.veille-box{position:relative;height:100%;display:flex;flex-direction:column;background:rgba(16,18,24,.6);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:border-color .3s,transform .4s var(--ease)}
+.veille-box:hover{border-color:var(--line-2);transform:translateY(-3px)}
+.veille-header,.veille-footer{display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
+.veille-header{border-bottom:1px solid var(--line)}
+.veille-footer{border-top:1px solid var(--line)}
+.veille-content{padding:20px;flex:1}
+.v-date{font-family:var(--f-mono);font-size:11px;color:var(--dim)}
+.v-badge{font-family:var(--f-mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-radius:999px;padding:3px 9px;border:1px solid var(--line-2)}
+.badge-market{color:#8fa8ff}.badge-tech{color:#b4a4ff}.badge-ia{color:#e4a8d4}.badge-reg{color:#e8bd8e}
+.v-title{font-size:1.25rem;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px}
+.v-desc{font-size:14px;color:var(--muted);margin:0}
+.v-source{font-size:12px;color:var(--dim);font-style:italic}
+.v-btn{font-size:12px;border-radius:999px;padding:5px 14px;border:1px solid var(--line-2);color:var(--white);transition:.25s}
+.v-btn:hover{background:var(--white);color:var(--bg)}
+
+/* =====================================================================
+   CONTACT
+   ===================================================================== */
+.contact{padding:clamp(120px,16vw,220px) 0 40px;text-align:left}
+.contact .h-xl{font-size:clamp(3rem,9.5vw,9.5rem);max-width:9.5em;margin-bottom:32px}
+.contact-grid{display:grid;gap:56px;margin-top:72px}
+@media(min-width:1024px){.contact-grid{grid-template-columns:5fr 7fr;gap:80px}}
+.c-links{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.c-links a{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;border-bottom:1px solid var(--line);transition:color .3s,padding .4s var(--ease)}
+.c-links a:hover{color:var(--blue);padding-left:8px}
+.c-links small{display:block;color:var(--dim)}
+.c-links b{font-weight:500;font-size:clamp(1.05rem,1.6vw,1.3rem);letter-spacing:-.02em;word-break:break-all}
+.form{display:grid;gap:14px;padding:clamp(22px,3vw,36px);border:1px solid var(--line);border-radius:24px;background:rgba(16,18,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.form .row2{display:grid;gap:14px}
+@media(min-width:640px){.form .row2{grid-template-columns:1fr 1fr}}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld label{color:var(--dim)}
+.fld input,.fld textarea{width:100%;background:rgba(5,6,9,.6);border:1px solid var(--line-2);border-radius:12px;color:var(--white);padding:14px 16px;font:inherit;font-size:15px;transition:border-color .3s}
+.fld textarea{min-height:150px;resize:vertical}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--blue)}
+.form-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-top:6px}
+.form-msg{font-size:14px;color:var(--muted)}
+.form-msg.ok{color:#6ee7a8}.form-msg.err{color:#ff9b9b}
+.hp{position:absolute;left:-9999px}
+.ft{position:relative;z-index:2;border-top:1px solid var(--line);margin-top:clamp(90px,10vw,140px)}
+.ft-in{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center;padding:28px 0 36px;color:var(--dim);font-size:14px}
+.ft-in nav{display:flex;flex-wrap:wrap;gap:20px}
+.ft-in a:hover{color:var(--white)}
+.ft-big{font-size:clamp(5rem,24vw,22rem);font-weight:600;letter-spacing:-.08em;line-height:.75;color:transparent;-webkit-text-stroke:1px rgba(242,243,245,.09);text-align:center;user-select:none;overflow:hidden;padding-top:.05em}
+.ft-big span{-webkit-text-stroke:1px rgba(82,123,255,.35)}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+<body>
+
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- Chargement -->
+<div id="loader" aria-hidden="true">
+  <div class="ld-top mono"><span>Yoann Tournal — Portfolio</span><span>Chargement</span></div>
+  <div class="ld-bottom"><div class="ld-logo">YT<span>.</span></div><div class="ld-pct" id="ldPct">000</div></div>
+  <div class="ld-bar"><i id="ldBar"></i></div>
+</div>
+
+<!-- Navigation -->
+<header class="hd" id="hd">
+  <div class="wrap hd-in">
+    <a href="#accueil" class="logo" aria-label="Yoann Tournal — accueil">YT<span>.</span></a>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <span class="nav-ind" id="navInd" aria-hidden="true"></span>
+      <a href="#accueil" data-s="accueil">Accueil</a>
+      <a href="#apropos" data-s="apropos">À propos</a>
+      <a href="#competences" data-s="competences">Compétences</a>
+      <a href="#projets" data-s="projets">Projets</a>
+      <a href="#parcours" data-s="parcours">Parcours</a>
+      <a href="#contact" data-s="contact">Contact</a>
+    </nav>
+    <a href="#contact" class="hd-cta"><i class="dot"></i>Disponible</a>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mm"><span></span><span></span><span class="sr">Menu</span></button>
+  </div>
+</header>
+<div class="mm" id="mm" aria-label="Menu">
+  <ol>
+    <li><a href="#accueil" data-s="accueil" style="--i:0">Accueil</a></li>
+    <li><a href="#apropos" data-s="apropos" style="--i:1">À propos</a></li>
+    <li><a href="#competences" data-s="competences" style="--i:2">Compétences</a></li>
+    <li><a href="#projets" data-s="projets" style="--i:3">Projets</a></li>
+    <li><a href="#parcours" data-s="parcours" style="--i:4">Parcours</a></li>
+    <li><a href="#contact" data-s="contact" style="--i:5">Contact</a></li>
+  </ol>
+  <div class="mm-foot">
+    <nav><a href="#bibliotheque">Documents</a><a href="#veille">Veille</a></nav>
+    <a href="mailto:yoann.tournal.pro@gmail.com">yoann.tournal.pro@gmail.com</a>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ===================== HERO ===================== -->
+<section id="accueil" class="hero" data-scene="accueil">
+  <div class="wrap">
+    <p class="hero-k mono fd"><i></i>Portfolio · Infrastructure IT</p>
+    <h1 class="hero-t" aria-label="Yoann Tournal">
+      <span class="ln"><span>YOANN</span></span>
+      <span class="ln"><span>TOURNAL<em>.</em></span></span>
+    </h1>
+    <div class="hero-low">
+      <p class="hero-meta fd"><span><b>Étudiant en BTS SIO — SISR</b>Infrastructure IT / Cybersécurité / Systèmes &amp; Réseaux</span></p>
+      <div class="hero-cta fd">
+        <a class="btn-y btn-p" href="#projets">Explorer mes projets <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn-y btn-g" href="#contact">Me contacter</a>
+      </div>
+    </div>
+  </div>
+  <a href="#apropos" class="scroll-hint mono fd" aria-label="Faire défiler vers À propos">Scroll <i></i></a>
+  <p class="hero-side mono fd">Gap, France<br>45°N · 6°E</p>
+</section>
+
+<!-- ===================== À PROPOS ===================== -->
+<section id="apropos" class="about" data-scene="apropos">
+  <div class="wrap about-grid">
+    <div class="about-main">
+      <p class="sl mono rv"><b>01</b>Présentation</p>
+      <h2 class="h-xl rv">À propos</h2>
+      <div class="about-cols">
+        <div class="about-text">
+          <p class="rv">Je suis Yoann Tournal, passionné par l'informatique, les infrastructures systèmes et réseaux, la cybersécurité et les nouvelles technologies.</p>
+          <p class="rv" style="--d:.08">J'aime concevoir, comprendre, administrer et améliorer des environnements informatiques.</p>
+          <p class="rv" style="--d:.16">Je développe mes compétences à travers ma formation en BTS SIO option SISR et différents projets personnels.</p>
+        </div>
+        <ul class="facts rv" style="--d:.2">
+          <li><span class="mono">Formation</span><span>BTS SIO — option SISR</span></li>
+          <li><span class="mono">Domaines</span><span>Systèmes, réseaux, cybersécurité</span></li>
+          <li><span class="mono">Expérience</span><span>6 stages en entreprise</span></li>
+          <li><span class="mono">Basé à</span><span>Gap, France</span></li>
+          <li><span class="mono">Statut</span><span><i class="dot"></i>Disponible</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COMPÉTENCES ===================== -->
+<section id="competences" class="skills" data-scene="competences">
+  <div class="wrap">
+    <div class="skills-head">
+      <div>
+        <p class="sl mono rv"><b>02</b>Technologies</p>
+        <h2 class="h-xl rv">Compétences</h2>
+      </div>
+      <p class="lead rv">Les technologies que je pratique en formation, en stage et dans mes projets personnels. Survolez un domaine pour l'explorer.</p>
+    </div>
+    <div class="sk-list" id="skList">
+      <div class="sk rv" style="--sk:#527BFF" data-accent="#527BFF" tabindex="0"><span class="sk-n mono">01</span><h3 class="sk-t">Systems</h3>
+        <ul class="sk-tags"><li style="--i:0">Debian</li><li style="--i:1">Linux</li><li style="--i:2">Windows</li><li style="--i:3">Administration système</li><li style="--i:4">Gestion des services</li></ul></div>
+      <div class="sk rv" style="--sk:#5B9BFF" data-accent="#4FA3FF" tabindex="0"><span class="sk-n mono">02</span><h3 class="sk-t">Network</h3>
+        <ul class="sk-tags"><li style="--i:0">TCP/IP</li><li style="--i:1">DNS</li><li style="--i:2">DHCP</li><li style="--i:3">VLAN</li><li style="--i:4">Configuration de switches</li><li style="--i:5">Cisco / HP / Netgear</li></ul></div>
+      <div class="sk rv" style="--sk:#6A6CFF" data-accent="#6A6CFF" tabindex="0"><span class="sk-n mono">03</span><h3 class="sk-t">Infrastructure</h3>
+        <ul class="sk-tags"><li style="--i:0">Proxmox</li><li style="--i:1">Virtualisation</li><li style="--i:2">Raspberry Pi</li><li style="--i:3">Apache</li><li style="--i:4">Docker</li><li style="--i:5">Reverse Proxy</li></ul></div>
+      <div class="sk rv" style="--sk:#765BFF" data-accent="#765BFF" tabindex="0"><span class="sk-n mono">04</span><h3 class="sk-t">Cybersecurity</h3>
+        <ul class="sk-tags"><li style="--i:0">Analyse de sécurité</li><li style="--i:1">Diagnostic technique</li><li style="--i:2">Surveillance système</li><li style="--i:3">Sécurisation des infrastructures</li></ul></div>
+      <div class="sk rv" style="--sk:#9A8CFF" data-accent="#9A8CFF" tabindex="0"><span class="sk-n mono">05</span><h3 class="sk-t">Development</h3>
+        <ul class="sk-tags"><li style="--i:0">HTML</li><li style="--i:1">CSS</li><li style="--i:2">JavaScript</li><li style="--i:3">PHP</li><li style="--i:4">Python</li><li style="--i:5">SQL</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROJETS ===================== -->
+<section id="projets" class="projects" data-scene="projets">
+  <div class="wrap">
+    <div class="pj-head">
+      <div>
+        <p class="sl mono rv"><b>03</b>Réalisations</p>
+        <h2 class="h-xl rv">Projets</h2>
+      </div>
+      <p class="lead rv">Trois projets d'infrastructure, du stage en entreprise aux TP de virtualisation et de services. Chacun dispose d'une présentation détaillée.</p>
+    </div>
+
+    <!-- 01 NEXTCLOUD -->
+    <article class="pj" id="pj-nextcloud">
+      <div class="pj-visual rv">
+        <div class="pj-glow" style="--c1:rgba(82,160,255,.3)"></div>
+        <div class="pj-stage" data-tilt>
+          <div class="diag" aria-hidden="true"><svg viewBox="0 0 640 420" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="gradFlow" x1="0" x2="1"><stop offset="0" stop-color="#527BFF"/><stop offset="1" stop-color="#765BFF"/></linearGradient></defs>
+<path class="flow" d="M140 205 H190"/><path class="flow" d="M340 205 H368 V110 H400"/>
+<path class="wire" d="M500 140 V160"/><path class="wire" d="M390 110 V295 H400"/>
+<rect class="bx" x="20" y="170" width="120" height="70" rx="12"/><text x="36" y="202.0">Clients</text><text class="t2" x="36" y="220.0">HTTPS</text>
+<rect class="bx ac" x="190" y="165" width="150" height="80" rx="12"/><text x="206" y="202.0">Reverse proxy</text><text class="t2" x="206" y="220.0">NPM · TLS · DNS</text>
+<rect class="bx vi" x="370" y="30" width="250" height="360" rx="16"/><text class="t2" x="388" y="56">Hôte Debian / Raspberry Pi</text>
+<rect class="bx ac" x="400" y="75" width="200" height="65" rx="12"/><text x="416" y="104.5">Nextcloud</text><text class="t2" x="416" y="122.5">Apache · PHP</text>
+<rect class="bx" x="400" y="160" width="200" height="55" rx="12"/><text x="416" y="184.5">MariaDB</text><text class="t2" x="416" y="202.5">Base de données</text>
+<rect class="bx" x="400" y="235" width="200" height="135" rx="12"/><text class="t2" x="416" y="258">Docker</text>
+<text x="416" y="284">Collabora Online</text><text x="416" y="306">Talk Recording</text><text x="416" y="328">Whiteboard</text><text x="416" y="350">AppAPI / HaRP</text>
+</svg></div>
+          <img class="pj-shot" src="images/projets/nextcloud.webp" alt="Capture de l'infrastructure Nextcloud" loading="lazy" onerror="this.remove()">
+          <span class="pj-cap">Schéma d'architecture</span>
+        </div>
+      </div>
+      <div class="pj-info">
+        <p class="pj-num mono rv"><b>01</b>Stage · Alpes Conseil Informatique</p>
+        <h3 class="pj-title rv">Nextcloud <span class="serif">Infrastructure</span></h3>
+        <p class="pj-desc rv">Déploiement et administration d'environnements Nextcloud, de l'hébergement au reverse proxy HTTPS, avec les services complémentaires conteneurisés.</p>
+        <ul class="chips rv"><li>Debian</li><li>Apache</li><li>PHP</li><li>MariaDB</li><li>Docker</li><li>Reverse Proxy</li><li>HTTPS</li></ul>
+        <div class="pj-actions rv"><button class="btn-y btn-p btn-s" type="button" data-open="nextcloud">Découvrir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><a class="btn-y btn-g btn-s" href="documents/annee-1/stage/nextcloud_snap.pdf" target="_blank" rel="noopener">Documentation</a></div>
+      </div>
+    </article>
+
+    <!-- 02 VIRTUALIZATION -->
+    <article class="pj" id="pj-virtualization">
+      <div class="pj-visual rv">
+        <div class="pj-glow" style="--c1:rgba(118,91,255,.32);--c2:rgba(82,123,255,.25)"></div>
+        <div class="pj-stage" data-tilt>
+          <div class="diag" aria-hidden="true"><svg viewBox="0 0 640 420" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="gradFlow" x1="0" x2="1"><stop offset="0" stop-color="#527BFF"/><stop offset="1" stop-color="#765BFF"/></linearGradient></defs>
+<rect class="bx ac" x="30" y="24" width="580" height="74" rx="12"/><text x="46" y="58.0">Hyperviseur — Proxmox · VMware ESXi</text><text class="t2" x="46" y="76.0">Serveur Dell PowerEdge R730</text>
+<path class="flow" d="M320 98 V128"/>
+<rect class="bx vi" x="30" y="128" width="580" height="44" rx="12"/><text x="46" y="155.0">Réseaux virtuels</text><text class="t2" x="440" y="155">vSwitch · port groups</text>
+<path class="wire" d="M100 172 V200 M250 172 V200 M400 172 V200 M545 172 V200"/>
+<rect class="bx" x="30" y="200" width="140" height="110" rx="12"/><text x="46" y="252.0">VM Linux</text><text class="t2" x="46" y="270.0">Debian · Ubuntu</text>
+<rect class="bx" x="180" y="200" width="140" height="110" rx="12"/><text x="196" y="252.0">VM Windows</text><text class="t2" x="196" y="270.0">Server · AD · DNS</text>
+<rect class="bx" x="330" y="200" width="140" height="110" rx="12"/><text x="346" y="252.0">VM Services</text><text class="t2" x="346" y="270.0">GLPI · Web · FTP</text>
+<rect class="bx" x="480" y="200" width="130" height="110" rx="12"/><text x="496" y="252.0">VM Clients</text><text class="t2" x="496" y="270.0">Windows 10</text>
+<rect class="bx vi" x="30" y="334" width="285" height="56" rx="12"/><text x="46" y="359.0">Sauvegardes</text><text class="t2" x="46" y="377.0">Restaurations ESXi</text>
+<rect class="bx" x="325" y="334" width="285" height="56" rx="12"/><text x="341" y="359.0">Migration</text><text class="t2" x="341" y="377.0">VirtualBox → ESXi 6.7</text>
+</svg></div>
+          <img class="pj-shot" src="images/projets/virtualization.webp" alt="Capture du laboratoire de virtualisation" loading="lazy" onerror="this.remove()">
+          <span class="pj-cap">Schéma du laboratoire</span>
+        </div>
+      </div>
+      <div class="pj-info">
+        <p class="pj-num mono rv"><b>02</b>Laboratoire · Hyperviseurs</p>
+        <h3 class="pj-title rv">Virtualization <span class="serif">Lab</span></h3>
+        <p class="pj-desc rv">Mes environnements de virtualisation avec Proxmox et VMware ESXi : machines virtuelles, réseaux virtuels, sauvegardes et services Linux.</p>
+        <ul class="chips rv"><li>Proxmox</li><li>VMware ESXi</li><li>Machines virtuelles</li><li>vSwitch</li><li>Linux</li></ul>
+        <div class="pj-actions rv"><button class="btn-y btn-p btn-s" type="button" data-open="virtualization">Découvrir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+      </div>
+    </article>
+
+    <!-- 03 SERVER ENVIRONMENTS -->
+    <article class="pj" id="pj-servers">
+      <div class="pj-visual rv">
+        <div class="pj-glow" style="--c1:rgba(82,123,255,.28)"></div>
+        <div class="pj-stage" data-tilt>
+          <div class="svc">
+            <a class="big" href="documents/annee-1/sotoca/tp21.pdf" target="_blank" rel="noopener"><i class="fab fa-linux"></i><div><b>Administration Linux</b><br><span>Permissions · Services</span></div></a>
+            <a href="documents/annee-2/bloc2-sotoca/TP03%20-%20Installation%20de%20SAMBA%20%281%29.pdf" target="_blank" rel="noopener"><i class="fas fa-folder-open"></i><div><b>Samba</b><br><span>Partage SMB</span></div></a>
+            <a href="documents/annee-2/bloc2-sotoca/Compte-rendu%20TP09%20-%20Serveur%20Web%20et%20FTP%20dedie%20.pdf" target="_blank" rel="noopener"><i class="fas fa-exchange-alt"></i><div><b>FTP</b><br><span>Pure-FTPd · FTPS</span></div></a>
+            <a style="grid-column:span 2" href="documents/annee-1/ateliers/2-Lhebergement-du-site.pdf" target="_blank" rel="noopener"><i class="fas fa-server"></i><div><b>Apache</b><br><span>Hébergement Web</span></div></a>
+          </div>
+          <img class="pj-shot" src="images/projets/servers.webp" alt="Capture des environnements serveurs" loading="lazy" onerror="this.remove()">
+        </div>
+      </div>
+      <div class="pj-info">
+        <p class="pj-num mono rv"><b>03</b>Services · Administration</p>
+        <h3 class="pj-title rv">Server <span class="serif">Environments</span></h3>
+        <p class="pj-desc rv">Mise en place et administration de différents services réseau et système sous Linux.</p>
+        <ul class="chips rv"><li>Samba</li><li>FTP</li><li>Apache</li><li>Administration Linux</li></ul>
+        <div class="pj-actions rv"><button class="btn-y btn-p btn-s" type="button" data-open="servers">Découvrir le projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+      </div>
+    </article>
+
+    <div class="lib-cta rv">
+      <p>Plus de cent comptes rendus de TP sont disponibles dans la bibliothèque.</p>
+      <a class="btn-y btn-g btn-s" href="#bibliotheque">Ouvrir la bibliothèque <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BIBLIOTHÈQUE (existant) ===================== -->
+<section id="bibliotheque" class="library" data-scene="bibliotheque">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="sl mono rv"><b>04</b>Documents</p>
+        <h2 class="h-xl rv">Bibliothèque</h2>
+      </div>
+      <p class="lead rv">Classés par année et par matière, avec une recherche instantanée sur l'ensemble des documents.</p>
+    </div>
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6">
+                <div class="input-group shadow-sm" style="border-radius: 50px; overflow: hidden; border: 1px solid var(--border); background: var(--card-bg);">
+                    <span class="input-group-text border-0 bg-transparent text-primary"><i class="fas fa-search"></i></span>
+                    <input type="text" id="pdfSearch" class="form-control border-0 bg-transparent text-white" placeholder="Rechercher un document (ex: SQL, Java, Réseau...)" style="box-shadow: none;">
+                </div>
+            </div>
+        </div>
+
+        <ul class="year-tabs" id="year-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="year-btn active" id="year1-tab" data-bs-toggle="tab" data-bs-target="#year1-pane" type="button" role="tab" aria-controls="year1-pane" aria-selected="true">Première Année</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="year-btn" id="year2-tab" data-bs-toggle="tab" data-bs-target="#year2-pane" type="button" role="tab" aria-controls="year2-pane" aria-selected="false">Deuxième Année</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="year-tabContent">
+            
+            <!-- ===================== PREMIÈRE ANNÉE ===================== -->
+            <div class="tab-pane fade show active year-pane" id="year1-pane" role="tabpanel" aria-labelledby="year1-tab">
+                
+                <ul class="nav nav-pills flex-wrap" id="pills-tab" role="tablist">
+                    <li class="nav-item"><button class="nav-link" id="pills-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-sotoca">Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b2-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-b2-sotoca">Bloc 2 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b3-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-b3-sotoca">Bloc 3 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-atelier-tab" data-bs-toggle="pill" data-bs-target="#pills-atelier">Ateliers</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-beauvallet">Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b1-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-b1-beauvallet">Bloc 1 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-b3-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-b3-beauvallet">Bloc 3 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-stage-tab" data-bs-toggle="pill" data-bs-target="#pills-stage">Stage</button></li>
+                </ul>                           
+                
+                <div class="tab-content" id="pills-tabContent">
+                    <div id="placeholder-msg" class="text-center py-5">
+                        <p class="fs-5" style="color: var(--text-gray);"><i class="fas fa-arrow-up me-2"></i> Sélectionnez une catégorie pour afficher les documents</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-sotoca">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp3.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div><div class="doc-title">Initiation Réseau</div><span class="doc-sub">TP3</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp4.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-tools doc-icon"></i><div><div class="doc-title">Diagnostic</div><span class="doc-sub">TP4</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp7.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-camera doc-icon"></i><div><div class="doc-title">Captures</div><span class="doc-sub">TP7</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/commandes_cmd.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-terminal doc-icon"></i><div><div class="doc-title">CMD</div><span class="doc-sub">Terminal</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp_TechCorp.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-building doc-icon"></i><div><div class="doc-title">TP TechCorp</div><span class="doc-sub">Projet</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/tp21.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-terminal doc-icon"></i><div class="doc-content"><div class="doc-title">TP21 Linux</div><span class="doc-sub">Admin Système / Permissions</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/TP1%20Installation%20d%27un%20serveur%20_%20TP2%20L%27Active%20Directory.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-users-cog doc-icon"></i><div class="doc-content"><div class="doc-title">TP1&2 Windows Server</div><span class="doc-sub">Active Directory / DNS / Groupes</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/TP3_Connexion_Domaine.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-plug doc-icon"></i><div class="doc-content"><div class="doc-title">TP3 - Connexion Domaine</div><span class="doc-sub">Active Directory / Poste Client / DNS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="compte_rendu_tp4.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-cog doc-icon"></i><div class="doc-content"><div class="doc-title">TP4 - Gestion des GPO</div><span class="doc-sub">Unités d'Org / GPO / Event Viewer</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/sotoca/TP5_TOURNAL_Yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-users-cog doc-icon"></i><div class="doc-content"><div class="doc-title">TP5 - Stratégies GPO</div><span class="doc-sub">GPMC / Restrictions / Windows Server</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b2-sotoca">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP01_Prise_de_controle_a_distance.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div class="doc-content"><div class="doc-title">TP01 - Contrôle Distance</div><span class="doc-sub">Audit RustDesk / AnyDesk / RDP</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>    
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/Technicien_documentation%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-gear doc-icon"></i><div class="doc-content"><div class="doc-title">Doc Technicien AnyDesk</div><span class="doc-sub">Installation et Mode Service</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/Utilisateur_documentation.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-tie doc-icon"></i><div class="doc-content"><div class="doc-title">Doc Utilisateur AnyDesk</div><span class="doc-sub">Guide d'assistance à distance</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP02_Partitionnement_de_disques_durs.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-hard-drive doc-icon"></i><div class="doc-content"><div class="doc-title">TP02 - Partitionnement</div><span class="doc-sub">EaseUS / Image Disque / Live CD</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>  
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP03-1-Clonage.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-copy doc-icon"></i><div class="doc-content"><div class="doc-title">TP03 - Clonage</div><span class="doc-sub">Clonezilla / Sauvegarde ISO</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP04-WakeOnLan.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-wifi doc-icon"></i><div class="doc-content"><div class="doc-title">TP04 - Wake On Lan</div><span class="doc-sub">BIOS / Magic Packet / EtherCheck</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP05%20-%20Serveur%20de%20fichiers.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-folder-tree doc-icon"></i><div class="doc-content"><div class="doc-title">TP05 - Serveur Fichiers</div><span class="doc-sub">HFS / Partage HTTP / Droits</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP06_Keylogger_CompteRendu.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-secret doc-icon"></i><div class="doc-content"><div class="doc-title">TP06 - Mise en place Keylogger</div><span class="doc-sub">Powered Keylogger / Furtivité / RGPD</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/tp07_kit_technicien.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-toolbox doc-icon"></i><div class="doc-content"><div class="doc-title">TP07 - Kit Technicien</div><span class="doc-sub">Outils Portables / Diagnostic / Réseau</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc2-sotoca/TP09_Switch_Manageable_Fahad_yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div class="doc-content"><div class="doc-title">TP09 Switch Netgear</div><span class="doc-sub">VLAN Port-Based / Switch / DHCP</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b3-sotoca">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-sotoca/b3_tp1_sotoca.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-hdd doc-icon"></i><div><div class="doc-title">Serveur NAS</div><span class="doc-sub">Stockage</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-sotoca/donnees_hachees.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-lock doc-icon"></i><div><div class="doc-title">Hachage</div><span class="doc-sub">Sécurité</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-sotoca/DeepFreeze_Complet.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-snowflake doc-icon"></i><div class="doc-content"><div class="doc-title">TP Deep Freeze</div><span class="doc-sub">Gel Système / Console / ThawSpace</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-atelier">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/tp2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-globe doc-icon"></i><div><div class="doc-title">Portfolio</div><span class="doc-sub">Web Dev</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/tp6%20html.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-html5 doc-icon"></i><div><div class="doc-title">HTML Bases</div><span class="doc-sub">TP6</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/tp%20css.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-css3-alt doc-icon"></i><div><div class="doc-title">CSS</div><span class="doc-sub">Style</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/TD1-Ressources.zip" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-file-archive doc-icon text-warning"></i><div><div class="doc-title">Site Chuck</div><span class="doc-sub">ZIP</span></div></div><i class="fas fa-download text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/ccs_html_avance.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-code doc-icon"></i><div><div class="doc-title">HTML/CSS Avancé</div><span class="doc-sub">Expert</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/html_css_avance_p2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-code doc-icon"></i><div><div class="doc-title">HTML/CSS P2</div><span class="doc-sub">Avancé 2</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Les_formulaires.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-wpforms doc-icon"></i><div><div class="doc-title">Formulaires</div><span class="doc-sub">Web</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/atelier_09_TP1.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-laptop-code doc-icon"></i><div><div class="doc-title">Atelier 09 TP1</div><span class="doc-sub">Pratique</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/atelier_10_tp2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-laptop-code doc-icon"></i><div><div class="doc-title">Atelier 10 TP2</div><span class="doc-sub">Pratique</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Javascript1_2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-js doc-icon"></i><div><div class="doc-title">JS 1/2</div><span class="doc-sub">Script</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Javascript%20tp12%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-js doc-icon"></i><div class="doc-content"><div class="doc-title">Javascript TP12</div><span class="doc-sub">Atelier 12</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/Javascript_tp13%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-keyboard doc-icon"></i><div><div class="doc-title">Javascript TP13</div><span class="doc-sub">Événements Touches</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-desktop doc-icon"></i><div class="doc-content"><div class="doc-title">Site Vitrine GSB</div><span class="doc-sub">WYSIWYG / Template</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/ateliers/Le_site_vitrine.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/ateliers/site%20vitrine.zip" download class="v-btn-custom" title="Télécharger ZIP" style="background: var(--primary); color: #000;">ZIP</a></div></div></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/2-Lhebergement-du-site.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div class="doc-content"><div class="doc-title">Hébergement GSB</div><span class="doc-sub">TinyWeb / XAMPP / Apache</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/3%20-%20Le%20transfert%20du%20site.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-exchange-alt doc-icon"></i><div class="doc-content"><div class="doc-title">Transfert & Sécurité GSB</div><span class="doc-sub">FTP / FTPS / Wireshark</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/4%20-%20Gestionnaire%20de%20sauvegardes.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-chart-line doc-icon"></i><div class="doc-content"><div class="doc-title">App Gestion Sauvegardes</div><span class="doc-sub">JS / Persistance / Dashboard VM</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/ateliers/5%20-%20Protection%20du%20serveur%20web.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-lock doc-icon"></i><div class="doc-content"><div class="doc-title">Protection Serveur Web</div><span class="doc-sub">Permissions / Hachage / MySQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-beauvallet">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/tp1.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-gamepad doc-icon"></i><div><div class="doc-title">Jeux Labyrinthe</div><span class="doc-sub">Code.org</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/tp5%20java.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-java doc-icon"></i><div><div class="doc-title">Java Intro</div><span class="doc-sub">TP5</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/Java.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-java doc-icon"></i><div><div class="doc-title">Java 2</div><span class="doc-sub">Avancé</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/tp_shifumi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-gamepad doc-icon"></i><div><div class="doc-title">TP Shifumi</div><span class="doc-sub">Jeu Java</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/TP_5_JAVA.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-java doc-icon"></i><div><div class="doc-title">TP 5 JAVA</div><span class="doc-sub">Suite</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/TP_fonctions_et_procedure.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-code-branch doc-icon"></i><div><div class="doc-title">Fonctions</div><span class="doc-sub">Algo</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/Bataille_navale.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-ship doc-icon"></i><div><div class="doc-title">Bataille Navale</div><span class="doc-sub">Jeu</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/TP_POO..pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-cubes doc-icon"></i><div><div class="doc-title">TP POO</div><span class="doc-sub">Objets</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div><div class="doc-title">TP PHP</div><span class="doc-sub">Back</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/Scene-Builder.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-paint-brush doc-icon"></i><div><div class="doc-title">Scene Builder</div><span class="doc-sub">JavaFX</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/beauvallet/AnalyseSI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-magnifying-glass-chart doc-icon"></i><div class="doc-content"><div class="doc-title">AnalyseSI</div><span class="doc-sub">Modélisation</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">Projet BDD Lycée</div><span class="doc-sub">SQL / MCD / Script</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/beauvallet/tp_bdd.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/beauvallet/bdd_lyc__e_paul_lapie.sql" download class="v-btn-custom" title="Télécharger SQL" style="background: var(--primary); color: #000;">SQL</a></div></div></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-hippo doc-icon"></i><div class="doc-content"><div class="doc-title">BDD ZOO</div><span class="doc-sub">SQL / MCD / MLD</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/beauvallet/bdd_zoo.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/beauvallet/bdd_zoo.pdf" download class="v-btn-custom" title="Télécharger" style="background: var(--primary); color: #000;">DL</a></div></div></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b1-beauvallet">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/TD4-BDD_leclerc.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">TD4 BDD Leclerc</div><span class="doc-sub">MCD / MRD / Requêtes SQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/BDD-TD3.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">TD3 BDD</div><span class="doc-sub">Requêtes SQL / Alter Table</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Droits%20d%27acces%20a%20une%20base%20de%20donnees.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-key doc-icon"></i><div class="doc-content"><div class="doc-title">Gestion des Droits BDD</div><span class="doc-sub">GRANT / REVOKE / Rôles SQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Gestion%20des%20USERS%20%20Test%20sur%20PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div class="doc-content"><div class="doc-title">PHP & USERS MySQL</div><span class="doc-sub">Connexion BDD / Affichage PHP</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Bases_du_langage_PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div class="doc-content"><div class="doc-title">TP 1 base PHP</div><span class="doc-sub"> /</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/Programmer_avec_PHP.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-php doc-icon"></i><div class="doc-content"><div class="doc-title">Programmer avec PHP</div><span class="doc-sub">Boucles / Variables / Tableaux</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/3.Transmission%20de%20donnees%20entre%20pages.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-exchange-alt doc-icon"></i><div class="doc-content"><div class="doc-title">Transmission de données</div><span class="doc-sub">PHP / GET & POST / Formulaires</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc1-beauvallet/connexion_bdd.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-database doc-icon"></i><div class="doc-content"><div class="doc-title">Connexion BDD</div><span class="doc-sub">PHP / PDO / Requêtes SQL</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-b3-beauvallet">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TP1_bloc_3.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-cube doc-icon"></i><div><div class="doc-title">TP1 Bloc 3</div><span class="doc-sub">Activité</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TP_PIA.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-project-diagram doc-icon"></i><div><div class="doc-title">TP PIA</div><span class="doc-sub">Projet</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/PIA_2.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-project-diagram doc-icon"></i><div><div class="doc-title">TP PIA 2</div><span class="doc-sub">Projet 2</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/pia%20yoann.zip" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-file-archive doc-icon text-warning"></i><div><div class="doc-title">ZIP PIA 2</div><span class="doc-sub">Ressources</span></div></div><i class="fas fa-download text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/ch3_tp1.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-book doc-icon"></i><div><div class="doc-title">Chapitre 3 TP1</div><span class="doc-sub">CR</span></div></div><i class="fas fa-arrow-right text-primary"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TD02_BEAUVALLET.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-shield doc-icon"></i><div class="doc-content"><div class="doc-title">Sécurisation PGP</div><span class="doc-sub">PGP / VirtualBox / Preuve Numérique</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>                        
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TD1_CH4.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-secret doc-icon"></i><div class="doc-content"><div class="doc-title">TD1 CH4 - Audit Sécurité</div><span class="doc-sub">John the Ripper / Ophcrack</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/bloc3-beauvallet/TD2_CH4.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-search-plus doc-icon"></i><div class="doc-content"><div class="doc-title">TD 07 - Veille Info</div><span class="doc-sub">Curation / Feedly / Cybersécurité</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div class="doc-content"><div class="doc-title">TD08 - Routage VLAN</div><span class="doc-sub">Packet Tracer / 802.1Q</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/bloc3-beauvallet/TD%2008%20packet%20tracer.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-1/bloc3-beauvallet/TP%208.pkt" download class="v-btn-custom" title="Télécharger PKT" style="background: var(--primary); color: var(--btn-main-text);">PKT</a></div></div></div>                  
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-shield-alt doc-icon"></i><div class="doc-content"><div class="doc-title">Protection Numérique</div><span class="doc-sub">Privilèges / RGPD / VLAN</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-1/bloc3-beauvallet/chap%205%20th3.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="chap 5 th3v1.pkt" download class="v-btn-custom" title="Télécharger PKT" style="background: var(--primary); color: var(--btn-main-text);">PKT</a></div></div></div>                    
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-stage">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Documentation_Installation_Nextcloud_Whiteboard.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-docker doc-icon"></i><div><div class="doc-title">Install. Whiteboard</div><span class="doc-sub">Docker / Raspberry Pi / Apache</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div> 
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/OVH_NPM.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-route doc-icon" style="color: var(--accent);"></i><div><div class="doc-title">Config. OVH & NPM</div><span class="doc-sub">DNS / Reverse Proxy / RustDesk</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Installation_Talk_Recording.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-video doc-icon"></i><div><div class="doc-title">Install. Talk Recording</div><span class="doc-sub">Nextcloud / Docker / HPB</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Installation_Nextcloud_AppAPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-puzzle-piece doc-icon"></i><div><div class="doc-title">Install. AppAPI Nextcloud</div><span class="doc-sub">Docker / HaRP / Raspberry Pi</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div> 
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/Installation_RustDesk_PRO.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-headset doc-icon"></i><div><div class="doc-title">Install. RustDesk PRO</div><span class="doc-sub">Docker / Relay Server / Support</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/collabora-nextcloud-installation.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-file-alt doc-icon"></i><div><div class="doc-title">Install. Collabora Online</div><span class="doc-sub">Nextcloud / Docker / Office Suite</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-1/stage/nextcloud_snap.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-cloud doc-icon"></i><div><div class="doc-title">Install. Nextcloud Snap</div><span class="doc-sub">Snap / Nginx Proxy Manager / OCC</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /PREMIÈRE ANNÉE -->
+
+            <!-- ===================== DEUXIÈME ANNÉE ===================== -->
+            <div class="tab-pane fade year-pane" id="year2-pane" role="tabpanel" aria-labelledby="year2-tab">
+                
+                <ul class="nav nav-pills flex-wrap" id="pills-y2-tab" role="tablist">
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-sotoca" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b2-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b2-sotoca" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 2 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b3-sotoca-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b3-sotoca" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 3 Mr Sotoca</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-atelier-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-atelier" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Ateliers</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-beauvallet" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b1-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b1-beauvallet" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 1 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-b3-beauvallet-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-b3-beauvallet" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Bloc 3 Mme Beauvallet</button></li>
+                    <li class="nav-item"><button class="nav-link" id="pills-y2-stage-tab" data-bs-toggle="pill" data-bs-target="#pills-y2-stage" onclick="document.getElementById('placeholder-msg-y2').style.display='none'">Stage</button></li>
+                    
+                    
+                </ul>                           
+                
+                <div class="tab-content" id="pills-y2-tabContent">
+                    <div id="placeholder-msg-y2" class="text-center py-5">
+                        <p class="fs-5" style="color: var(--text-gray);"><i class="fas fa-arrow-up me-2"></i> Sélectionnez une catégorie pour afficher les documents</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-sotoca">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP_GLPI_compte_rendu.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-ticket-alt doc-icon"></i><div><div class="doc-title">TP Découverte GLPI</div><span class="doc-sub">ITSM / Helpdesk / Inventaire</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Le%20patrimoine%20informatique%20_%20Comprehension%20et%20gestion.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-sitemap doc-icon"></i><div><div class="doc-title">Patrimoine Informatique</div><span class="doc-sub">Gestion de Parc / IT / CH Briançon</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/ESCAPE%20GAME%20GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-puzzle-piece doc-icon"></i><div><div class="doc-title">Escape Game GLPI</div><span class="doc-sub">ITSM / Helpdesk / Serious Game</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP04%20-%20Travaux%20post%20installation%20de%20GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-sliders-h doc-icon"></i><div><div class="doc-title">TP04 - Post-installation GLPI</div><span class="doc-sub">Inventaire / Liaisons réseau / Profils RBAC</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Tp%201%20mooc.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-graduation-cap doc-icon"></i><div><div class="doc-title">TP1 - Découverte MOOC</div><span class="doc-sub">Autoformation / SecNumacadémie / ANSSI</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                              <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP2%20-%20Planning%20de%20formation%20MOOC%20-%20BTS%20SIO.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-calendar-alt doc-icon"></i><div><div class="doc-title">TP2 - Planning MOOC</div><span class="doc-sub">SecNumacadémie / Planning / ANSSI</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Compte_rendu_TP3_MOOC.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-calendar-check doc-icon"></i><div><div class="doc-title">TP3 - Suivi planification MOOC</div><span class="doc-sub">FUN MOOC / Cybersécurité / Suivi</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Compte_rendu_TP05_GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-ticket-alt doc-icon"></i><div><div class="doc-title">TP05 - Gestion des incidents GLPI</div><span class="doc-sub">Helpdesk / Tickets / Support utilisateur</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP04%20-%20My%20Skills%20Profile.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-check doc-icon"></i><div><div class="doc-title">TP04 - Portrait de compétences</div><span class="doc-sub">Auto-évaluation / Bilan SISR / Référentiel</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/Compte_rendu_TP_7_Firefox_Yoann_Tournal.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-box-open doc-icon"></i><div><div class="doc-title">TP07 - Télédéploiement Firefox</div><span class="doc-sub">GLPI Inventory / GLPI Agent / Windows 10</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/sotoca/TP06 – Hackropole compte rendu.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-flag doc-icon"></i><div><div class="doc-title">TP06 - Challenges Hackropole (FCSC)</div><span class="doc-sub">Cryptographie / Reverse / Forensics réseau</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            
+                        </div>
+                    </div>
+
+                   <div class="tab-pane fade" id="pills-y2-b2-sotoca">
+    <div class="row g-3">
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP01%20-%20Le%20serveur%20de%20virtualisation%20PowerEdge%20R730.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP01 - PowerEdge R730</div><span class="doc-sub">VMware ESXi / Virtualisation / OVF</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP02%20-%20Creation%20de%20switches%20virtuels%20personnalises.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div><div class="doc-title">TP02 - Switches Virtuels</div><span class="doc-sub">VMware ESXi / vSwitch / Port Group</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP03%20-%20Installation%20de%20SAMBA%20%281%29.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-folder-open doc-icon"></i><div><div class="doc-title">TP03 - Service SAMBA</div><span class="doc-sub">Partage SMB / Ubuntu / Droits</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP04%20-%20Mise%20en%20place%20d%27un%20point%20d%27acces%20Wifi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-wifi doc-icon"></i><div><div class="doc-title">TP04 - Borne Wifi Cisco</div><span class="doc-sub">Cisco WAP121 / SSID / Sécurité WPA</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP05%20-%20Les%20sauvegardes_restaurations%20sur%20Serveurs%20Esxi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP05 - Sauvegardes & Restaurations ESXi</div><span class="doc-sub">VMware ESXi / Sauvegarde / Restauration</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP06%20-%20Mise%20en%20place%20de%20GLPI.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP06 - Déploiement GLPI</div><span class="doc-sub">Système / LAMP / Virtualisation</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/Compte_rendu_TP07_GLPI_Inventaire_Parc_Yoann_Tournal.docx.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-clipboard-list doc-icon"></i><div><div class="doc-title">TP07 - Inventaire du parc GLPI</div><span class="doc-sub">GLPI Agent / Découverte SNMP / Parc</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/Compte%20Rendu%20Technique%20-%20TP08%20Mise%20en%20place%20d%27un%20serveur%20DNS%20dedie.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-globe doc-icon"></i><div><div class="doc-title">TP08 - Serveur DNS dédié</div><span class="doc-sub">BIND9 / Ubuntu Light / Résolution DNS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/Compte-rendu%20TP09%20-%20Serveur%20Web%20et%20FTP%20dedie%20.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-server doc-icon"></i><div><div class="doc-title">TP09 - Serveur Web & FTP dédié</div><span class="doc-sub">LAMP / Pure-FTPd / HTTPS & FTPS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc2-sotoca/TP10%20-%20Scripting%20et%20Active%20Directory.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-sitemap doc-icon"></i><div><div class="doc-title">TP10 - Scripting Active Directory</div><span class="doc-sub">Active Directory / Scripts Batch / Droits NTFS</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+    </div>
+</div>
+
+                    <div class="tab-pane fade" id="pills-y2-b3-sotoca">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc3-sotoca/TP01_Installation_de_kali_TOURNAL_Yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fab fa-linux doc-icon"></i><div><div class="doc-title">TP01 - Installation Kali</div><span class="doc-sub">VirtualBox / Additions Invité / Root</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc3-sotoca/B3_TP2_Kali.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-user-secret doc-icon"></i><div><div class="doc-title">B3 TP2 - Pentest & Reconnaissance</div><span class="doc-sub">Kali Linux / SpiderFoot / Cybersécurité</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc3-sotoca/Bloc 3 — Comptes rendus TP 3.1 à 3.5 (Hacking sans installation).pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-shield-alt doc-icon"></i><div><div class="doc-title">TP 3.1 à 3.5 - Hacking sans installation</div><span class="doc-sub">Sécurité Web / IDOR / XSS & SQLi</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/bloc3-sotoca/Bloc 3 — Comptes rendus TP 4 (Reconnaissance par adresse IP).pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-search-location doc-icon"></i><div><div class="doc-title">TP 4 - Reconnaissance par IP</div><span class="doc-sub">Footprinting / User-Agent / Contre-mesures</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-atelier">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><a href="documents/annee-2/ateliers/TP01_Point_Reseau_GSB_Tournal_Yoann.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-network-wired doc-icon"></i><div><div class="doc-title">TP01 - Réseau GSB</div><span class="doc-sub">Audit Infra / Adressage / VPN</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                           <div class="col-lg-4 col-md-6"><a href="documents/annee-2/ateliers/Compte%20rendu%20-%20Migration%20VirtualBox%20vers%20VMware%20ESXi%206.7.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-exchange-alt doc-icon"></i><div><div class="doc-title">Migration VirtualBox vers ESXi</div><span class="doc-sub">VirtualBox / Rétro-ingénierie OVF / ESXi 6.7</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        <div class="col-lg-4 col-md-6"><a href="documents/annee-2/ateliers/tp3_acces_wifi.pdf" target="_blank" class="doc-item hover-card"><div class="doc-left"><i class="fas fa-wifi doc-icon"></i><div><div class="doc-title">TP03 - Accès Wi-Fi</div><span class="doc-sub">Wi-Fi sécurisé / WPA3 / Sauvegarde BDC</span></div></div><i class="fas fa-arrow-right doc-action"></i></a></div>
+                        </div>
+                    </div>
+
+  
+                    
+                    <div class="tab-pane fade" id="pills-y2-beauvallet">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-b1-beauvallet">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-table doc-icon"></i><div><div class="doc-title">TD PGI - Concessionnaire</div><span class="doc-sub">ERP / Tableur / Gestion</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-2/bloc1-beauvallet/td_PGI_exercice_tournal_yoann.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-2/bloc1-beauvallet/PGI_exercice_tournal_yoann.ods" download class="v-btn-custom" title="Télécharger ODS" style="background: var(--primary); color: #000;">ODS</a></div></div></div>
+                            <div class="col-lg-4 col-md-6"><div class="doc-item hover-card"><div class="doc-left"><i class="fas fa-chart-line doc-icon"></i><div><div class="doc-title">TD SI7 - Alex & Christophe</div><span class="doc-sub">Gestion / Modélisation / Bilan</span></div></div><div class="d-flex gap-2 ms-auto"><a href="documents/annee-2/bloc1-beauvallet/Rapport%20TD%20SI7%20-%20Restaurant%20Chez%20Alex%20et%20Christophe.pdf" target="_blank" class="v-btn-custom" title="Voir PDF">PDF</a><a href="documents/annee-2/bloc1-beauvallet/TD%20SI7%20-%20Restaurant%20Chez%20Alex%20et%20Christophe.xlsx" download class="v-btn-custom" title="Télécharger XLSX" style="background: var(--primary); color: #000;">XLSX</a></div></div></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-b3-beauvallet">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-y2-stage">
+                        <div class="row g-3">
+                            <!-- Documents 2ème année à venir -->
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /DEUXIÈME ANNÉE -->
+
+        </div>
+  </div>
+</section>
+
+<!-- ===================== PARCOURS ===================== -->
+<section id="parcours" class="journey" data-scene="parcours">
+  <div class="wrap">
+    <p class="sl mono rv"><b>05</b>Formation &amp; expériences</p>
+    <h2 class="h-xl rv">Parcours</h2>
+    <div class="tl" id="tl">
+      <div class="tl-line"><i></i></div>
+      <div class="tl-item major rv"><p class="tl-y mono">2025 — Aujourd'hui <em class="fm">Formation</em></p><h3 class="tl-t">BTS Services Informatiques aux Organisations</h3><p class="tl-p">Option SISR — Solutions d'Infrastructure, Systèmes et Réseaux.</p></div>
+      <div class="tl-item rv"><p class="tl-y mono">2025 <em>Stage · 3 semaines</em></p><h3 class="tl-t">Alpes Conseil Informatique</h3><p class="tl-p">Gap — Stage technique. Déploiements Nextcloud, Docker et reverse proxy (<a href="#pj-nextcloud">voir le projet</a>).</p></div>
+      <div class="tl-item major rv"><p class="tl-y mono">2022 — 2025 <em class="fm">Formation</em></p><h3 class="tl-t">Bac Pro Systèmes Numériques</h3><p class="tl-p">Lycée Pierre Mendès France — Veynes.</p></div>
+      <div class="tl-item rv"><p class="tl-y mono">2024 <em>Stage · 3 semaines</em></p><h3 class="tl-t">Collège / Lycée Saint-Joseph</h3><p class="tl-p">Gap — Maintenance informatique.</p></div>
+      <div class="tl-item rv"><p class="tl-y mono">2023 <em>Stage · 4 semaines</em></p><h3 class="tl-t">LDI Rousset</h3><p class="tl-p">Rousset — Stage technique.</p></div>
+      <div class="tl-item rv"><p class="tl-y mono">2022 <em>Stage · 3 semaines</em></p><h3 class="tl-t">NLJPC</h3><p class="tl-p">Gap — Stage informatique.</p></div>
+      <div class="tl-item rv"><p class="tl-y mono">2022 <em>Stage · 3 semaines</em></p><h3 class="tl-t">Allemand Électricité</h3><p class="tl-p">Stage en électricité.</p></div>
+      <div class="tl-item rv"><p class="tl-y mono">2021 <em>Découverte · 1 semaine</em></p><h3 class="tl-t">Instore Solution</h3><p class="tl-p">Gap — Stage de découverte.</p></div>
+      <div class="tl-item rv"><p class="tl-y mono">2018 — 2022 <em class="fm">Formation</em></p><h3 class="tl-t">Brevet des collèges</h3><p class="tl-p">Collège Marcel André — Seyne.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VEILLE (existant) ===================== -->
+<section id="veille" class="veille" data-scene="veille">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="sl mono rv"><b>06</b>Robots humanoïdes</p>
+        <h2 class="h-xl rv">Veille technologique</h2>
+      </div>
+      <p class="lead rv">Ma veille sur la robotique humanoïde : marché, IA physique, industrie et réglementation.</p>
+    </div>
+        <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">MES OUTILS DE VEILLE</h3>
+        <div class="row g-4 mb-5">
+            <!-- 1. Feedly -->
+            <div class="col-lg-4 col-md-6">
+                <div class="hover-card p-4 h-100" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <i class="fas fa-rss text-warning fa-lg"></i>
+                        <h5 class="m-0" style="color: var(--text-white);">Feedly</h5>
+                    </div>
+                    <p class="small mb-2" style="color: var(--text-gray);">Centralisation quotidienne des médias spécialisés et blogs constructeurs (Boston Dynamics, Figure AI, IEEE).</p>
+                    <div class="small" style="color: var(--primary);">
+                        <i class="fas fa-cog me-1"></i> <strong>Réglage :</strong> Dossiers par thématique (Hardware, IA, Marché) et revue chaque matin.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Google Alerts -->
+            <div class="col-lg-4 col-md-6">
+                <div class="hover-card p-4 h-100" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <i class="fas fa-bell text-primary fa-lg"></i>
+                        <h5 class="m-0" style="color: var(--text-white);">Google Alerts</h5>
+                    </div>
+                    <p class="small mb-2" style="color: var(--text-gray);">Surveillance automatique des actualités générales, levées de fonds et annonces industrielles.</p>
+                    <div class="small" style="color: var(--primary);">
+                        <i class="fas fa-cog me-1"></i> <strong>Réglage :</strong> Mots-clés ciblés (<em>"robot humanoïde"</em>, <em>"Unitree"</em>, <em>"Atlas"</em>) avec récapitulatif par e-mail.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. GitHub & arXiv -->
+            <div class="col-lg-4 col-md-6">
+                <div class="hover-card p-4 h-100" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <i class="fab fa-github text-light fa-lg"></i>
+                        <h5 class="m-0" style="color: var(--text-white);">GitHub & arXiv</h5>
+                    </div>
+                    <p class="small mb-2" style="color: var(--text-gray);">Veille technique sur les modèles open-source d'IA physique et les papiers de recherche récents.</p>
+                    <div class="small" style="color: var(--primary);">
+                        <i class="fas fa-cog me-1"></i> <strong>Réglage :</strong> Suivi des topics <code>humanoid-robotics</code> et des publications de la catégorie <code>cs.RO</code>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-5">
+            <button class="btn-sec w-100 py-3 fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVeille" aria-expanded="false" aria-controls="collapseVeille" id="btnVeille" style="border-style: dashed; text-transform: none; letter-spacing: 1px;">
+                <i class="fas fa-robot me-3 text-primary"></i> Veille Technologique Robot Humanoïde <i class="fas fa-chevron-down ms-3 rotate-icon"></i>
+            </button>
+        </div>
+
+        <div class="collapse" id="collapseVeille">
+            
+            <!-- NOUVELLES SECTIONS 2026 -->
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">SEPTEMBRE 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Septembre</span><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Explosion des Ventes</h4>
+                            <p class="v-desc">Les expéditions mondiales d'humanoïdes dépassent les 22 000 unités au 1er semestre 2026 (hausse de 300%).</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Counterpoint</span><a href="https://www.google.com/search?q=counterpoint+research+humanoid+robot+shipments+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Août-Sept</span><span class="v-badge badge-tech">Événement</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">World Robot Conference</h4>
+                            <p class="v-desc">Le thème "Symbiose Humain-Robot" rassemble 373 entreprises à Pékin pour présenter l'intégration industrielle.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">WRC News</span><a href="https://www.google.com/search?q=World+Robot+Conference+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">ÉTÉ 2026 (JUIN - AOÛT)</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Août</span><span class="v-badge badge-tech">Industrie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Figure 03 : Cap des 1000</h4>
+                            <p class="v-desc">Figure AI franchit le cap des 1 000 robots produits, atteignant une cadence d'un robot fabriqué par heure.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">BotQ Facility</span><a href="https://www.google.com/search?q=Figure+AI+1000+robots+Figure+03" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Juin</span><span class="v-badge badge-ia">Open Source</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">NVIDIA Reference Design</h4>
+                            <p class="v-desc">Lancement par NVIDIA du premier design de référence ouvert pour accélérer la standardisation (GTC Taipei).</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">GTC Taipei</span><a href="https://www.google.com/search?q=NVIDIA+open+humanoid+reference+design+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Juin-Juil</span><span class="v-badge badge-market">Finance</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">IPO & Records de prod</h4>
+                            <p class="v-desc">AgiBot atteint 15 000 robots produits, tandis que Unitree obtient l'approbation pour son IPO à Shanghai.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Yicai Global</span><a href="https://www.google.com/search?q=Unitree+IPO+Shanghai+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">PRINTEMPS 2026 (MARS - MAI)</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Avril</span><span class="v-badge badge-tech">Déploiement</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Boston Dynamics en Usine</h4>
+                            <p class="v-desc">La nouvelle génération du robot électrique Atlas entre en phase de test dans les usines de Hyundai.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Robotics News</span><a href="https://www.google.com/search?q=Boston+Dynamics+electric+Atlas+Hyundai+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Mai</span><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Valorisation à 2 Milliards</h4>
+                            <p class="v-desc">Le marché de la robotique humanoïde atteint 2 milliards de dollars, poussé par la domination asiatique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">MarketWatch</span><a href="https://www.google.com/search?q=humanoid+robotics+market+size+2026+2+billion" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FUSION DE TES ANCIENNES CARTES JANVIER 2026 AVEC LES NOUVELLES -->
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">JANVIER - FÉVRIER 2026</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Février</span><span class="v-badge badge-ia">Physical AI</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">XPENG lance IRON</h4>
+                            <p class="v-desc">Lancement commercial du robot IRON par XPENG, intégrant une démarche IA physique pour la manufacture.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">EV Tech</span><a href="https://www.google.com/search?q=XPENG+IRON+robot+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Janvier</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">CES 2026 : Hyundai s'impose</h4>
+                            <p class="v-desc">Hyundai présente les versions de production d'Atlas, avec un plan de remplacement des AGV classiques.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">CES Tech</span><a href="https://www.google.com/search?q=CES+2026+Hyundai+Boston+Dynamics" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">12-18 Jan</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Unitree G1 Mass Production</h4>
+                            <p class="v-desc">Lancement de la production à grande échelle du modèle G1, cassant les prix du marché mondial.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Robotics News</span><a href="https://www.google.com/search?q=unitree+g1+mass+production+2026" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">05-11 Jan</span><span class="v-badge badge-ia">IA</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">LLM-V pour Humanoïdes</h4>
+                            <p class="v-desc">Nouveau framework permettant aux robots de comprendre des instructions visuelles complexes en temps réel.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">AI Blog</span><a href="https://www.google.com/search?q=VLM+humanoid+robot+vision+language+model" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">01-04 Jan</span><span class="v-badge badge-reg">Légal</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Directive Robotique EU</h4>
+                            <p class="v-desc">Mise en application des nouvelles normes de sécurité pour les humanoïdes en zone publique.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">Euractiv</span><a href="https://www.google.com/search?q=EU+robotics+regulation+2026+humanoid" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTIONS D'ORIGINE (2025) -->
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">FIN DÉCEMBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">22-31 Déc</span><span class="v-badge badge-tech">Energie</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Batteries Solid-State</h4>
+                            <p class="v-desc">Test réussi d'une batterie à état solide doublant l'autonomie de marche des robots bipèdes.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">EnergyTech</span><a href="https://www.google.com/search?q=solid+state+battery+humanoid+robot+autonomy" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">15-21 Déc</span><span class="v-badge badge-ia">Open Source</span></div>
+                        <div class="veille-content">
+                            <h4 class="v-title">Hugging Face Robotics</h4>
+                            <p class="v-desc">Libération de jeux de données massifs pour l'entraînement de la marche par renforcement.</p>
+                        </div>
+                        <div class="veille-footer"><span class="v-source">GitHub</span><a href="https://www.google.com/search?q=hugging+face+robotics+dataset+open+source" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">DÉCEMBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">08-14 Déc</span><span class="v-badge badge-ia">IA</span></div>
+                        <div class="veille-content"><h4 class="v-title">Figure AI & OpenAI</h4><p class="v-desc">Intégration de nouveaux modèles de langage pour une interaction verbale ultra-réaliste.</p></div>
+                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://www.google.com/search?q=figure+ai+openai+interaction+voice" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">01-07 Déc</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content"><h4 class="v-title">Tesla Optimus Gen 3</h4><p class="v-desc">Nouveaux capteurs tactiles permettant la manipulation d'objects avec une précision humaine.</p></div>
+                        <div class="veille-footer"><span class="v-source">Tesla Blog</span><a href="https://www.google.com/search?q=tesla+optimus+gen+3+tactile+sensors" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6 text-primary" style="letter-spacing: 3px;">NOVEMBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">24-30 Nov</span><span class="v-badge badge-market">Marché</span></div>
+                        <div class="veille-content"><h4 class="v-title">Lancement Grand Public</h4><p class="v-desc">Une grande entreprise asiatique lance la vente de robots humanoïdes domestiques.</p></div>
+                        <div class="veille-footer"><span class="v-source">Google Actu</span><a href="https://news.google.com/search?q=robot+humanoide+marché+grand+public+lancement" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">11-17 Nov</span><span class="v-badge badge-ia">IA</span></div>
+                        <div class="veille-content"><h4 class="v-title">Apprentissage Sim-to-Real</h4><p class="v-desc">Acquisition rapide de compétences motrices via des modèles de simulation.</p></div>
+                        <div class="veille-footer"><span class="v-source">Science</span><a href="https://www.google.com/search?q=apprentissage+par+renforcement+sim-to-real+robotique" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">04-10 Nov</span><span class="v-badge badge-market">Logistique</span></div>
+                        <div class="veille-content"><h4 class="v-title">Révolution Entrepôts</h4><p class="v-desc">Les flottes d'humanoïdes commencent à remplacer les AGV classiques.</p></div>
+                        <div class="veille-footer"><span class="v-source">Alertes</span><a href="https://www.google.com/search?q=robot+humanoide+logistique+entrepôt" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">17-23 Nov</span><span class="v-badge badge-tech">Tech</span></div>
+                        <div class="veille-content"><h4 class="v-title">Actionneurs Miniatures</h4><p class="v-desc">Découverte de polymères pour créer des muscles artificiels plus légers.</p></div>
+                        <div class="veille-footer"><span class="v-source">R&D</span><a href="https://www.google.com/search?q=actionneurs+muscles+artificiels+robot+humanoide" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6" style="color: var(--text-gray); letter-spacing: 3px;">OCTOBRE 2025</h3>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-tech">Vision 3D</span></div>
+                        <div class="veille-content"><h4 class="v-title">Perception Améliorée</h4><p class="v-desc">Nouvelle algos pour naviguer dans des environnements non structurés.</p></div>
+                        <div class="veille-footer"><span class="v-source">Feedly</span><a href="https://www.google.com/search?q=optimisation+vision+3D+robot+humanoide+navigation" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-tech">Hardware</span></div>
+                        <div class="veille-content"><h4 class="v-title">Batteries Flexibles</h4><p class="v-desc">Lithium-ion flexible pour une meilleure intégration et fluidité.</p></div>
+                        <div class="veille-footer"><span class="v-source">TechCrunch</span><a href="https://www.google.com/search?q=batteries+lithium-ion+flexibles+robotique" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-reg">Éthique</span></div>
+                        <div class="veille-content"><h4 class="v-title">Sécurité & Normes</h4><p class="v-desc">Consensus mondial sur les boutons d'arrêt d'urgence obligatoires.</p></div>
+                        <div class="veille-footer"><span class="v-source">Alertes</span><a href="https://www.google.com/search?q=normes+sécurité+robot+humanoide+arrêt+urgence" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Oct 2025</span><span class="v-badge badge-market">Industrie</span></div>
+                        <div class="veille-content"><h4 class="v-title">Tests Automobile</h4><p class="v-desc">Intégration sur les chaînes de montage pour des tâches de précision.</p></div>
+                        <div class="veille-footer"><span class="v-source">Actu</span><a href="https://www.google.com/search?q=robot+humanoide+industrie+automobile+assemblage" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 fs-6" style="color: var(--text-gray); letter-spacing: 3px;">SEPTEMBRE 2025</h3>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="veille-box hover-card">
+                        <div class="veille-header"><span class="v-date">Sept 2025</span><span class="v-badge badge-ia">IA Incarnée</span></div>
+                        <div class="veille-content"><h4 class="v-title">Dextérité Fine</h4><p class="v-desc">Mains robotiques utilisant l'IA pour prédire la force de préhension.</p></div>
+                        <div class="veille-footer"><span class="v-source">YouTube</span><a href="https://www.google.com/search?q=main+robotique+dextérité+ia+prédictive" target="_blank" class="v-btn">Lire</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="contact" data-scene="contact">
+  <div class="wrap">
+    <p class="sl mono rv"><b>07</b>Me joindre</p>
+    <h2 class="h-xl rv">Contact</h2>
+    <div class="contact-grid">
+      <ul class="c-links rv">
+        <li><a href="mailto:yoann.tournal.pro@gmail.com"><span><small class="mono">E-mail</small><b>yoann.tournal.pro@gmail.com</b></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+        <li><a href="#" data-social="linkedin" target="_blank" rel="noopener"><span><small class="mono">LinkedIn</small><b>Yoann Tournal</b></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+        <li><a href="#" data-social="github" target="_blank" rel="noopener"><span><small class="mono">GitHub</small><b>Yoann Tournal</b></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+      </ul>
+      <form class="form rv" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contactForm" action="/">
+        <input type="hidden" name="form-name" value="contact">
+        <p class="hp"><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="row2">
+          <div class="fld"><label class="mono" for="f-name">Nom</label><input id="f-name" name="nom" autocomplete="name" required></div>
+          <div class="fld"><label class="mono" for="f-mail">E-mail</label><input id="f-mail" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="fld"><label class="mono" for="f-msg">Message</label><textarea id="f-msg" name="message" required></textarea></div>
+        <div class="form-foot"><p class="form-msg" id="formMsg" role="status" aria-live="polite"></p><button class="btn-y btn-p" type="submit">Envoyer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="ft">
+  <div class="ft-big" aria-hidden="true">YOANN<span>.</span></div>
+  <div class="wrap ft-in">
+    <span>© 2026 Yoann Tournal · BTS SIO SISR</span>
+    <nav aria-label="Pied de page"><a href="#apropos">À propos</a><a href="#projets">Projets</a><a href="#bibliotheque">Documents</a><a href="#veille">Veille</a><a href="#accueil">Haut de page ↑</a></nav>
+  </div>
+</footer>
+
+<!-- Page détail projet -->
+<div class="pd" id="pd" role="dialog" aria-modal="true" aria-labelledby="pdTitle">
+  <div class="pd-top"><a href="#accueil" class="logo" data-close>YT<span>.</span></a><button class="btn-y btn-g btn-s" type="button" data-close>Fermer <span aria-hidden="true">✕</span></button></div>
+  <div class="wrap" id="pdContent"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ===================== INTERFACE ===================== -->
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const YT = window.YT = window.YT || {};
+
+  /* ---------- Chargement progressif ---------- */
+  (function loader() {
+    const L = $('#loader'), pct = $('#ldPct'), bar = $('#ldBar');
+    let target = 0.1, shown = 0, finished = false;
+    const t0 = performance.now(), MIN = reduce ? 300 : 1400;
+    const steps = { dom: false, fonts: false };
+    const bump = () => { target = 0.1 + 0.45 * steps.dom + 0.45 * steps.fonts; };
+    document.addEventListener('DOMContentLoaded', () => { steps.dom = true; bump(); });
+    if (document.readyState !== 'loading') { steps.dom = true; bump(); }
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { steps.fonts = true; bump(); });
+    setTimeout(() => { steps.dom = steps.fonts = true; bump(); }, 3000);
+    (function tick() {
+      shown += (target - shown) * 0.12;
+      if (target >= 1 && 1 - shown < 0.01) shown = 1;
+      pct.textContent = String(Math.round(shown * 100)).padStart(3, '0');
+      bar.style.transform = 'scaleX(' + shown + ')';
+      if (shown >= 1 && performance.now() - t0 > MIN) return finish();
+      requestAnimationFrame(tick);
+    })();
+    function finish() {
+      if (finished) return; finished = true;
+      L.classList.add('done');
+      document.body.classList.add('ready');
+      YT.started = true;
+      dispatchEvent(new Event('yt:start'));
+      setTimeout(() => L.remove(), 900);
+    }
+  })();
+
+  /* ---------- Header : état au scroll + section active ---------- */
+  const hd = $('#hd'), nav = $('#nav'), ind = $('#navInd');
+  const MAP = { accueil: 'accueil', apropos: 'apropos', competences: 'competences', projets: 'projets', bibliotheque: 'projets', parcours: 'parcours', veille: 'parcours', contact: 'contact' };
+  let active = 'accueil';
+  function moveInd() {
+    const a = nav.querySelector('a.active');
+    if (!a || getComputedStyle(nav).display === 'none') return;
+    ind.style.opacity = 1; ind.style.width = a.offsetWidth + 'px'; ind.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+  }
+  function setActive(id) {
+    const key = MAP[id] || 'accueil';
+    if (key === active && ind.style.opacity) return;
+    active = key;
+    $$('[data-s]').forEach(a => { const on = a.dataset.s === key; a.classList.toggle('active', on); if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    moveInd();
+  }
+  const sections = $$('main section[id]');
+  function onScroll() {
+    hd.classList.toggle('scrolled', scrollY > 40);
+    const mid = innerHeight * 0.4;
+    let cur = sections[0].id;
+    for (const s of sections) { if (s.getBoundingClientRect().top <= mid) cur = s.id; }
+    setActive(cur);
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', moveInd);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(moveInd);
+  onScroll(); setActive('accueil');
+
+  /* ---------- Menu mobile ---------- */
+  const burger = $('#burger'), mm = $('#mm');
+  function menu(open) {
+    mm.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) setTimeout(() => { const a = mm.querySelector('a'); a && a.focus({ preventScroll: true }); }, 300);
+  }
+  burger.addEventListener('click', () => menu(!mm.classList.contains('open')));
+  $$('#mm a').forEach(a => a.addEventListener('click', () => menu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && mm.classList.contains('open')) { menu(false); burger.focus(); } });
+
+  /* ---------- Révélations ---------- */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  $$('.rv').forEach(el => io.observe(el));
+
+  /* ---------- Compétences : survol → couleur de la scène 3D ---------- */
+  $$('.sk').forEach(row => {
+    const on = () => { $$('.sk.on').forEach(r => r !== row && r.classList.remove('on')); row.classList.add('on'); };
+    const off = () => row.classList.remove('on');
+    row.addEventListener('mouseenter', on); row.addEventListener('mouseleave', off);
+    row.addEventListener('focus', on); row.addEventListener('blur', off);
+  });
+
+  /* ---------- Projets : profondeur (tilt + parallaxe) ---------- */
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  $$('[data-tilt]').forEach(st => {
+    if (!fine || reduce) return;
+    st.addEventListener('pointermove', e => {
+      const r = st.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      st.style.setProperty('--ry', ((x - .5) * 8).toFixed(2) + 'deg'); st.style.setProperty('--rx', ((.5 - y) * 6).toFixed(2) + 'deg');
+      st.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); st.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+    });
+    st.addEventListener('pointerleave', () => { st.style.setProperty('--rx', '0deg'); st.style.setProperty('--ry', '0deg'); });
+  });
+  const visuals = $$('.projects .pj-visual');
+  function parallax() {
+    if (reduce) return;
+    const vh = innerHeight;
+    visuals.forEach(v => { const r = v.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return; const k = ((r.top + r.height / 2) - vh / 2) / vh; v.style.transform = 'translate3d(0,' + (k * -40).toFixed(1) + 'px,0)'; });
+  }
+  addEventListener('scroll', parallax, { passive: true }); parallax();
+
+  /* ---------- Timeline : ligne animée ---------- */
+  const tl = $('#tl'), tlLine = $('#tl .tl-line'), tlItems = $$('#tl .tl-item');
+  function timeline() {
+    const r = tl.getBoundingClientRect(), vh = innerHeight;
+    const p = Math.min(1, Math.max(0, (vh * 0.65 - r.top) / r.height));
+    tlLine.style.setProperty('--p', p.toFixed(4));
+    tlItems.forEach(it => it.classList.toggle('lit', it.getBoundingClientRect().top < vh * 0.65));
+  }
+  addEventListener('scroll', timeline, { passive: true }); addEventListener('resize', timeline); timeline();
+
+  /* ---------- Pages détail des projets ---------- */
+  const PROJECTS = {"nextcloud": {"num": "01", "kicker": "Stage · Alpes Conseil Informatique", "title": "Nextcloud Infrastructure", "titleHtml": "Nextcloud <span class=\"serif\">Infrastructure<\/span>", "intro": "Déploiement et administration d'environnements Nextcloud : hébergement, reverse proxy HTTPS et services complémentaires conteneurisés.", "meta": [["Contexte", "Stage — Alpes Conseil Informatique, Gap"], ["Année", "2025"], ["Rôle", "Déploiement et administration"], ["Stack", "Debian · Apache · PHP · MariaDB · Docker · Reverse proxy · HTTPS"]], "sections": [{"h": "Contexte", "p": ["Pendant mon stage chez Alpes Conseil Informatique, j'ai déployé et administré des environnements Nextcloud, en documentant chaque installation."]}, {"h": "Ce qui a été mis en place", "points": [["Nextcloud (Snap)", "Installation, commandes OCC, Nginx Proxy Manager."], ["DNS & reverse proxy", "Configuration OVH et Nginx Proxy Manager."], ["Collabora Online", "Suite bureautique intégrée à Nextcloud via Docker."], ["Talk Recording", "Enregistrement des appels Nextcloud Talk, Docker / HPB."], ["Whiteboard", "Tableau blanc collaboratif : Docker, Raspberry Pi, Apache."], ["AppAPI", "Docker, HaRP, Raspberry Pi."]]}], "docs": [["Installation Nextcloud Snap", "documents/annee-1/stage/nextcloud_snap.pdf", "Snap · NPM · OCC"], ["Configuration OVH & NPM", "documents/annee-1/stage/OVH_NPM.pdf", "DNS · Reverse proxy"], ["Installation Collabora Online", "documents/annee-1/stage/collabora-nextcloud-installation.docx.pdf", "Nextcloud · Docker"], ["Installation Talk Recording", "documents/annee-1/stage/Installation_Talk_Recording.pdf", "Docker · HPB"], ["Installation Whiteboard", "documents/annee-1/stage/Documentation_Installation_Nextcloud_Whiteboard.pdf", "Docker · Raspberry Pi · Apache"], ["Installation AppAPI", "documents/annee-1/stage/Installation_Nextcloud_AppAPI.pdf", "Docker · HaRP"], ["Installation RustDesk PRO", "documents/annee-1/stage/Installation_RustDesk_PRO.pdf", "Docker · Relay server"]], "gallery": ["images/projets/nextcloud-1.webp", "images/projets/nextcloud-2.webp"]}, "virtualization": {"num": "02", "kicker": "Laboratoire · Hyperviseurs", "title": "Virtualization Lab", "titleHtml": "Virtualization <span class=\"serif\">Lab<\/span>", "intro": "Mes environnements de virtualisation avec Proxmox et VMware ESXi : machines virtuelles, réseaux virtuels, sauvegardes et services Linux.", "meta": [["Contexte", "BTS SIO — TP et ateliers"], ["Hyperviseurs", "Proxmox · VMware ESXi"], ["Matériel", "Dell PowerEdge R730"], ["Systèmes invités", "Linux · Windows Server · Windows 10"]], "sections": [{"h": "Le laboratoire", "p": ["Ces environnements servent de base à la plupart de mes travaux d'infrastructure : chaque service est déployé dans sa propre machine virtuelle."]}, {"h": "Réalisations", "points": [["Serveur PowerEdge R730", "Installation de VMware ESXi et import OVF."], ["Réseaux virtuels", "Création de vSwitch et de port groups personnalisés."], ["Sauvegardes", "Sauvegarde et restauration de machines virtuelles ESXi."], ["Migration", "Passage de VirtualBox à VMware ESXi 6.7."], ["Services hébergés", "GLPI, DNS BIND9, serveur Web et FTP."], ["Proxmox", "Virtualisation de machines et de services Linux."]]}], "docs": [["TP01 — Serveur PowerEdge R730", "documents/annee-2/bloc2-sotoca/TP01%20-%20Le%20serveur%20de%20virtualisation%20PowerEdge%20R730.pdf", "ESXi · OVF"], ["TP02 — Switches virtuels", "documents/annee-2/bloc2-sotoca/TP02%20-%20Creation%20de%20switches%20virtuels%20personnalises.pdf", "vSwitch · Port group"], ["TP05 — Sauvegardes & restaurations", "documents/annee-2/bloc2-sotoca/TP05%20-%20Les%20sauvegardes_restaurations%20sur%20Serveurs%20Esxi.pdf", "ESXi"], ["Migration VirtualBox vers ESXi", "documents/annee-2/ateliers/Compte%20rendu%20-%20Migration%20VirtualBox%20vers%20VMware%20ESXi%206.7.pdf", "OVF · ESXi 6.7"], ["TP06 — Déploiement GLPI", "documents/annee-2/bloc2-sotoca/TP06%20-%20Mise%20en%20place%20de%20GLPI.pdf", "LAMP · VM"], ["TP08 — Serveur DNS dédié", "documents/annee-2/bloc2-sotoca/Compte%20Rendu%20Technique%20-%20TP08%20Mise%20en%20place%20d%27un%20serveur%20DNS%20dedie.pdf", "BIND9"]], "gallery": ["images/projets/virtualization-1.webp", "images/projets/virtualization-2.webp"]}, "servers": {"num": "03", "kicker": "Services · Administration", "title": "Server Environments", "titleHtml": "Server <span class=\"serif\">Environments<\/span>", "intro": "Mise en place et administration de différents services réseau et système sous Linux.", "meta": [["Contexte", "BTS SIO — TP et ateliers"], ["Systèmes", "Linux (Debian, Ubuntu)"], ["Services", "Samba · FTP · Apache"]], "sections": [{"h": "Les services", "points": [["Samba", "Partage de fichiers SMB sous Ubuntu et gestion des droits."], ["FTP", "Serveur Pure-FTPd dédié, transferts sécurisés en FTPS."], ["Apache", "Hébergement Web, de XAMPP à un serveur LAMP en HTTPS."], ["Administration Linux", "Permissions, services et DNS BIND9."]]}], "docs": [["TP03 — Service Samba", "documents/annee-2/bloc2-sotoca/TP03%20-%20Installation%20de%20SAMBA%20%281%29.pdf", "SMB · Ubuntu"], ["TP09 — Serveur Web & FTP dédié", "documents/annee-2/bloc2-sotoca/Compte-rendu%20TP09%20-%20Serveur%20Web%20et%20FTP%20dedie%20.pdf", "LAMP · Pure-FTPd"], ["Transfert & sécurité du site GSB", "documents/annee-1/ateliers/3%20-%20Le%20transfert%20du%20site.pdf", "FTP · FTPS · Wireshark"], ["Hébergement du site GSB", "documents/annee-1/ateliers/2-Lhebergement-du-site.pdf", "Apache · XAMPP"], ["TP21 — Linux", "documents/annee-1/sotoca/tp21.pdf", "Permissions"], ["TP08 — Serveur DNS dédié", "documents/annee-2/bloc2-sotoca/Compte%20Rendu%20Technique%20-%20TP08%20Mise%20en%20place%20d%27un%20serveur%20DNS%20dedie.pdf", "BIND9"]], "gallery": ["images/projets/servers-1.webp", "images/projets/servers-2.webp"]}};
+  const ORDER = ['nextcloud', 'virtualization', 'servers'];
+  const pd = $('#pd'), pdC = $('#pdContent');
+  let lastFocus = null;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function render(id) {
+    const p = PROJECTS[id]; if (!p) return false;
+    const visual = document.querySelector('#pj-' + id + ' .pj-stage').cloneNode(true);
+    visual.removeAttribute('data-tilt'); visual.style.cssText = '';
+    const next = ORDER[(ORDER.indexOf(id) + 1) % ORDER.length];
+    const gallery = (p.gallery || []).map(g => `<figure><img src="${esc(g)}" alt="Capture — ${esc(p.title)}" loading="lazy" onerror="this.parentNode.remove()"></figure>`).join('');
+    pdC.innerHTML = `
+      <div class="pd-hero">
+        <p class="sl mono"><b>${esc(p.num)}</b>${esc(p.kicker)}</p>
+        <h2 class="h-xl" id="pdTitle">${p.titleHtml}</h2>
+        <p class="lead">${esc(p.intro)}</p>
+      </div>
+      <div class="pd-visual"><div class="pj-visual"><div class="pj-glow"></div></div></div>
+      <div class="pd-grid">
+        <aside class="pd-side"><dl>
+          ${p.meta.map(m => `<dt class="mono">${esc(m[0])}</dt><dd>${esc(m[1])}</dd>`).join('')}
+        </dl></aside>
+        <div class="pd-body">
+          ${p.sections.map(s => `<section><h3>${esc(s.h)}</h3>${s.p ? s.p.map(t => `<p>${esc(t)}</p>`).join('') : ''}${s.points ? `<ul class="pd-points">${s.points.map(pt => `<li><b>${esc(pt[0])}</b><span>${esc(pt[1])}</span></li>`).join('')}</ul>` : ''}</section>`).join('')}
+          ${p.docs && p.docs.length ? `<section><h3>Documentation associée</h3><ul class="pd-docs">${p.docs.map(d => `<li><a href="${esc(d[1])}" target="_blank" rel="noopener"><span>${esc(d[0])}<small>${esc(d[2] || 'PDF')}</small></span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></section>` : ''}
+          ${gallery ? `<section><h3>Captures</h3><div class="pd-gallery">${gallery}</div></section>` : ''}
+        </div>
+      </div>
+      <div class="pd-next"><span class="mono" style="color:var(--dim)">Projet suivant</span><a href="#projet/${next}" data-goto="${next}">${esc(PROJECTS[next].title)} →</a></div>`;
+    pdC.querySelector('.pd-visual .pj-visual').appendChild(visual);
+    const gal = pdC.querySelector('.pd-gallery'); if (gal) { setTimeout(() => { if (!gal.children.length) gal.parentNode.remove(); }, 2500); }
+    return true;
+  }
+  function openProject(id, push) {
+    if (!render(id)) return;
+    lastFocus = lastFocus || document.activeElement;
+    pd.classList.add('open'); pd.scrollTop = 0;
+    document.documentElement.style.overflow = 'hidden';
+    if (push) history.pushState({ p: id }, '', '#projet/' + id);
+    setTimeout(() => { const b = pd.querySelector('[data-close].btn-y'); b && b.focus({ preventScroll: true }); }, 400);
+  }
+  function closeProject(fromPop) {
+    if (!pd.classList.contains('open')) return;
+    pd.classList.remove('open');
+    document.documentElement.style.overflow = '';
+    if (!fromPop) history.pushState(null, '', location.pathname + location.search);
+    if (lastFocus) { lastFocus.focus({ preventScroll: true }); lastFocus = null; }
+  }
+  $$('[data-open]').forEach(b => b.addEventListener('click', () => { lastFocus = b; openProject(b.dataset.open, true); }));
+  pd.addEventListener('click', e => {
+    const c = e.target.closest('[data-close]'); if (c) { e.preventDefault(); closeProject(); return; }
+    const g = e.target.closest('[data-goto]'); if (g) { e.preventDefault(); openProject(g.dataset.goto, false); history.replaceState({ p: g.dataset.goto }, '', '#projet/' + g.dataset.goto); }
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && pd.classList.contains('open')) closeProject(); });
+  addEventListener('popstate', () => { const m = location.hash.match(/^#projet\/(\w+)/); if (m) openProject(m[1], false); else closeProject(true); });
+  const m0 = location.hash.match(/^#projet\/(\w+)/); if (m0) openProject(m0[1], false);
+
+  /* ---------- Formulaire de contact (Netlify Forms) ---------- */
+  const form = $('#contactForm'), msg = $('#formMsg');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+    msg.className = 'form-msg'; msg.textContent = 'Envoi en cours…';
+    try {
+      const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() });
+      if (!res.ok) throw new Error(res.status);
+      form.reset(); msg.className = 'form-msg ok'; msg.textContent = 'Merci, votre message a bien été envoyé.';
+    } catch (err) {
+      msg.className = 'form-msg err';
+      msg.innerHTML = 'Envoi impossible pour le moment. Écrivez-moi directement à <a href="mailto:yoann.tournal.pro@gmail.com" style="text-decoration:underline">yoann.tournal.pro@gmail.com</a>.';
+    }
+    btn.disabled = false;
+  });
+
+  /* ---------- Liens sociaux non renseignés ---------- */
+  $$('[data-social]').forEach(a => { if (a.getAttribute('href') === '#') { a.removeAttribute('target'); a.addEventListener('click', e => e.preventDefault()); a.setAttribute('aria-disabled', 'true'); a.title = 'Lien bientôt disponible'; } });
+
+  /* ---------- Bibliothèque : recherche multi-années (logique d'origine) ---------- */
+  const search = $('#pdfSearch');
+  if (search) search.addEventListener('keyup', function () {
+    const val = this.value.toLowerCase(); let f1 = false, f2 = false;
+    $$('.doc-item').forEach(item => {
+      const match = item.textContent.toLowerCase().includes(val);
+      const card = item.closest('.col-lg-4, .col-md-6'); if (card) card.style.display = match ? '' : 'none';
+      if (match && val !== '') {
+        const inner = item.closest('.tab-pane:not(.year-pane)'); if (inner) inner.classList.add('active', 'show');
+        if (item.closest('#year1-pane')) f1 = true; if (item.closest('#year2-pane')) f2 = true;
+      }
+    });
+    if (val !== '') { if (f1 && !f2) $('#year1-tab').click(); else if (!f1 && f2) $('#year2-tab').click(); }
+    const a = $('#placeholder-msg'); if (a) a.style.display = val === '' ? 'block' : 'none';
+    const b = $('#placeholder-msg-y2'); if (b && val !== '') b.style.display = 'none';
+  });
+  $$('#pills-tab button').forEach(b => b.addEventListener('click', () => { const m = $('#placeholder-msg'); if (m) m.style.display = 'none'; }));
+
+  /* ---------- Veille : chevron ---------- */
+  const veille = $('#collapseVeille'), icon = $('#btnVeille .rotate-icon');
+  if (veille && icon) { veille.addEventListener('show.bs.collapse', () => icon.classList.add('rotate-180')); veille.addEventListener('hide.bs.collapse', () => icon.classList.remove('rotate-180')); }
+})();
+</script>
+
+</body>
+</html>
